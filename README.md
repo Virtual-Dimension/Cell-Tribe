@@ -1,4 +1,4 @@
-# Cell
+# Cell-Tribe
 
 ![](https://img.shields.io/github/issues/Xciyang/Cell)
 ![](https://img.shields.io/github/forks/Xciyang/Cell)
@@ -7,13 +7,13 @@
 ![](https://img.shields.io/github/languages/top/Xciyang/Cell)
 ![](https://img.shields.io/github/last-commit/Xciyang/Cell)
 
-> 一个用C++编写的原创游戏。
+> 一个用C++编写的RPG游戏。
 >
-> A original game written in C++.
+> A RPG game written in C++.
 
-从几个细胞开始培养出自己的帝国。
+从一个细胞演化为强大的细胞部落。
 
-Start with a few cells and build your empire.
+From a cell to a powerful cell tribe.
 
 ## 状态（Status）
 
