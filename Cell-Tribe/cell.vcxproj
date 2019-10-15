@@ -124,7 +124,18 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="BaseEntity.cpp" />
     <ClCompile Include="game.cpp" />
+    <ClCompile Include="Item.cpp" />
+    <ClCompile Include="ItemManager.cpp" />
+    <ClCompile Include="MapController.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="BaseEntity.h" />
+    <ClInclude Include="game.h" />
+    <ClInclude Include="Item.h" />
+    <ClInclude Include="ItemManager.h" />
+    <ClInclude Include="MapController.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

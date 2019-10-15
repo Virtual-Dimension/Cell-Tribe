@@ -1,135 +1,20 @@
 
 #pragma region Header
-#include <cmath>
-#include <bitset>
-#include <stack>
-#include <map>
-#include <set>
-#include <queue>
-#include <ctime>
-#include <vector>
-#include <cstdio>
-#include <cstdlib>
-#include <cstring>
-#include <iostream>
-#include <algorithm>
-#include <string>
+#include "game.h"
+#include "BaseEntity.h"
+#include "Item.h"
+#include "ItemManager.h"
+
+#define SEHTRY __try
+#define SEHEXCEPT __except (1) { char buf[32];sprintf(buf,"ERROR: 0X%X", GetExceptionCode());MessageBoxA(0,buf,"",MB_ICONERROR);}
 #pragma endregion
 
-struct Point {
-	double x, y;
-	Point(double x = 0, double y = 0) :x(x), y(y) {}
-	bool operator < (const Point& p) { return x = p.x ? y < p.y : x < p.x; }
-	Point operator + (const Point& p)const { return Point(x + p.x, y + p.y); }
-	Point operator - (const Point& p)const { return Point(x - p.x, y - p.y); }
-	Point operator * (double d)const { return Point(x * d, y * d); }
-	Point operator / (double d)const { return Point(x / d, y / d); }
-	Point operator += (const Point& p) { *this = *this + p; }
-	Point operator -= (const Point& p) { *this = *this - p; }
-	Point operator *= (double d) { *this = *this * d; }
-	Point operator /= (double d) { *this = *this / d; }
-	double operator * (const Point& v)const { return x * v.x + y * v.y; }
-	double operator ^ (const Point& v) const { return x * v.y - y * v.x; }
-	double len() { return sqrt(x * x + y * y); }
-};
-const int OPERATOR_SUCCESS = 0;
-
-const int MAP_BEGIN_X = -500;
-const int MAP_BEGIN_Y = -500;
-const int MAP_END_X = 500;
-const int MAP_END_Y = 500;
-
-class BaseEntity;
-
-class MapController {
-	struct Key {
-		BaseEntity* entity;
-		Key* pre, * nxt;
-		Key() : entity(), pre(0), nxt(0) {}
-	};
-	Key map_first;
-public:
-	MapController() : map_first() {}
-	~MapController() {
-		// delete
-	}
-	void push(BaseEntity* entity) {
-		Key* lastKey = new Key(map_first);
-		lastKey->pre = &map_first;
-		map_first.entity = entity, map_first.nxt = lastKey;
-		return;
-	}
-	std::vector < BaseEntity* > get(Point x) {
-		//
-	}
-};
-
-class Item {
-private:
-	int pickedup;
-	int used;
-protected:
-	Point point;
-public:
-	Item() : pickedup(0), used(0), point() {}
-	Item(const Point& p) : pickedup(0), used(0), point(p) {}
-	~Item() {}
-	Point getPoint() const {
-		return point;
-	}
-	void setPoint(const Point& p) {
-		point = p;
-		return;
-	}
-	virtual int onPickedup(BaseEntity* tribe) {
-		pickedup = 1;
-		return OPERATOR_SUCCESS;
-	}
-	virtual int onUsing(BaseEntity* tribe) {
-		used = 1;
-		return OPERATOR_SUCCESS;
-	}
-	virtual int onDropped(BaseEntity* tribe) {
-		return OPERATOR_SUCCESS;
-	}
-} apple;
-
-const int TRIBE_DEAD = -1;
-
-template < size_t size >
-class ItemManage {
-protected:
-	Item* items[size];
-public:
-	ItemManage() : items{ 0 } {}
-	Item* getItem(const size_t& id) { return items[id]; }
-	Item* operator [] (const size_t& id) { return getItem(id); }
-	/*int pushItem(Item* item) {
-		item->onPickedup();
-	}*/
-};
-
-class BaseEntity {
-protected:
-	Point point;
-	int death;
-	int setDeath() { death = 1; }
-	int setPoint() { death = 1; }
-public:
-	BaseEntity() : death(0) {}
-	~BaseEntity() {}
-	virtual int run() = 0;
-	int getDeath() const { return death; }
-	Point getPoint() const { return point; }
-
-};
 
 class BaseTribe : public BaseEntity {
 protected:
-	int amount;
-	int strength;
-	Point point;
-	BaseTribe() : BaseEntity(), amount(0), strength(0), point() {}
+	LL amount, strength;
+	std::vector < Point > cellsPoint;
+	BaseTribe() : BaseEntity(), amount(0), strength(0) {}
 	~BaseTribe() {}
 public:
 	virtual int run() override final {
@@ -150,7 +35,7 @@ public:
 	// attack
 	virtual int attack(BaseTribe*) = 0;
 	// be attacked
-	virtual void beAttacked(BaseTribe* other, int damage) {
+	virtual void beAttacked(BaseTribe* other, LL damage) {
 		amount -= damage;
 		if (amount <= 0) death = 1;
 		return;
@@ -160,48 +45,53 @@ public:
 	// propagate
 	virtual int propagate() { return OPERATOR_SUCCESS; }
 
+	virtual int inRange(const Point& p) const override {
+		for (const auto& cpoint : cellsPoint)
+			if (abs(cpoint.x - p.x) < 1 && abs(cpoint.y - p.y) < 1) return 1;
+		return abs(point.x - p.x) < 1 && abs(point.y - p.y) < 1;
+	}
 
-	int getAmount() const { return amount; }
-	long long calcForce() const { return 1LL * amount * strength; }
+	LL getAmount() const { return amount; }
+	LL calcForce() const { return 1LL * amount * strength; }
 };
 
 const int STATUS_WAIT = 0;
 
-class PlayerTribe : public BaseTribe {
-	int energyMax;
-	int energy;
-	ItemManage < 64U > pack;
+class PlayerTribe final : public BaseTribe {
+	int energyMax, energy;
+	ItemManager pack;
 public:
 	int status;
 
-	PlayerTribe() : BaseTribe(), energyMax(0), energy(0), status(STATUS_WAIT) {}
+	PlayerTribe() : BaseTribe(), energyMax(0), energy(0), status(STATUS_WAIT), pack(64) {}
 	~PlayerTribe() {}
 
-	void addAmount(const int& val) {
-		amount += val;
-		return;
-	}
+	void addAmount(const int& val) { amount += val; }
 
-	virtual int move(const Point& p) override final {
+	virtual int move(const Point& p) override {
+		// API
 		return OPERATOR_SUCCESS;
 	}
-	virtual int behavior() override final {
+	virtual int behavior() override {
 		// wait for player
-		printf("There are %d cells.", amount);
+		printf("There are %lld cells.", amount);
 		printf("OPT:");
 		std::string opt;
+		std::cin >> opt;
 		if (opt == "attack") {
 
 		}
-		if (opt == "")
-			return OPERATOR_SUCCESS;
+		if (opt == "forge") {
+
+		}
+		return OPERATOR_SUCCESS;
 	}
-	virtual int attack(BaseTribe* other) override final {
-		long long damage = calcForce() / (1LL * other->getAmount() + 1) + 1;
+	virtual int attack(BaseTribe* other) override {
+		LL damage = calcForce() / (other->getAmount() + 1) + 1;
 		other->beAttacked(this, damage);
 		return OPERATOR_SUCCESS;
 	}
-	virtual int forage() override final {
+	virtual int forage() override {
 		return OPERATOR_SUCCESS;
 	}
 	/*int pickupItem(Item* item) {
