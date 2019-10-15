@@ -16,7 +16,6 @@
 #include <string>
 #pragma endregion
 
-
 struct Point {
 	double x, y;
 	Point(double x = 0, double y = 0) :x(x), y(y) {}
@@ -33,8 +32,38 @@ struct Point {
 	double operator ^ (const Point& v) const { return x * v.y - y * v.x; }
 	double len() { return sqrt(x * x + y * y); }
 };
+const int OPERATOR_SUCCESS = 0;
 
-class BaseTribe;
+const int MAP_BEGIN_X = -500;
+const int MAP_BEGIN_Y = -500;
+const int MAP_END_X = 500;
+const int MAP_END_Y = 500;
+
+class BaseEntity;
+
+class MapController {
+	struct Key {
+		BaseEntity* entity;
+		Key* pre, * nxt;
+		Key() : entity(), pre(0), nxt(0) {}
+	};
+	Key map_first;
+public:
+	MapController() : map_first() {}
+	~MapController() {
+		// delete
+	}
+	void push(BaseEntity* entity) {
+		Key* lastKey = new Key(map_first);
+		lastKey->pre = &map_first;
+		map_first.entity = entity, map_first.nxt = lastKey;
+		return;
+	}
+	std::vector < BaseEntity* > get(Point x) {
+		//
+	}
+};
+
 class Item {
 private:
 	int pickedup;
@@ -52,39 +81,69 @@ public:
 		point = p;
 		return;
 	}
-	virtual void onPickedup() {
+	virtual int onPickedup(BaseEntity* tribe) {
 		pickedup = 1;
-		return;
+		return OPERATOR_SUCCESS;
 	}
-	virtual void onUsing() {
+	virtual int onUsing(BaseEntity* tribe) {
 		used = 1;
-		return;
+		return OPERATOR_SUCCESS;
 	}
-};
+	virtual int onDropped(BaseEntity* tribe) {
+		return OPERATOR_SUCCESS;
+	}
+} apple;
 
-const int OPERATOR_SUCCESS = 0;
 const int TRIBE_DEAD = -1;
 
-class BaseTribe {
-private:
+template < size_t size >
+class ItemManage {
+protected:
+	Item* items[size];
+public:
+	ItemManage() : items{ 0 } {}
+	Item* getItem(const size_t& id) { return items[id]; }
+	Item* operator [] (const size_t& id) { return getItem(id); }
+	/*int pushItem(Item* item) {
+		item->onPickedup();
+	}*/
+};
+
+class BaseEntity {
+protected:
+	Point point;
 	int death;
+	int setDeath() { death = 1; }
+	int setPoint() { death = 1; }
+public:
+	BaseEntity() : death(0) {}
+	~BaseEntity() {}
+	virtual int run() = 0;
+	int getDeath() const { return death; }
+	Point getPoint() const { return point; }
+
+};
+
+class BaseTribe : public BaseEntity {
 protected:
 	int amount;
 	int strength;
 	Point point;
-	BaseTribe() : amount(0), death(0), strength(0), point() {}
+	BaseTribe() : BaseEntity(), amount(0), strength(0), point() {}
 	~BaseTribe() {}
 public:
-	// behavior
-	int run() {
+	virtual int run() override final {
 		if (amount <= 0) death = 1;
 		if (death) return TRIBE_DEAD;
 
 		int bh_res = behavior();
 		if (bh_res != OPERATOR_SUCCESS) return bh_res;
+
 		// more_opt
 		return OPERATOR_SUCCESS;
 	}
+	// behavior
+
 	virtual int behavior() = 0;
 	// move
 	virtual int move(const Point&) = 0;
@@ -97,15 +156,11 @@ public:
 		return;
 	}
 	// forage
-	virtual int forage() {
-		return OPERATOR_SUCCESS;
-	}
+	virtual int forage() { return OPERATOR_SUCCESS; }
 	// propagate
-	virtual int propagate() {
-		return OPERATOR_SUCCESS;
-	}
-	int setDeath() { death = 1; }
-	int getDeath() const { return death; }
+	virtual int propagate() { return OPERATOR_SUCCESS; }
+
+
 	int getAmount() const { return amount; }
 	long long calcForce() const { return 1LL * amount * strength; }
 };
@@ -115,29 +170,49 @@ const int STATUS_WAIT = 0;
 class PlayerTribe : public BaseTribe {
 	int energyMax;
 	int energy;
+	ItemManage < 64U > pack;
 public:
 	int status;
 
 	PlayerTribe() : BaseTribe(), energyMax(0), energy(0), status(STATUS_WAIT) {}
 	~PlayerTribe() {}
-	// behavior
-	virtual int behavior() override final{
-		// wait for player
+
+	void addAmount(const int& val) {
+		amount += val;
+		return;
+	}
+
+	virtual int move(const Point& p) override final {
 		return OPERATOR_SUCCESS;
 	}
-	// attack
+	virtual int behavior() override final {
+		// wait for player
+		printf("There are %d cells.", amount);
+		printf("OPT:");
+		std::string opt;
+		if (opt == "attack") {
+
+		}
+		if (opt == "")
+			return OPERATOR_SUCCESS;
+	}
 	virtual int attack(BaseTribe* other) override final {
 		long long damage = calcForce() / (1LL * other->getAmount() + 1) + 1;
+		other->beAttacked(this, damage);
 		return OPERATOR_SUCCESS;
 	}
-	// forage
 	virtual int forage() override final {
 		return OPERATOR_SUCCESS;
 	}
-};
+	/*int pickupItem(Item* item) {
+		return pack.pushItem(item);
+	}*/
+} player;
 
 int main() {
+	player.addAmount(10);
 
+	player.run();
 
 
 
