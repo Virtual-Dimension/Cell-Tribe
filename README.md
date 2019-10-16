@@ -27,9 +27,9 @@ If you have any good ideas or found problems, you can ask them from Issues.
 
 ## 贡献（Contributions）
 
-正在策划编写贡献指南。
+请参考中文版[贡献指南](https://github.com/Virtual-Dimension/Cell-Tribe/blob/master/CONTRIBUTIONS.md)。
 
-Planning to write a contribution guide.
+Planning to write a English contribution guide.
 
 ## 加入（Join）
 
