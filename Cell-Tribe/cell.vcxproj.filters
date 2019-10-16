@@ -21,25 +21,22 @@
     <ClCompile Include="MapController.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="Item.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="ItemManager.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="Entity\BaseEntity.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="Entity\BaseTribe.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="Entity\PlayerTribe.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="Entity\PlayerTribe.cpp">
+    <ClCompile Include="Entity\Entity.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="Entity\ItemEntity.cpp">
+    <ClCompile Include="Entity\EntityLiving.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Entity\EntityPlayerTribe.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Entity\EntityItem.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Event\EventController.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
@@ -47,28 +44,25 @@
     <ClInclude Include="MapController.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Item.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="game.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="ItemManager.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="Entity\BaseEntity.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="Entity\BaseTribe.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="Entity\PlayerTribe.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Entity\PlayerTribe.h">
+    <ClInclude Include="Entity\Entity.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Entity\ItemEntity.h">
+    <ClInclude Include="Entity\EntityLiving.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Entity\EntityPlayerTribe.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Entity\EntityItem.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Event\EventController.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

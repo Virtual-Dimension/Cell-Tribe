@@ -1,18 +1,18 @@
 #pragma once
 
 #include "game.h"
-#include "Entity/BaseEntity.h"
+#include "Entity/Entity.h"
 #include <vector>
 
-class BaseEntity;
+class Entity;
 
 class MapController {
-	std::vector < BaseEntity* > entityList;
+	std::vector < Entity* > entityList;
 public:
 	MapController();
 	~MapController();
-	void push(BaseEntity*);
-	std::vector < BaseEntity* > get(const Point&) const;
-	void erase(BaseEntity*);
+	void push(Entity*);
+	std::vector < Entity* > get(const Point&) const;
+	void erase(Entity*);
 	void erase(const size_t&);
 };

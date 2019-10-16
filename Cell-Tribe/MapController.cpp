@@ -4,17 +4,17 @@ MapController::MapController() : entityList() {}
 
 MapController::~MapController() {}
 
-void MapController::push(BaseEntity* entity) { entityList.push_back(entity); }
+void MapController::push(Entity* entity) { entityList.push_back(entity); }
 
-std::vector < BaseEntity* > MapController::get(const Point& p) const {
-	std::vector < BaseEntity* > res;
+std::vector < Entity* > MapController::get(const Point& p) const {
+	std::vector < Entity* > res;
 	for (const auto& e : entityList)
 		if (e->inRange(p)) res.push_back(e);
 	return res;
 }
 
-void MapController::erase(BaseEntity* entity) {
-	for (std::vector < BaseEntity* >::iterator e = entityList.begin(); e != entityList.end(); e++)
+void MapController::erase(Entity* entity) {
+	for (std::vector < Entity* >::iterator e = entityList.begin(); e != entityList.end(); e++)
 		if ((*e) == entity) entityList.erase(e);
 	return;
 }

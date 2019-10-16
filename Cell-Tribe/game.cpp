@@ -2,19 +2,17 @@
 #pragma region Header
 
 
-#include "Item.h"
-#include "ItemManager.h"
 #include "MapController.h"
-#include "./Entity/PlayerTribe.h"
+#include "./Entity/EntityPlayerTribe.h"
 
 #pragma endregion
 
-BaseEntity* player1, * player2;
+Entity* player1, * player2;
 MapController* mapc;
 
 int main() {
-	player1 = new PlayerTribe();
-	player2 = new PlayerTribe();
+	player1 = new EntityPlayerTribe();
+	player2 = new EntityPlayerTribe();
 	mapc = new MapController();
 	while (true) {
 		int flag= 0;
@@ -25,7 +23,7 @@ int main() {
 	}
 	printf("player1 : %d, player2 : %d", player1->getDeath(), player2->getDeath());
 
-	//PlayerTribe a;
+	//EntityPlayerTribe a;
 
 
 	return 0;

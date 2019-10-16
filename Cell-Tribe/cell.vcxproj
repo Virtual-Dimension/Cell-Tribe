@@ -21,7 +21,7 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <ProjectGuid>{24E57305-5C32-48BE-B5CF-C799F2AE48BF}</ProjectGuid>
-    <RootNamespace>cell</RootNamespace>
+    <RootNamespace>celltribe</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
     <ProjectName>celltribe</ProjectName>
   </PropertyGroup>
@@ -124,23 +124,21 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Entity\BaseEntity.cpp" />
-    <ClCompile Include="Entity\BaseTribe.cpp" />
-    <ClCompile Include="Entity\ItemEntity.cpp" />
-    <ClCompile Include="Entity\PlayerTribe.cpp" />
+    <ClCompile Include="Entity\Entity.cpp" />
+    <ClCompile Include="Entity\EntityLiving.cpp" />
+    <ClCompile Include="Entity\EntityPlayerTribe.cpp" />
+    <ClCompile Include="Entity\EntityItem.cpp" />
+    <ClCompile Include="Event\EventController.cpp" />
     <ClCompile Include="game.cpp" />
-    <ClCompile Include="Item.cpp" />
-    <ClCompile Include="ItemManager.cpp" />
     <ClCompile Include="MapController.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Entity\BaseEntity.h" />
-    <ClInclude Include="Entity\BaseTribe.h" />
-    <ClInclude Include="Entity\ItemEntity.h" />
-    <ClInclude Include="Entity\PlayerTribe.h" />
+    <ClInclude Include="Entity\Entity.h" />
+    <ClInclude Include="Entity\EntityLiving.h" />
+    <ClInclude Include="Entity\EntityPlayerTribe.h" />
+    <ClInclude Include="Entity\EntityItem.h" />
+    <ClInclude Include="Event\EventController.h" />
     <ClInclude Include="game.h" />
-    <ClInclude Include="Item.h" />
-    <ClInclude Include="ItemManager.h" />
     <ClInclude Include="MapController.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
