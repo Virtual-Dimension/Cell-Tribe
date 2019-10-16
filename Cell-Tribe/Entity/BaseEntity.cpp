@@ -1,8 +1,12 @@
 #include "BaseEntity.h"
 
+BaseEntity::BaseEntity() : death(0), show(0), mapController(0) {}
+
+BaseEntity:: ~BaseEntity() { if (show) mapController->erase(this); }
+
 void BaseEntity::setDeath() { death = 1; }
 
-void BaseEntity::setPoint() { death = 1; }
+void BaseEntity::setPoint(const Point& p) { point = p; }
 
 void BaseEntity::setShow(MapController* mapcontroller, const bool& x) {
 	if (show == x) return;
@@ -17,11 +21,7 @@ void BaseEntity::setShow(MapController* mapcontroller, const bool& x) {
 	show ^= 1;
 	return;
 }
-BaseEntity::BaseEntity() : death(0), show(0), mapController(0) {}
-
-BaseEntity:: ~BaseEntity() {
-	if (show) mapController->erase(this);
-}
+MapController* BaseEntity::getMapController() { return show ? mapController : nullptr; }
 
 int BaseEntity::getDeath() const { return death; }
 

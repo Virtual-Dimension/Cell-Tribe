@@ -24,10 +24,22 @@
     <ClCompile Include="Item.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="BaseEntity.cpp">
+    <ClCompile Include="ItemManager.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="ItemManager.cpp">
+    <ClCompile Include="Entity\BaseEntity.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Entity\BaseTribe.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Entity\PlayerTribe.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Entity\PlayerTribe.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Entity\ItemEntity.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
@@ -38,13 +50,25 @@
     <ClInclude Include="Item.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="BaseEntity.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="game.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="ItemManager.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Entity\BaseEntity.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Entity\BaseTribe.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Entity\PlayerTribe.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Entity\PlayerTribe.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Entity\ItemEntity.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

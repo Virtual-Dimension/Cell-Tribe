@@ -1,7 +1,7 @@
 #pragma once
 
 #include "game.h"
-#include "BaseEntity.h"
+#include "Entity/BaseEntity.h"
 #include <vector>
 
 class BaseEntity;
@@ -12,7 +12,7 @@ public:
 	MapController();
 	~MapController();
 	void push(BaseEntity*);
-	std::vector < BaseEntity* > get(const Point& p) const;
+	std::vector < BaseEntity* > get(const Point&) const;
 	void erase(BaseEntity*);
-	void erase(const size_t& i);
+	void erase(const size_t&);
 };

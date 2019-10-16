@@ -14,6 +14,8 @@
 #include <iostream>
 #include <algorithm>
 #include <string>
+#define SEHTRY __try
+#define SEHEXCEPT __except (1) { char buf[32];sprintf(buf,"ERROR: 0X%X", GetExceptionCode());MessageBoxA(0,buf,"",MB_ICONERROR);}
 typedef long long LL;
 
 constexpr int OPERATOR_SUCCESS = 0;
@@ -42,3 +44,4 @@ struct Point {
 	double operator ^ (const Point& v) const { return x * v.y - y * v.x; }
 	double len() { return sqrt(x * x + y * y); }
 };
+
