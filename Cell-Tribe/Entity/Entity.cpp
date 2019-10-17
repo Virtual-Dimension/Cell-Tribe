@@ -33,7 +33,11 @@ double Entity::getHealth() const { return health; }
 
 Point Entity::getPoint() const { return point; }
 
-int Entity::inRange(const Point& p) const { return abs(point.x - p.x) < 1 && abs(point.y - p.y) < 1; }
+int Entity::inRange(const Point& p) const { return inRange(p, 1); }
+
+int Entity::inRange(const Point& p, const double& dis) const { return (point - p).len < dis; }
+
+
 
 bool Entity::canBeAttacked() const { return false; }
 

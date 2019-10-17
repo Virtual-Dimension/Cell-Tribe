@@ -1,6 +1,7 @@
 #pragma once
 #include "EntityLiving.h"
 #include "EntityItem.h"
+#include "../EvolutionController.h"
 
 constexpr int STATUS_WAIT = 0;
 constexpr int STATUS_ATTACK = 1;
@@ -10,12 +11,15 @@ class EntityPlayerTribe final : public EntityLiving {
 public:
 	EntityPlayerTribe();
 	EntityPlayerTribe(const std::string&);
+	EntityPlayerTribe(const std::string&, EvolutionController*);
 	~EntityPlayerTribe();
 
-	void addCells(const int&);
+	int addCells(const int&); //tmp function
 	void addStrength(const int&);
 	void addEnergyMax(const int&);
 	std::string getPlayerName() const;
+
+	void beEffectedByEvolution(const Evolution&);
 protected:
 	virtual int behavior() override;
 	virtual int move(const Point&) override;
@@ -24,11 +28,9 @@ protected:
 	virtual int interact1(Entity*) override;
 private:
 	int status;
-	int energyMax, energy;
+	int energyMax, energy, cellsMax;
 	std::vector < Point > cellsPoint;
 	int genePoints;
-	double moveRange;
-	double attackRange;
 	std::string playerName;
 	EvolutionController* evolutionController;
 };

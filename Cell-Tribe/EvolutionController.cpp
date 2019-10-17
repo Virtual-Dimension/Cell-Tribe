@@ -1,16 +1,24 @@
 #include "EvolutionController.h"
 
 
-//Evolution::Evolution(const Info& minfo, EffectFunciton effectfunction) : info(minfo), effectFunction(effectfunction) {}
-//
-//Evolution::~Evolution() {}
-//
-//void Evolution::effect(EntityPlayerTribe* player) { effectFunction(player); }
-//
-//const Evolution::Info& Evolution::getInfo() { return info; }
+Evolution jsonToEvolution(neb::CJsonObject& effect) {
+	Evolution newEvolution;
+	memset(&newEvolution, 0, sizeof(newEvolution));
+#define addval(str) (effect.Get(#str, newEvolution.str))
+	addval(atk);
+	addval(attackRange);
+	addval(cellsMax);
+	addval(energyMax);
+	addval(healthMax);
+	addval(moveRange);
+	addval(moveSpeed);
+#undef getval
+	return newEvolution;
+}
 
 EvolutionController::EvolutionController() : json() {}
-EvolutionController::EvolutionController(const char* path) { setEvolutionJson(path); }
+
+EvolutionController::EvolutionController(const char* path) : json() { setEvolutionJson(path); }
 
 void EvolutionController::setEvolutionJson(const char* path) {
 	char* res = new char[1024 * 32]();
@@ -19,15 +27,13 @@ void EvolutionController::setEvolutionJson(const char* path) {
 		res[fread(res, 1, 1024 * 32, f)] = 0;
 		fclose(f);
 		json = neb::CJsonObject(res);
+		// unfinished
 	}
 	return;
 }
 
-void EvolutionController::updateEvolution(EntityPlayerTribe* player) {
-	int length = json["evolutinos"].GetArraySize();
-	for (int i = 0; i < length; i++) {
-
-	}
+Evolution EvolutionController::getEvolution(const int& x) {
+	return jsonToEvolution(json["evolutinos"][x]);
 }
 
 EvolutionController::~EvolutionController() {}

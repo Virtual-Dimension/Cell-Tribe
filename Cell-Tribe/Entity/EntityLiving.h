@@ -11,9 +11,10 @@ public:
 	virtual int beAttacked(EntityLiving*, const LL&) override;
 	virtual void heal(const LL&);
 protected:
-	int atk;
+	double atk, healthMax;
+	double moveRange, attackRange, moveSpeed;
 	virtual int behavior() = 0;
-	virtual int move(const Point&) = 0;
 	virtual int attack(EntityLiving*);
+	virtual int move(const Point&);
 	virtual int interact1(Entity*);
-}; 
+};

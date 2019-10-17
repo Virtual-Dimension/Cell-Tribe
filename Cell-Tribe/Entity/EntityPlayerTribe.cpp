@@ -2,21 +2,43 @@
 
 EntityPlayerTribe::EntityPlayerTribe() :
 	EntityLiving(),
-	energyMax(0), energy(0), status(STATUS_WAIT),
-	genePoints(0), attackRange(0), moveRange(0), playerName("Player") {
+	cellsMax(0), energyMax(0), energy(0), status(STATUS_WAIT),
+	genePoints(0), playerName("Player"), evolutionController(0) {
+	healthMax = 0;
+	moveRange = 0;
+	attackRange = 0;
+	moveSpeed = 0;
+
 	health = 5;
 }
 
 EntityPlayerTribe::EntityPlayerTribe(const std::string& name) :
 	EntityLiving(),
 	energyMax(0), energy(0), status(STATUS_WAIT),
-	genePoints(0), attackRange(0), moveRange(0), playerName(name) {
+	genePoints(0), playerName(name), evolutionController(0) {
+	healthMax = 0;
+	moveRange = 0;
+	attackRange = 0;
+	moveSpeed = 0;
+
 	health = 5;
+}
+
+EntityPlayerTribe::EntityPlayerTribe(const std::string& name, EvolutionController* evolutionController) : EntityLiving(),
+energyMax(0), energy(0), status(STATUS_WAIT),
+genePoints(0), playerName(name) {
+	healthMax = 0;
+	moveRange = 0;
+	attackRange = 0;
+	moveSpeed = 0;
+
+	health = 5;
+	beEffectedByEvolution(evolutionController->getEvolution(0));
 }
 
 EntityPlayerTribe::~EntityPlayerTribe() {}
 
-void EntityPlayerTribe::addCells(const int& val) {
+int EntityPlayerTribe::addCells(const int& val) {
 	for (int i = 0; i < val; i++) cellsPoint.push_back(Point(0, 0));
 	return;
 }
@@ -26,6 +48,19 @@ void EntityPlayerTribe::addStrength(const int& val) { atk += val; }
 void EntityPlayerTribe::addEnergyMax(const int& val) { energyMax += val; }
 
 std::string EntityPlayerTribe::getPlayerName() const { return playerName; }
+
+void EntityPlayerTribe::beEffectedByEvolution(const Evolution& evolution) {
+#define addval(str) (this->str+= evolution.str)
+	addval(atk);
+	addval(attackRange);
+	addval(cellsMax);
+	addval(energyMax);
+	addval(healthMax);
+	addval(moveRange);
+	addval(moveSpeed);
+#undef addval
+	return;
+}
 
 int EntityPlayerTribe::move(const Point& p) {
 	// API

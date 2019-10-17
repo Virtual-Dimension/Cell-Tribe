@@ -21,6 +21,7 @@ public:
 	double getHealth() const;
 	Point getPoint() const;
 	virtual int inRange(const Point&) const;
+	virtual int inRange(const Point&, const double&) const;
 	virtual bool canBeAttacked() const;
 	virtual int beAttacked(EntityLiving*, const LL&);
 	virtual bool canBeUsed() const;

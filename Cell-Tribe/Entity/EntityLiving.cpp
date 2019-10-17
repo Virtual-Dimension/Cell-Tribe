@@ -1,6 +1,6 @@
 #include "EntityLiving.h"
 
-EntityLiving::EntityLiving() : Entity(), atk(1) {}
+EntityLiving::EntityLiving() : Entity(), atk(1), healthMax(20), attackRange(3), moveRange(3), moveSpeed(1) {}
 
 EntityLiving::~EntityLiving() {}
 
@@ -25,10 +25,15 @@ int EntityLiving::beAttacked(EntityLiving* other, const LL& damage) {
 	return OPERATOR_SUCCESS;
 }
 
-void EntityLiving::heal(const LL& val) { health += val;	return; }
+void EntityLiving::heal(const LL& val) { health = std::min(healthMax, health + val); }
 
 int EntityLiving::attack(EntityLiving* other) {
 	other->beAttacked(this, atk);
+	return OPERATOR_SUCCESS;
+}
+
+int EntityLiving::move(const Point& p) {
+	// API
 	return OPERATOR_SUCCESS;
 }
 

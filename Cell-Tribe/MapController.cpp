@@ -17,6 +17,13 @@ std::vector < Entity* > MapController::get(const Point& p) const {
 	return res;
 }
 
+std::vector<Entity*> MapController::get(const Point& p, const double& dis) const{
+	std::vector < Entity* > res;
+	for (const auto& e : entityList)
+		if (e->inRange(p, dis)) res.push_back(e);
+	return std::vector<Entity*>();
+}
+
 const std::vector<Entity*>& MapController::getList() const { return entityList; }
 
 size_t MapController::count() const { return entityList.size(); }
@@ -42,11 +49,11 @@ bool MapController::exist(Entity* entity) {
 	return 0;
 }
 
-int MapController::beyond(const Point& p) const {
+bool MapController::beyond(const Point& p) const {
 	return p.x < mapBeginX || p.x > mapEndX || p.y < mapBeginY || p.y > mapEndY;
 }
 
-int MapController::beyond(Entity* entity) const { return  beyond(entity->getPoint()); }
+bool MapController::beyond(Entity* entity) const { return  beyond(entity->getPoint()); }
 
 Point MapController::getRightPoint() const {
 	double x = (1.0 * rand() / RAND_MAX) * (mapEndX - mapBeginX) + mapBeginX;
