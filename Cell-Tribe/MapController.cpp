@@ -1,10 +1,14 @@
 #include "MapController.h"
 
-MapController::MapController() : entityList() {}
+MapController::MapController(const double& bx, const double& by, const double& ex, const double& ey) : entityList(), mapBeginX(bx), mapBeginY(by), mapEndX(ex), mapEndY(ey) {}
 
 MapController::~MapController() {}
 
-void MapController::push(Entity* entity) { entityList.push_back(entity); }
+int MapController::push(Entity* entity) {
+	if (beyond(entity)) return OPERATOR_FAILED;
+	entityList.push_back(entity);
+	return OPERATOR_SUCCESS;
+}
 
 std::vector < Entity* > MapController::get(const Point& p) const {
 	std::vector < Entity* > res;
@@ -13,11 +17,36 @@ std::vector < Entity* > MapController::get(const Point& p) const {
 	return res;
 }
 
-void MapController::erase(Entity* entity) {
+int MapController::erase(Entity* entity) {
 	for (std::vector < Entity* >::iterator e = entityList.begin(); e != entityList.end(); e++)
-		if ((*e) == entity) entityList.erase(e);
-	return;
+		if ((*e) == entity) {
+			entityList.erase(e);
+			return OPERATOR_SUCCESS;
+		}
+	return OPERATOR_FAILED;
 }
 
-void MapController::erase(const size_t& i) { entityList.erase(entityList.begin() + i); }
+int MapController::erase(const size_t& i) {
+	if (i > entityList.size()) return OPERATOR_FAILED;
+	entityList.erase(entityList.begin() + i);
+	return OPERATOR_SUCCESS;
+}
+
+bool MapController::count(Entity* entity) {
+	for (std::vector < Entity* >::iterator e = entityList.begin(); e != entityList.end(); e++)
+		if ((*e) == entity) return 1;
+	return 0;
+}
+
+int MapController::beyond(const Point& p) const {
+	return p.x < mapBeginX || p.x > mapEndX || p.y < mapBeginY || p.y > mapEndY;
+}
+
+int MapController::beyond(Entity* entity) const { return  beyond(entity->getPoint()); }
+
+Point MapController::getRightPoint() const {
+	double x = (1.0 * rand() / RAND_MAX) * (mapEndX - mapBeginX) + mapBeginX;
+	double y = (1.0 * rand() / RAND_MAX) * (mapEndY - mapBeginY) + mapBeginY;
+	return Point(x, y);
+}
 

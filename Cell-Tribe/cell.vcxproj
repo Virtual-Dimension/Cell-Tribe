@@ -125,19 +125,21 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Entity\Entity.cpp" />
+    <ClCompile Include="Entity\EntityEnergy.cpp" />
     <ClCompile Include="Entity\EntityLiving.cpp" />
     <ClCompile Include="Entity\EntityPlayerTribe.cpp" />
     <ClCompile Include="Entity\EntityItem.cpp" />
-    <ClCompile Include="Event\EventController.cpp" />
+    <ClCompile Include="EventController.cpp" />
     <ClCompile Include="game.cpp" />
     <ClCompile Include="MapController.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Entity\Entity.h" />
+    <ClInclude Include="Entity\EntityEnergy.h" />
     <ClInclude Include="Entity\EntityLiving.h" />
     <ClInclude Include="Entity\EntityPlayerTribe.h" />
     <ClInclude Include="Entity\EntityItem.h" />
-    <ClInclude Include="Event\EventController.h" />
+    <ClInclude Include="EventController.h" />
     <ClInclude Include="game.h" />
     <ClInclude Include="MapController.h" />
   </ItemGroup>

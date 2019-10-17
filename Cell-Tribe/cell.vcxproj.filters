@@ -36,7 +36,10 @@
     <ClCompile Include="Entity\EntityItem.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="Event\EventController.cpp">
+    <ClCompile Include="EventController.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Entity\EntityEnergy.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
@@ -62,7 +65,10 @@
     <ClInclude Include="Entity\EntityItem.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Event\EventController.h">
+    <ClInclude Include="EventController.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Entity\EntityEnergy.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

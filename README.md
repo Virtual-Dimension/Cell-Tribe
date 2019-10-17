@@ -25,9 +25,9 @@ Developers are all high school students, Watching and Star are Power of developm
 
 If you have any good ideas or found problems, you can ask them from Issues.
 
-## 贡献（Contributions）
+## 贡献（Contributing）
 
-请参考中文版[贡献指南](https://github.com/Virtual-Dimension/Cell-Tribe/blob/master/CONTRIBUTIONS.md)。
+请参考中文版[贡献指南](https://github.com/Virtual-Dimension/Cell-Tribe/blob/master/CONTRIBUTING.md)。
 
 Planning to write a English contribution guide.
 

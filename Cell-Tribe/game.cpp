@@ -1,25 +1,34 @@
 
 #pragma region Header
 
-
+#include "EventController.h"
 #include "MapController.h"
-#include "./Entity/EntityPlayerTribe.h"
+#include "Entity/EntityPlayerTribe.h"
+#include "game.h"
 
 #pragma endregion
 
 Entity* player1, * player2;
-MapController* mapc;
+MapController* mapController;
+EventController* eventController;
 
 int main() {
 	player1 = new EntityPlayerTribe();
 	player2 = new EntityPlayerTribe();
-	mapc = new MapController();
+	mapController = new MapController(MAP_BEGIN_X, MAP_BEGIN_Y, MAP_END_X, MAP_END_Y);
+
+	player1->respawn(mapController);
+	player2->respawn(mapController);
+
+	eventController = new EventController(mapController);
+
 	while (true) {
-		int flag= 0;
+		int flag = 0;
 		std::cout << "Player1:" << std::endl;
-		if (player1->run() == TRIBE_DEAD || player2->run() == TRIBE_DEAD) {
+		if (player1->update() == ENTITY_DEAD || player2->update() == ENTITY_DEAD) {
 			break;
 		}
+		eventController->update();
 	}
 	printf("player1 : %d, player2 : %d", player1->getDeath(), player2->getDeath());
 

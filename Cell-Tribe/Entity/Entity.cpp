@@ -33,7 +33,18 @@ Point Entity::getPoint() const { return point; }
 
 int Entity::inRange(const Point& p) const { return abs(point.x - p.x) < 1 && abs(point.y - p.y) < 1; }
 
-void Entity::beAttacked(EntityLiving* other, LL damage) {}
+bool Entity::canBeAttacked() const { return false; }
 
-void Entity::beUsed(EntityLiving* other){}
+int Entity::beAttacked(EntityLiving* other, const LL& damage) { return OPERATOR_SUCCESS; }
+
+bool Entity::canBeUsed() const { return false; }
+
+int Entity::beUsed(EntityLiving* other) { return OPERATOR_SUCCESS; }
+
+int Entity::respawn(MapController* mapcontroller){
+	setShow(mapcontroller, 0);
+	point = mapcontroller->getRightPoint();
+	setShow(mapcontroller, 1);
+	return OPERATOR_SUCCESS;
+}
 

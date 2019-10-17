@@ -14,19 +14,18 @@
 #include <iostream>
 #include <algorithm>
 #include <string>
+#include <random>
 #define SEHTRY __try
 #define SEHEXCEPT __except (1) { char buf[32];sprintf(buf,"ERROR: 0X%X", GetExceptionCode());MessageBoxA(0,buf,"",MB_ICONERROR);}
 typedef long long LL;
 
 constexpr int OPERATOR_SUCCESS = 0;
+constexpr int OPERATOR_FAILED = -1;
 
-constexpr int MAP_BEGIN_X = -500;
-constexpr int MAP_BEGIN_Y = -500;
-constexpr int MAP_END_X = 500;
-constexpr int MAP_END_Y = 500;
-
-constexpr int TRIBE_DEAD = -1;
-constexpr int ITEMMANAGER_FULL = -2;
+constexpr double MAP_BEGIN_X = -500;
+constexpr double MAP_BEGIN_Y = -500;
+constexpr double MAP_END_X = 500;
+constexpr double MAP_END_Y = 500;
 
 struct Point {
 	double x, y;
@@ -44,4 +43,3 @@ struct Point {
 	double operator ^ (const Point& v) const { return x * v.y - y * v.x; }
 	double len() { return sqrt(x * x + y * y); }
 };
-

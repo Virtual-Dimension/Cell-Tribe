@@ -7,12 +7,17 @@
 class Entity;
 
 class MapController {
+	double mapBeginX, mapBeginY, mapEndX, mapEndY;
 	std::vector < Entity* > entityList;
 public:
-	MapController();
+	MapController(const double&, const double&, const double&, const double&);
 	~MapController();
-	void push(Entity*);
+	int push(Entity*);
 	std::vector < Entity* > get(const Point&) const;
-	void erase(Entity*);
-	void erase(const size_t&);
+	int erase(Entity*);
+	int erase(const size_t&);
+	bool count(Entity*);
+	int beyond(const Point&) const;
+	int beyond(Entity*) const;
+	Point getRightPoint() const;
 };
