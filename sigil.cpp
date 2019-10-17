@@ -137,13 +137,13 @@ int rand_next(int seed) {
 	return((unsigned)(seed / 65536) % 32768);
 }
 
-class DynamicPoint :public SLObject {
+class SLDynamicPoint :public SLObject {
 	SLCircle c;
 	Bezier3 bzr;
 	double now;
 public:
-	DynamicPoint() :c(Point(), 0, 0, SLColor(), SLColor()), now(1) {}
-	DynamicPoint(const Point& p, double r, int num, const SLColor& col) :c(p, r, num, col, col), now(1) {}
+	SLDynamicPoint() :c(Point(), 0, 0, SLColor(), SLColor()), now(1) {}
+	SLDynamicPoint(const Point& p, double r, int num, const SLColor& col) :c(p, r, num, col, col), now(1) {}
 	void SetGoal(const Point& p) {
 		bzr.SetSE(c.p, p);
 		bzr.rand();
@@ -171,6 +171,58 @@ public:
 	}
 };
 
+class SLDynamicPointGroup :public SLObject {
+	list<SLDynamicPoint*>lp;
+	bool flag_static;
+	Point pos_static;
+public:
+	double move_speed, static_speed;
+public:
+	SLDynamicPointGroup() :move_speed(0), static_speed(0), flag_static(0) {}
+	void AddPoint(SLDynamicPoint* p) {
+		lp.push_back(p);
+	}
+	void RemovePoint(SLDynamicPoint* p) {
+		lp.remove(p);
+	}
+	void move(const Point& mp) {
+		flag_static = 0;
+		pos_static = mp;
+		for (auto p : lp) p->SetGoal(RandCirclePoint(mp, 20));
+	}
+	void spread() {
+		flag_static = 0;
+		for (auto& p : lp)
+			p->SetGoal(RandCirclePoint(p->GetPos(), 500));
+	}
+public:
+	virtual void draw() override {
+		for (auto p : lp)
+			p->draw();
+	}
+	virtual void update(double t) override {
+		if (flag_static) {
+			for (auto& p : lp)
+				if (p->GetNow() == 1)
+					p->SetGoal(RandCirclePoint(p->GetPos(), 20));
+				else if ((p->GetPos() - pos_static).len() > 50)
+					p->SetGoal(pos_static);
+		} else {
+			double pj = 0;
+			for (auto p : lp)
+				pj += p->GetNow();
+			pj /= lp.size();
+			if (pj > 0.95) {
+				flag_static = 1;
+			}
+		}
+		if (flag_static)
+			for (auto p : lp) p->move(static_speed * t);
+		else
+			for (auto p : lp) p->move(move_speed * t);
+	}
+};
+
 //class Particle :public SLObject {
 //	vector<SLCircle>vc;
 //public:
@@ -191,13 +243,11 @@ public:
 //
 //	}
 //};
-Point RandCirclePoint(const Point& c, double r) {
-	Point p(rand() - RAND_MAX / 2, rand() - RAND_MAX / 2);
-	return c + p / p.len() * r * ((double)rand() / RAND_MAX);
-}
+
 const double MOVE_SPEED = 100;
 const double STATIC_SPEED = 30;
-vector<DynamicPoint*>vp;
+vector<SLDynamicPoint*>vp;
+SLDynamicPointGroup* dpg;
 void update(double t) {
 	//printf("%.2lf\n", 1 / t);
 	static bool flag_static = 0;
@@ -207,41 +257,11 @@ void update(double t) {
 	cd_move -= t;
 	Point mp(slGetMouseX(), slGetMouseY());
 	if (slGetMouseButton(SL_MOUSE_BUTTON_LEFT) && cd_move <= 0) {
-		cd_move = 1;
-		flag_static = 0;
-		pos_static = mp;
-		for (auto p : vp) p->SetGoal(RandCirclePoint(mp, 20));
-	} else {
-		if (flag_static) {
-			for (auto& p : vp)
-				if (p->GetNow() == 1)
-					p->SetGoal(RandCirclePoint(p->GetPos(), 20));
-				else if ((p->GetPos() - pos_static).len() > 50)
-					p->SetGoal(pos_static);
-		} else {
-			double pj = 0;
-			for (auto p : vp)
-				pj += p->GetNow();
-			pj /= vp.size();
-			if (pj > 0.95) {
-				flag_static = 1;
-				//for (auto& p : vp)
-					//if (p->GetNow() > 0.9)
-						//p->SetGoal(p->GetPos() + Point(rand() % 50 - 25, rand() % 50 - 25));
-			}
-		}
+		dpg->move(mp);
 	}
 	if (cd_spread <= 0 && slGetMouseButton(SL_MOUSE_BUTTON_RIGHT)) {
-		cd_spread = 4;
-		flag_static = 0;
-		for (auto& p : vp)
-			p->SetGoal(RandCirclePoint(p->GetPos(), 500));
+		dpg->spread();
 	}
-	if (flag_static)
-		for (auto p : vp) p->move(STATIC_SPEED * t);
-	else
-		for (auto p : vp) p->move(MOVE_SPEED * t);
-	//p.move(10 * t);
 }
 double Hue2RGB(double v1, double v2, double vH) {
 	if (vH < 0) vH += 1;
@@ -278,7 +298,10 @@ SLColor Ranbow(double p, double alpha) {
 }
 char s[1024];
 int main(int args, char* argv[]) {
+	SLDynamicPointGroup pg;
+	pg.move_speed;
 	GetWindowsDirectoryA(s, 1024);
+	puts(s);
 
 	SL::StartThread(WINDOW_WIDTH, WINDOW_HEIGHT);
 
@@ -295,7 +318,7 @@ int main(int args, char* argv[]) {
 	b.SetTextColor(SLColor(1, 1, 1, 1));
 	b.attach();
 
-	puts(s);
+
 	srand(time(0));
 
 	SL::SetUpdateCallBack(update);
@@ -303,12 +326,20 @@ int main(int args, char* argv[]) {
 
 
 	for (int i = 0; i < 500; i++) {
-		vp.push_back(new DynamicPoint(Point(0, 0), 2, 10, Ranbow(i / 500.0, 0.3)));
+		vp.push_back(new SLDynamicPoint(Point(0, 0), 2, 10, Ranbow(i / 500.0, 0.3)));
 	}
 	random_shuffle(vp.begin(), vp.end());
-	for (auto p : vp)
-		p->attach();
+	//for (auto p : vp)
+	//	p->attach();
 
+	dpg = new SLDynamicPointGroup();
+
+	for (auto p : vp)
+		dpg->AddPoint(p);
+
+	dpg->move_speed = 100;
+	dpg->static_speed = 20;
+	dpg->attach();
 
 
 	SL::Wait();

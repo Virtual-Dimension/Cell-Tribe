@@ -21,13 +21,11 @@ namespace SL {
 class SLObject {
 public:
 	virtual void draw() = 0;
-	virtual void update() {
-
-	}
-	void attach() {
+	virtual void update(double dt) {}
+	virtual void attach() {
 		SL::AddObject(this);
 	}
-	void detach() {
+	virtual void detach() {
 		SL::RemoveObject(this);
 	}
 };
@@ -91,7 +89,7 @@ namespace SL {
 			for (const auto p : list_obj)
 				p->draw();
 			for (const auto p : list_obj)
-				p->update();
+				p->update(dt);
 			mtx_list_obj.unlock();
 
 			slRender();
@@ -153,6 +151,10 @@ public:
 	}
 };
 
+class SLPicture {
+
+};
+
 class SLCircleRef :public SLObject {
 public:
 	const Point& p;
@@ -187,6 +189,10 @@ public:
 		slRectangleOutline(p.x - w / 2, p.y - h / 2, w, h);
 	}
 };
+Point RandCirclePoint(const Point& c, double r) {
+	Point p(rand() - RAND_MAX / 2, rand() - RAND_MAX / 2);
+	return c + p / p.len() * r * ((double)rand() / RAND_MAX);
+}
 typedef void(*SLMouseEventCallBack)(double x, double y);
 class SLButton :public SLObject {
 	SLRectangle rect;
@@ -219,7 +225,7 @@ public:
 		slSetForeColor(text_color);
 		slText(rect.p.x + rect.w / 2, rect.p.y + rect.h / 2, text.c_str());
 	}
-	virtual void update() override {
+	virtual void update(double dt) override {
 		double mx = slGetMouseX(), my = slGetMouseY();
 		if (slGetMouseButton(SL_MOUSE_BUTTON_LEFT)) {
 			if (mx >= rect.p.x && my >= rect.p.y
