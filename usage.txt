@@ -1,0 +1,81 @@
+初始化当前目录
+
+git init
+
+增加远程仓库：
+
+git remote add 远程仓库别名 .git地址
+
+Example : git remote add origin https://github.com/Xciyang/Cell-Tribe.git
+
+拉取远程到本地（到.git中）：
+
+git fetch 远程仓库别名 分支
+
+Example : git fetch origin master
+
+拉取远程到本地（当前文件夹）（实际上=git fetch + git merge)：
+
+若两方提交树有冲突就失败，这个手动merge比较麻烦
+
+git pull 远程仓库别名 分支
+
+Example : git pull origin master
+
+暂存修改：
+
+git add 文件名（*和.都是匹配符）
+
+Example : git add .
+
+提交修改（到本地仓库）：
+
+第一次用这个会创建本地master分支
+
+git commit -m 附加信息（这里有规则，如果本次不是提交到master那就随便）
+
+Example : git commit -m "dev : add Base Class"
+
+推送到远程仓库：
+
+如果有提交树冲突一样会失败，所以。。。如果不是master可以使用-f强制提交，忽略冲突，不推荐。
+
+git pull 远程仓库别名 分支
+
+Example : git pull origin master
+
+新建分支：
+
+你没有本地master不能新建其他的，这个还可以用来远程新建分支
+
+git branch 名称
+
+或：
+
+git branch 远程仓库别名 名称
+
+Example : git branch graph
+Example : git branch origin graph
+
+切换分支（我也不太会）：
+
+git checkout 分支名
+
+Example : git checkout graph
+
+-----------
+
+大概常用的就这么多
+
+-----------
+
+查看历史、回档：
+
+git log
+
+
+git reset
+
+合并：
+
+git merge
