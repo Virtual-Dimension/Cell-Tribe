@@ -14,9 +14,11 @@ public:
 	~MapController();
 	int push(Entity*);
 	std::vector < Entity* > get(const Point&) const;
+	const std::vector < Entity* >& getList() const;
+	size_t count() const;
 	int erase(Entity*);
 	int erase(const size_t&);
-	bool count(Entity*);
+	bool exist(Entity*);
 	int beyond(const Point&) const;
 	int beyond(Entity*) const;
 	Point getRightPoint() const;

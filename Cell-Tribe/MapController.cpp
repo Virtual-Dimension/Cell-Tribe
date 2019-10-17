@@ -17,6 +17,10 @@ std::vector < Entity* > MapController::get(const Point& p) const {
 	return res;
 }
 
+const std::vector<Entity*>& MapController::getList() const { return entityList; }
+
+size_t MapController::count() const { return entityList.size(); }
+
 int MapController::erase(Entity* entity) {
 	for (std::vector < Entity* >::iterator e = entityList.begin(); e != entityList.end(); e++)
 		if ((*e) == entity) {
@@ -32,7 +36,7 @@ int MapController::erase(const size_t& i) {
 	return OPERATOR_SUCCESS;
 }
 
-bool MapController::count(Entity* entity) {
+bool MapController::exist(Entity* entity) {
 	for (std::vector < Entity* >::iterator e = entityList.begin(); e != entityList.end(); e++)
 		if ((*e) == entity) return 1;
 	return 0;

@@ -130,7 +130,10 @@
     <ClCompile Include="Entity\EntityPlayerTribe.cpp" />
     <ClCompile Include="Entity\EntityItem.cpp" />
     <ClCompile Include="EventController.cpp" />
+    <ClCompile Include="EvolutionController.cpp" />
     <ClCompile Include="game.cpp" />
+    <ClCompile Include="Json\cJSON.c" />
+    <ClCompile Include="Json\CJsonObject.cpp" />
     <ClCompile Include="MapController.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -140,7 +143,10 @@
     <ClInclude Include="Entity\EntityPlayerTribe.h" />
     <ClInclude Include="Entity\EntityItem.h" />
     <ClInclude Include="EventController.h" />
+    <ClInclude Include="EvolutionController.h" />
     <ClInclude Include="game.h" />
+    <ClInclude Include="Json\cJSON.h" />
+    <ClInclude Include="Json\CJsonObject.h" />
     <ClInclude Include="MapController.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

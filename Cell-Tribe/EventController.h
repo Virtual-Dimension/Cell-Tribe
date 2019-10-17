@@ -8,5 +8,6 @@ public:
 	void update();
 private:
 	const MapController* mapController;
+	
 };
 

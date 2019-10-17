@@ -13,8 +13,12 @@ MapController* mapController;
 EventController* eventController;
 
 int main() {
-	player1 = new EntityPlayerTribe();
-	player2 = new EntityPlayerTribe();
+	player1 = new EntityPlayerTribe("Player1");
+	player2 = new EntityPlayerTribe("Player2");
+
+	((EntityPlayerTribe*)player1)->addCells(5);
+	((EntityPlayerTribe*)player2)->addCells(5);
+
 	mapController = new MapController(MAP_BEGIN_X, MAP_BEGIN_Y, MAP_END_X, MAP_END_Y);
 
 	player1->respawn(mapController);

@@ -1,0 +1,14 @@
+{
+  "version": 1,
+  "evolutinos": [
+    {
+      "name": "基本生命",
+      "describe": "每个生命生来具备的能力",
+      "fa": [],
+      "effect": {
+        "health": 100,
+        "atk": 10
+      }
+    }
+  ]
+}

@@ -11,7 +11,7 @@ EntityItem::~EntityItem() {}
 
 bool EntityItem::canBeUsed() const { return true; }
 
-int EntityItem::beUsed(EntityLiving*) {
+int EntityItem::beUsed(EntityLiving* entity) {
 	// I think we should do something to living entity
 	return OPERATOR_SUCCESS;
 }

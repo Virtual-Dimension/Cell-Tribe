@@ -1,6 +1,6 @@
 #include "EntityLiving.h"
 
-EntityLiving::EntityLiving() : Entity(), atp(1) {}
+EntityLiving::EntityLiving() : Entity(), atk(1) {}
 
 EntityLiving::~EntityLiving() {}
 
@@ -15,6 +15,8 @@ int EntityLiving::update() {
 	return OPERATOR_SUCCESS;
 }
 
+int EntityLiving::print() const { return 0; }
+
 bool EntityLiving::canBeAttacked() const { return true; }
 
 int EntityLiving::beAttacked(EntityLiving* other, const LL& damage) {
@@ -23,17 +25,17 @@ int EntityLiving::beAttacked(EntityLiving* other, const LL& damage) {
 	return OPERATOR_SUCCESS;
 }
 
-void EntityLiving::heal(const LL& val) { health+= val;	return; }
+void EntityLiving::heal(const LL& val) { health += val;	return; }
 
 int EntityLiving::attack(EntityLiving* other) {
-	other->beAttacked(this, atp);
+	other->beAttacked(this, atk);
 	return OPERATOR_SUCCESS;
 }
 
 int EntityLiving::interact1(Entity* entity) {
 	if (entity->canBeAttacked()) {
-		this->attack((EntityLiving * )entity);
-		return ITEM_USED;
+		this->attack((EntityLiving*)entity);
+		return ENTITY_ATTACKED;
 	}
-	return 0;
+	return OPERATOR_SUCCESS;
 }

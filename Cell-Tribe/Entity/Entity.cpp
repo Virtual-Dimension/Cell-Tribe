@@ -9,6 +9,8 @@ void Entity::setDeath() { death = 1; }
 
 void Entity::setPoint(const Point& p) { point = p; }
 
+void Entity::setPoint(const double& x, const double& y) { setPoint(Point(x, y)); }
+
 void Entity::setShow(MapController* mapcontroller, const bool& x) {
 	if (show == x) return;
 	if (show) {
@@ -25,9 +27,9 @@ void Entity::setShow(MapController* mapcontroller, const bool& x) {
 
 MapController* Entity::getMapController() { return show ? mapController : nullptr; }
 
-int Entity::getDeath() const { return death; }
+bool Entity::getDeath() const { return death; }
 
-LL Entity::getHealth() const { return health; }
+double Entity::getHealth() const { return health; }
 
 Point Entity::getPoint() const { return point; }
 
@@ -41,10 +43,9 @@ bool Entity::canBeUsed() const { return false; }
 
 int Entity::beUsed(EntityLiving* other) { return OPERATOR_SUCCESS; }
 
-int Entity::respawn(MapController* mapcontroller){
+int Entity::respawn(MapController* mapcontroller) {
 	setShow(mapcontroller, 0);
 	point = mapcontroller->getRightPoint();
 	setShow(mapcontroller, 1);
 	return OPERATOR_SUCCESS;
 }
-
