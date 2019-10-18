@@ -4,11 +4,12 @@
 class EntityItem: public Entity{
 public:
 	EntityItem();
-	virtual int update() override final;
 	virtual ~EntityItem();
+
+	virtual int update() override final;
 	virtual bool canBeUsed() const override final;
 	virtual int beUsed(EntityLiving*) override;
 protected:
-	//
+	virtual int print() const override;
 
 };

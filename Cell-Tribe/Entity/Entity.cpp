@@ -1,9 +1,9 @@
 #include "EntityLiving.h"
 #include "../MapController.h"
 
-Entity::Entity() : death(0), show(0), health(0), mapController(0) {}
+Entity::Entity() : death(0), show(0), health(0), mapController(0), slObject(0) {}
 
-Entity:: ~Entity() { if (show) mapController->erase(this); }
+Entity:: ~Entity() { }
 
 void Entity::setDeath() { death = 1; }
 
@@ -11,7 +11,7 @@ void Entity::setPoint(const Point& p) { point = p; }
 
 void Entity::setPoint(const double& x, const double& y) { setPoint(Point(x, y)); }
 
-void Entity::setShow(MapController* mapcontroller, const bool& x) {
+void Entity::setMapController(MapController* mapcontroller, const bool& x) {
 	if (show == x) return;
 	if (show) {
 		mapController->erase(this);
@@ -25,9 +25,23 @@ void Entity::setShow(MapController* mapcontroller, const bool& x) {
 	return;
 }
 
-MapController* Entity::getMapController() { return show ? mapController : nullptr; }
+void Entity::display(const bool& x) {
+	if (showObject == x) return;
+	if (showObject) {
+		slObject->detach();
+	}
+	else {
+		slObject->attach();
+	}
+	showObject ^=1;
+	return;
+}
+
+MapController* Entity::getMapController()const { return show ? mapController : nullptr; }
 
 bool Entity::getDeath() const { return death; }
+
+bool Entity::getDisplay() const { return showObject; }
 
 double Entity::getHealth() const { return health; }
 
@@ -36,8 +50,6 @@ Point Entity::getPoint() const { return point; }
 int Entity::inRange(const Point& p) const { return inRange(p, 1); }
 
 int Entity::inRange(const Point& p, const double& dis) const { return (point - p).len() < dis; }
-
-
 
 bool Entity::canBeAttacked() const { return false; }
 
@@ -48,9 +60,18 @@ bool Entity::canBeUsed() const { return false; }
 int Entity::beUsed(EntityLiving* other) { return OPERATOR_SUCCESS; }
 
 int Entity::respawn(MapController* mapcontroller) {
-	setShow(mapcontroller, 0);
+	setMapController(mapcontroller, 0);
 	point = mapcontroller->getRightPoint();
-	setShow(mapcontroller, 1);
+	setMapController(mapcontroller, 1);
+	display(1);
+	return OPERATOR_SUCCESS;
+}
+
+int Entity::spwan(MapController* mapcontroller) {
+	setMapController(mapcontroller, 0);
+	if (mapcontroller->beyond(point)) return ENTITY_BEYOND;
+	setMapController(mapcontroller, 1);
+	display(1);
 	return OPERATOR_SUCCESS;
 }
 

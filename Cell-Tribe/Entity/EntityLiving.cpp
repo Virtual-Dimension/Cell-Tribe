@@ -15,7 +15,7 @@ int EntityLiving::update() {
 	return OPERATOR_SUCCESS;
 }
 
-SLObject* EntityLiving::print() const { return NULL; }
+int EntityLiving::print() const { return OPERATOR_SUCCESS; }
 
 bool EntityLiving::canBeAttacked() const { return true; }
 

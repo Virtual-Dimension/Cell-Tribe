@@ -1,13 +1,16 @@
 #pragma once
-#include "MapController.h"
+
+class MapController;
 
 class EventController{
 public:
-	EventController(const MapController*);
+	EventController(MapController*);
 	~EventController();
 	void update();
+	void close();
+	void open();
 private:
-	const MapController* mapController;
+	MapController* mapController;
 	
 };
 

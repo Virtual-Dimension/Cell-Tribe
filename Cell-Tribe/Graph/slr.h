@@ -1,6 +1,7 @@
 #pragma once
-#include "sl.h"
+
 #include "../game.h"
+#include "sl.h"
 
 #pragma warning( disable : 4244 )
 #pragma warning( disable : 26451 )

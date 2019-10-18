@@ -13,19 +13,6 @@ EntityPlayerTribe::EntityPlayerTribe() :
 	health = 5;
 }
 
-EntityPlayerTribe::EntityPlayerTribe(const std::string& name) :
-	EntityLiving(),
-	cellsMax(0), energyMax(0), energy(0), status(STATUS_WAIT),
-	genePoints(0), playerName(name), evolutionController(0) {
-	healthMax = 0;
-	moveRange = 0;
-	attackRange = 0;
-	moveSpeed = 0;
-
-	health = 5;
-	addCells(1);
-}
-
 EntityPlayerTribe::EntityPlayerTribe(const std::string& name, EvolutionController* evolutioncontroller) : EntityLiving(),
 energyMax(0), energy(0), status(STATUS_WAIT),
 genePoints(0), playerName(name), evolutionController(evolutioncontroller) {
@@ -152,5 +139,9 @@ int EntityPlayerTribe::interact1(Entity* entity) {
 		this->attack((EntityLiving*)entity);
 		return ENTITY_ATTACKED;
 	}
+	return OPERATOR_SUCCESS;
+}
+
+int EntityPlayerTribe::print() const {
 	return OPERATOR_SUCCESS;
 }

@@ -15,12 +15,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="game.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="MapController.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="Entity\Entity.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
@@ -33,13 +27,7 @@
     <ClCompile Include="Entity\EntityItem.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="EventController.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="Entity\EntityEnergy.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="EvolutionController.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="Json\cJSON.c">
@@ -48,14 +36,20 @@
     <ClCompile Include="Json\CJsonObject.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="EventController.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="EvolutionController.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="game.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="MapController.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="MapController.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="game.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="Entity\Entity.h">
       <Filter>头文件</Filter>
     </ClInclude>
@@ -68,13 +62,7 @@
     <ClInclude Include="Entity\EntityItem.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="EventController.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="Entity\EntityEnergy.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="EvolutionController.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="Json\cJSON.h">
@@ -87,6 +75,18 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="Graph\slr.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="EventController.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="EvolutionController.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="game.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="MapController.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

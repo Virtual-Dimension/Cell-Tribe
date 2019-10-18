@@ -1,7 +1,9 @@
 #include "MapController.h"
+#include "EventController.h"
 #include "Entity/Entity.h"
 
-MapController::MapController(const double& bx, const double& by, const double& ex, const double& ey) : entityList(), mapBeginX(bx), mapBeginY(by), mapEndX(ex), mapEndY(ey) {}
+MapController::MapController(const double& bx, const double& by, const double& ex, const double& ey)
+	: entityList(), mapBeginX(bx), mapBeginY(by), mapEndX(ex), mapEndY(ey) {}
 
 MapController::~MapController() {}
 
@@ -11,19 +13,31 @@ int MapController::push(Entity* entity) {
 	return OPERATOR_SUCCESS;
 }
 
-int MapController::update() {
-	std::vector < Entity* > nxt;
-	for (const auto& e : entityList)
-		if (!beyond(e->getPoint()) && !e->getDeath()) nxt.push_back(e);
-	entityList = nxt;
-	// main function
-	for (const auto& e : entityList) { e->update(); }
-
-	// print
-	return 0;
+int MapController::push(EventController* eventController) {
+	ecList.push_back(eventController);
+	return OPERATOR_SUCCESS;
 }
 
-std::vector < Entity* > MapController::get(const Point& p) const {
+void MapController::update(double dt) {
+	for (const auto& e : ecList) e->update();
+
+	std::vector < Entity* > nxt;
+	for (const auto& e : entityList) {
+		if (!e->getDeath()) {
+			nxt.push_back(e);
+		}
+		else {
+			delete e;
+		}
+	}
+	entityList.swap(nxt);
+
+	for (const auto& e : entityList) e->update();
+
+	return;
+}
+
+std::vector < Entity* > MapController::get(const Point& p)const {
 	std::vector < Entity* > res;
 	for (const auto& e : entityList)
 		if (e->inRange(p)) res.push_back(e);
@@ -54,6 +68,15 @@ int MapController::erase(const size_t& i) {
 	if (i > entityList.size()) return OPERATOR_FAILED;
 	entityList.erase(entityList.begin() + i);
 	return OPERATOR_SUCCESS;
+}
+
+int MapController::erase(EventController* eventController) {
+	for (std::vector < EventController* >::iterator e = ecList.begin(); e != ecList.end(); e++)
+		if ((*e) == eventController) {
+			ecList.erase(e);
+			return OPERATOR_SUCCESS;
+		}
+	return OPERATOR_FAILED;
 }
 
 bool MapController::exist(Entity* entity) {

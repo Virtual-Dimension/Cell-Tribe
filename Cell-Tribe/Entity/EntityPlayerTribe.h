@@ -11,7 +11,6 @@ struct Effect;
 class EntityPlayerTribe final : public EntityLiving {
 public:
 	EntityPlayerTribe();
-	EntityPlayerTribe(const std::string&);
 	EntityPlayerTribe(const std::string&, EvolutionController*);
 	~EntityPlayerTribe();
 
@@ -28,6 +27,7 @@ protected:
 	virtual int attack(EntityLiving*) override;
 	virtual int inRange(const Point&) const override;
 	virtual int interact1(Entity*) override;
+	virtual int print() const override;
 private:
 	int status;
 	int energyMax, energy, cellsMax;

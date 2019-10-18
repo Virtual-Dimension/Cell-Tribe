@@ -1,6 +1,5 @@
 #pragma once
 #include "game.h"
-#include "Entity/EntityPlayerTribe.h"
 
 struct Effect {
 	int    energyMax;

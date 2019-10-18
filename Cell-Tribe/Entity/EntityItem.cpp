@@ -3,8 +3,12 @@
 EntityItem::EntityItem() {}
 
 int EntityItem::update() {
-	// print
-	return 0;
+	return OPERATOR_SUCCESS;
+}
+
+int EntityItem::print() const{
+	// API
+	return OPERATOR_SUCCESS;
 }
 
 EntityItem::~EntityItem() {}

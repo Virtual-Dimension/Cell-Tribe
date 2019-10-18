@@ -8,35 +8,34 @@
 
 #pragma endregion
 
+MapController* mapController;
+EventController* eventController;
 
-int main() {
-	//SL::StartThread(WINDOW_WIDTH, WINDOW_HEIGHT);
-
+void InitGame() {
 	Entity* player1, * player2;
-	MapController* mapController;
-	EventController* eventController;
-	EvolutionController* evolutionController1;
-	EvolutionController* evolutionController2;
-	evolutionController1= new EvolutionController("evolution.json");
-	evolutionController2= new EvolutionController("evolution.json");
+	EvolutionController*  evolutionController1= new EvolutionController("evolution.json");
+	EvolutionController*  evolutionController2= new EvolutionController("evolution.json");
 
-	
 	player1 = new EntityPlayerTribe("Player1", evolutionController1);
-	player2 = new EntityPlayerTribe("Player2", evolutionController2);
 
+	player2 = new EntityPlayerTribe("Player2", evolutionController2);
 
 	mapController = new MapController(MAP_BEGIN_X, MAP_BEGIN_Y, MAP_END_X, MAP_END_Y);
 
 	player1->respawn(mapController);
+
 	player2->respawn(mapController);
 
 	eventController = new EventController(mapController);
 
-	while (true) {
-		mapController->update();
-		eventController->update();
-	}
-	printf("player1 : %d, player2 : %d", player1->getDeath(), player2->getDeath());
+	return;
+}
+
+int main() {
+	InitGame();
+
+	//SL::StartThread(WINDOW_WIDTH, WINDOW_HEIGHT);
+
 
 	//EntityPlayerTribe a;
 

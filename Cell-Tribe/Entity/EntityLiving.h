@@ -6,7 +6,6 @@ public:
 	EntityLiving();
 	~EntityLiving();
 	virtual int update() override final;
-	virtual SLObject* print() const override;
 	virtual bool canBeAttacked() const override final;
 	virtual int beAttacked(EntityLiving*, const double&) override;
 	virtual void heal(const LL&);
@@ -17,4 +16,5 @@ protected:
 	virtual int attack(EntityLiving*);
 	virtual int move(const Point&);
 	virtual int interact1(Entity*);
+	virtual int print() const override;
 };

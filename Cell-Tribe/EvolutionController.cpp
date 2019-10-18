@@ -1,6 +1,5 @@
 #include "EvolutionController.h"
 
-
 Effect jsonToEvolutionEffect(neb::CJsonObject& effect) {
 	Effect newEffect;
 	memset(&newEffect, 0, sizeof(newEffect));

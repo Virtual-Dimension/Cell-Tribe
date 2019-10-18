@@ -1,10 +1,15 @@
 #include "EventController.h"
+#include "MapController.h"
 
-EventController::EventController(const MapController* mapcontroller) : mapController(mapcontroller) {}
+EventController::EventController(MapController* mapcontroller) : mapController(mapcontroller) {}
 
-EventController::~EventController(){}
+EventController::~EventController() {}
 
-void EventController::update(){
+void EventController::update() {
 	// write down your function
 	return;
 }
+
+void EventController::close() { mapController->erase(this); }
+
+void EventController::open() { mapController->push(this); }
