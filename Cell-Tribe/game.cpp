@@ -2,23 +2,28 @@
 #pragma region Header
 
 #include "EventController.h"
+#include "EvolutionController.h"
 #include "MapController.h"
-#include "Graph/slr.h"
 #include "Entity/EntityPlayerTribe.h"
 
 #pragma endregion
 
-Entity* player1, * player2;
-MapController* mapController;
-EventController* eventController;
 
 int main() {
+	//SL::StartThread(WINDOW_WIDTH, WINDOW_HEIGHT);
 
-	player1 = new EntityPlayerTribe("Player1");
-	player2 = new EntityPlayerTribe("Player2");
+	Entity* player1, * player2;
+	MapController* mapController;
+	EventController* eventController;
+	EvolutionController* evolutionController1;
+	EvolutionController* evolutionController2;
+	evolutionController1= new EvolutionController("evolution.json");
+	evolutionController2= new EvolutionController("evolution.json");
 
-	((EntityPlayerTribe*)player1)->addCells(5);
-	((EntityPlayerTribe*)player2)->addCells(5);
+	
+	player1 = new EntityPlayerTribe("Player1", evolutionController1);
+	player2 = new EntityPlayerTribe("Player2", evolutionController2);
+
 
 	mapController = new MapController(MAP_BEGIN_X, MAP_BEGIN_Y, MAP_END_X, MAP_END_Y);
 

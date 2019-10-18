@@ -1,7 +1,5 @@
 #pragma once
 #include "EntityLiving.h"
-#include "EntityItem.h"
-#include "../EvolutionController.h"
 
 constexpr int STATUS_WAIT = 0;
 constexpr int STATUS_ATTACK = 1;
@@ -22,6 +20,7 @@ public:
 	void addEnergyMax(const int&);
 	std::string getPlayerName() const;
 	int beEffected(const Effect&);
+	virtual bool isPlayer() const override final;
 
 protected:
 	virtual int behavior() override;

@@ -23,6 +23,10 @@
 #define SEHEXCEPT __except (1) { char buf[32];sprintf(buf,"ERROR: 0X%X", GetExceptionCode());MessageBoxA(0,buf,"",MB_ICONERROR);}
 typedef long long LL;
 
+constexpr int WINDOW_WIDTH = 500;
+constexpr int WINDOW_HEIGHT = 500;
+
+
 constexpr int OPERATOR_SUCCESS = 0;
 constexpr int OPERATOR_FAILED = -1;
 

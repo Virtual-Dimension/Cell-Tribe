@@ -1,6 +1,5 @@
 #include "EntityEnergy.h"
-#include <cstdlib>
-#include <ctime>
+#include "../MapController.h"
 
 EntityEnergy::EntityEnergy() : EnergyNum(0) {}
 

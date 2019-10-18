@@ -19,12 +19,8 @@ class SLObject {
 public:
 	virtual void draw() {}
 	virtual void update(double dt) {}
-	virtual void attach() {
-		SL::AddObject(this);
-	}
-	virtual void detach() {
-		SL::RemoveObject(this);
-	}
+	virtual void attach() { SL::AddObject(this); }
+	virtual void detach() { SL::RemoveObject(this); }
 };
 
 struct Line {

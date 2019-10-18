@@ -1,5 +1,5 @@
-#include "Entity.h"
 #include "EntityLiving.h"
+#include "../MapController.h"
 
 Entity::Entity() : death(0), show(0), health(0), mapController(0) {}
 
@@ -53,3 +53,5 @@ int Entity::respawn(MapController* mapcontroller) {
 	setShow(mapcontroller, 1);
 	return OPERATOR_SUCCESS;
 }
+
+bool Entity::isPlayer() const { return false; }

@@ -39,7 +39,7 @@ void EvolutionController::initEvolutionJson(const char* path) {
 		fclose(f);
 		json = neb::CJsonObject(res);
 		if (got) delete got;
-		got = new int[json["evolutinos"].GetArraySize() + 1]();
+		got = new int[int(json["evolutinos"].GetArraySize() + 1)]();
 	}
 	return;
 }

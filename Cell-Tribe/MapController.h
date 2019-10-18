@@ -1,7 +1,6 @@
 #pragma once
 
 #include "game.h"
-#include "Entity/Entity.h"
 
 class Entity;
 

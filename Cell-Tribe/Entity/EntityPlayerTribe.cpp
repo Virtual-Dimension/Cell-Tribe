@@ -1,4 +1,5 @@
 #include "EntityPlayerTribe.h"
+#include "../EvolutionController.h"
 
 EntityPlayerTribe::EntityPlayerTribe() :
 	EntityLiving(),
@@ -22,6 +23,7 @@ EntityPlayerTribe::EntityPlayerTribe(const std::string& name) :
 	moveSpeed = 0;
 
 	health = 5;
+	addCells(1);
 }
 
 EntityPlayerTribe::EntityPlayerTribe(const std::string& name, EvolutionController* evolutioncontroller) : EntityLiving(),
@@ -35,6 +37,7 @@ genePoints(0), playerName(name), evolutionController(evolutioncontroller) {
 	health = 5;
 	evolutionController->gotEvolution(0);
 	beEffected(evolutionController->getEvolutionEffect(0));
+	addCells(1);
 }
 
 EntityPlayerTribe::~EntityPlayerTribe() {}
@@ -64,6 +67,8 @@ int EntityPlayerTribe::beEffected(const Effect& effect) {
 	return OPERATOR_SUCCESS;
 }
 
+bool EntityPlayerTribe::isPlayer() const { return true; }
+
 int EntityPlayerTribe::move(const Point& p) {
 	// API
 	return OPERATOR_SUCCESS;
@@ -77,6 +82,7 @@ int EntityPlayerTribe::behavior() {
 	}
 	printf("I am %s\n", playerName.c_str());
 
+	/*
 	std::string opt;
 	while (true) {
 		printf("now status: %d\n", status);
@@ -120,7 +126,7 @@ int EntityPlayerTribe::behavior() {
 		if (opt == "exit") {
 			break;
 		}
-	}
+	}*/
 
 	return OPERATOR_SUCCESS;
 }

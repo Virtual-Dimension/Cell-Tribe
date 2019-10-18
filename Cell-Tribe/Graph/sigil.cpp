@@ -11,10 +11,6 @@ using namespace std;
 #pragma warning( disable : 26451 )
 #pragma warning( disable : 6031 )
 
-double random(double l, double r) {
-	return ((double)rand() / RAND_MAX) * (r - l) + l;
-}
-
 const int WINDOW_WIDTH = 700;
 const int WINDOW_HEIGHT = 600;
 double moveTowards(double current, double target, double step) {

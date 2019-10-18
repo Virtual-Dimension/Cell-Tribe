@@ -1,4 +1,5 @@
 #include "MapController.h"
+#include "Entity/Entity.h"
 
 MapController::MapController(const double& bx, const double& by, const double& ex, const double& ey) : entityList(), mapBeginX(bx), mapBeginY(by), mapEndX(ex), mapEndY(ey) {}
 
