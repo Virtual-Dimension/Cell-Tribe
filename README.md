@@ -40,3 +40,5 @@ If you want to join the project for long-term cooperation, please contact any of
 - [@Xciyang](https://github.com/Xciyang)
 - [@pxltq](https://github.com/ColorfulMist)
 - [@victor12369](https://github.com/victor12369)
+- [@ArachnidaKing](https://github.com/ArachnidaKing)
+
