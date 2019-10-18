@@ -275,3 +275,91 @@ public:
 		}
 	}
 };
+
+
+
+class SLDynamicPoint :public SLObject {
+	SLCircle c;
+	Bezier3 bzr;
+	double now;
+public:
+	SLDynamicPoint() :c(Point(), 0, 0, SLColor(), SLColor()), now(1) {}
+	SLDynamicPoint(const Point& p, double r, int num, const SLColor& col) :c(p, r, num, col, col), now(1) {}
+	void SetGoal(const Point& p) {
+		bzr.SetSE(c.p, p);
+		bzr.rand();
+		now = 0;
+	}
+	void ChangeGoal(const Point& p) {
+		bzr.SetSE(bzr.GetS(), p);
+	}
+	double GetNow() {
+		return now;
+	}
+	Point GetGoal() {
+		return bzr.GetE();
+	}
+	Point GetPos() {
+		return c.p;
+	}
+	void move(double len) {
+		now += len / (bzr.GetE() - bzr.GetS()).len();
+		now = min(now, 1);
+		c.p = bzr.GetPoint(now);
+	}
+	virtual void draw() override {
+		return c.draw();
+	}
+};
+
+class SLDynamicPointGroup :public SLObject {
+	list<SLDynamicPoint*>lp;
+	bool flag_static;
+	Point pos_static;
+public:
+	double move_speed, static_speed;
+public:
+	SLDynamicPointGroup() :move_speed(0), static_speed(0), flag_static(0) {}
+	void AddPoint(SLDynamicPoint* p) {
+		lp.push_back(p);
+	}
+	void RemovePoint(SLDynamicPoint* p) {
+		lp.remove(p);
+	}
+	void move(const Point& mp) {
+		flag_static = 0;
+		pos_static = mp;
+		for (auto p : lp) p->SetGoal(RandCirclePoint(mp, 20));
+	}
+	void spread() {
+		flag_static = 0;
+		for (auto& p : lp)
+			p->SetGoal(RandCirclePoint(p->GetPos(), 500));
+	}
+public:
+	virtual void draw() override {
+		for (auto p : lp)
+			p->draw();
+	}
+	virtual void update(double t) override {
+		if (flag_static) {
+			for (auto& p : lp)
+				if (p->GetNow() == 1)
+					p->SetGoal(RandCirclePoint(p->GetPos(), 20));
+				else if ((p->GetPos() - pos_static).len() > 50)
+					p->SetGoal(pos_static);
+		} else {
+			double pj = 0;
+			for (auto p : lp)
+				pj += p->GetNow();
+			pj /= lp.size();
+			if (pj > 0.95) {
+				flag_static = 1;
+			}
+		}
+		if (flag_static)
+			for (auto p : lp) p->move(static_speed * t);
+		else
+			for (auto p : lp) p->move(move_speed * t);
+	}
+};
