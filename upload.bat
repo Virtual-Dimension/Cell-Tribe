@@ -1,5 +1,7 @@
 git fetch origin graph
 
+git checkout graph
+
 git add .
 
 git status
