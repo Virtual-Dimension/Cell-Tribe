@@ -35,13 +35,13 @@ Point Entity::getPoint() const { return point; }
 
 int Entity::inRange(const Point& p) const { return inRange(p, 1); }
 
-int Entity::inRange(const Point& p, const double& dis) const { return (point - p).len < dis; }
+int Entity::inRange(const Point& p, const double& dis) const { return (point - p).len() < dis; }
 
 
 
 bool Entity::canBeAttacked() const { return false; }
 
-int Entity::beAttacked(EntityLiving* other, const LL& damage) { return OPERATOR_SUCCESS; }
+int Entity::beAttacked(EntityLiving* other, const double& damage) { return OPERATOR_SUCCESS; }
 
 bool Entity::canBeUsed() const { return false; }
 

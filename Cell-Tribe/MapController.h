@@ -2,7 +2,6 @@
 
 #include "game.h"
 #include "Entity/Entity.h"
-#include <vector>
 
 class Entity;
 
@@ -13,6 +12,7 @@ public:
 	MapController(const double&, const double&, const double&, const double&);
 	~MapController();
 	int push(Entity*);
+	int update();
 	std::vector < Entity* > get(const Point&) const;
 	std::vector < Entity* > get(const Point&, const double&) const;
 	const std::vector < Entity* >& getList() const;

@@ -1,10 +1,10 @@
 #include "EvolutionController.h"
 
 
-Evolution jsonToEvolution(neb::CJsonObject& effect) {
-	Evolution newEvolution;
-	memset(&newEvolution, 0, sizeof(newEvolution));
-#define addval(str) (effect.Get(#str, newEvolution.str))
+Effect jsonToEvolutionEffect(neb::CJsonObject& effect) {
+	Effect newEffect;
+	memset(&newEffect, 0, sizeof(newEffect));
+#define addval(str) (effect.Get(#str, newEffect.str))
 	addval(atk);
 	addval(attackRange);
 	addval(cellsMax);
@@ -12,28 +12,58 @@ Evolution jsonToEvolution(neb::CJsonObject& effect) {
 	addval(healthMax);
 	addval(moveRange);
 	addval(moveSpeed);
-#undef getval
+#undef addval
+	return newEffect;
+}
+
+Evolution jsonToEvolution(neb::CJsonObject& evolution, int id = 0) {
+	Evolution newEvolution;
+#define addval(str) (evolution.Get(#str, newEvolution.str))
+	addval(name);
+	addval(describe);
+#undef addval
+	newEvolution.id = id;
 	return newEvolution;
 }
 
-EvolutionController::EvolutionController() : json() {}
+EvolutionController::EvolutionController() : json(), got(0) {}
 
-EvolutionController::EvolutionController(const char* path) : json() { setEvolutionJson(path); }
+EvolutionController::EvolutionController(const char* path) : json(), got(0) { initEvolutionJson(path); }
 
-void EvolutionController::setEvolutionJson(const char* path) {
+void EvolutionController::initEvolutionJson(const char* path) {
 	char* res = new char[1024 * 32]();
-	FILE* f = fopen(path, "r");
+	FILE* f = 0;
+	fopen_s(&f, path, "r");
 	if (f) {
 		res[fread(res, 1, 1024 * 32, f)] = 0;
 		fclose(f);
 		json = neb::CJsonObject(res);
-		// unfinished
+		if (got) delete got;
+		got = new int[json["evolutinos"].GetArraySize() + 1]();
 	}
 	return;
 }
 
-Evolution EvolutionController::getEvolution(const int& x) {
-	return jsonToEvolution(json["evolutinos"][x]);
+void EvolutionController::gotEvolution(const int& x) { got[x] = 1; }
+
+void EvolutionController::getEvolutions(std::vector<Evolution>* gotList, std::vector<Evolution>* canGotList) {
+	if (!gotList && !canGotList) return;
+	int len = json["evolutinos"].GetArraySize();
+	for (int i = 0; i < len; i++) {
+		if (got[i]) {
+			if (gotList) gotList->push_back(jsonToEvolution(json["evolutinos"][i], i));
+		}
+		else if (canGotList) {
+			int len2 = json["evolutinos"][i]["fa"].GetArraySize(), flag = 1;
+			for (int j = 0, x = 0; j < len2 && flag; j++) {
+				json["evolutinos"][i]["fa"].Get(j, x);
+				if (!got[x]) flag = 0;
+			}
+			if (flag) canGotList->push_back(jsonToEvolution(json["evolutinos"][i], i));
+		}
+	}
 }
+
+Effect EvolutionController::getEvolutionEffect(const int& x) { return jsonToEvolutionEffect(json["evolutinos"][x]["effect"]); }
 
 EvolutionController::~EvolutionController() {}

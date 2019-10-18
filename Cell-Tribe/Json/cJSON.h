@@ -20,7 +20,6 @@
 #ifndef cJSON__h
 #define cJSON__h
 
-
 typedef int int32;
 typedef unsigned int uint32;
 typedef long long int64;

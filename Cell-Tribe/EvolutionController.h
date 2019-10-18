@@ -1,9 +1,8 @@
 #pragma once
+#include "game.h"
 #include "Entity/EntityPlayerTribe.h"
-#include "Json/CJsonObject.h"
-#include <vector>
 
-struct Evolution {
+struct Effect {
 	int    energyMax;
 	int    cellsMax;
 
@@ -14,13 +13,22 @@ struct Evolution {
 	double moveSpeed;
 };
 
+struct Evolution {
+	int id;
+	std::string name;
+	std::string describe;
+};
+
 class EvolutionController {
 private:
 	neb::CJsonObject json;
+	int* got;
 public:
 	EvolutionController();
 	EvolutionController(const char*);
-	void setEvolutionJson(const char*);
-	Evolution getEvolution(const int&);
+	void initEvolutionJson(const char*);
+	void gotEvolution(const int&);
+	void getEvolutions(std::vector< Evolution>*, std::vector< Evolution>*);
+	Effect getEvolutionEffect(const int&);
 	~EvolutionController();
 };

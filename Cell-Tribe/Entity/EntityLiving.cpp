@@ -19,7 +19,7 @@ int EntityLiving::print() const { return 0; }
 
 bool EntityLiving::canBeAttacked() const { return true; }
 
-int EntityLiving::beAttacked(EntityLiving* other, const LL& damage) {
+int EntityLiving::beAttacked(EntityLiving* other, const double& damage) {
 	health -= damage;
 	if (health <= 0) setDeath();
 	return OPERATOR_SUCCESS;

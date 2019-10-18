@@ -15,6 +15,9 @@
 #include <algorithm>
 #include <string>
 #include <random>
+
+#include "Json/CJsonObject.h"
+
 #define SEHTRY __try
 #define SEHEXCEPT __except (1) { char buf[32];sprintf(buf,"ERROR: 0X%X", GetExceptionCode());MessageBoxA(0,buf,"",MB_ICONERROR);}
 typedef long long LL;

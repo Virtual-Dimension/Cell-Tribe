@@ -14,7 +14,7 @@ EntityPlayerTribe::EntityPlayerTribe() :
 
 EntityPlayerTribe::EntityPlayerTribe(const std::string& name) :
 	EntityLiving(),
-	energyMax(0), energy(0), status(STATUS_WAIT),
+	cellsMax(0), energyMax(0), energy(0), status(STATUS_WAIT),
 	genePoints(0), playerName(name), evolutionController(0) {
 	healthMax = 0;
 	moveRange = 0;
@@ -24,23 +24,25 @@ EntityPlayerTribe::EntityPlayerTribe(const std::string& name) :
 	health = 5;
 }
 
-EntityPlayerTribe::EntityPlayerTribe(const std::string& name, EvolutionController* evolutionController) : EntityLiving(),
+EntityPlayerTribe::EntityPlayerTribe(const std::string& name, EvolutionController* evolutioncontroller) : EntityLiving(),
 energyMax(0), energy(0), status(STATUS_WAIT),
-genePoints(0), playerName(name) {
+genePoints(0), playerName(name), evolutionController(evolutioncontroller) {
 	healthMax = 0;
 	moveRange = 0;
 	attackRange = 0;
 	moveSpeed = 0;
 
 	health = 5;
-	beEffectedByEvolution(evolutionController->getEvolution(0));
+	evolutionController->gotEvolution(0);
+	beEffected(evolutionController->getEvolutionEffect(0));
 }
 
 EntityPlayerTribe::~EntityPlayerTribe() {}
 
 int EntityPlayerTribe::addCells(const int& val) {
-	for (int i = 0; i < val; i++) cellsPoint.push_back(Point(0, 0));
-	return;
+	int addval = std::min(val, cellsMax - (int)cellsPoint.size());
+	for (int i = 0; i < addval; i++) cellsPoint.push_back(Point(0, 0));
+	return addval <= 0 ? OPERATOR_FAILED : OPERATOR_SUCCESS;
 }
 
 void EntityPlayerTribe::addStrength(const int& val) { atk += val; }
@@ -49,8 +51,8 @@ void EntityPlayerTribe::addEnergyMax(const int& val) { energyMax += val; }
 
 std::string EntityPlayerTribe::getPlayerName() const { return playerName; }
 
-void EntityPlayerTribe::beEffectedByEvolution(const Evolution& evolution) {
-#define addval(str) (this->str+= evolution.str)
+int EntityPlayerTribe::beEffected(const Effect& effect) {
+#define addval(str) (this->str+= effect.str)
 	addval(atk);
 	addval(attackRange);
 	addval(cellsMax);
@@ -59,7 +61,7 @@ void EntityPlayerTribe::beEffectedByEvolution(const Evolution& evolution) {
 	addval(moveRange);
 	addval(moveSpeed);
 #undef addval
-	return;
+	return OPERATOR_SUCCESS;
 }
 
 int EntityPlayerTribe::move(const Point& p) {

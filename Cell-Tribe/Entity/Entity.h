@@ -23,7 +23,7 @@ public:
 	virtual int inRange(const Point&) const;
 	virtual int inRange(const Point&, const double&) const;
 	virtual bool canBeAttacked() const;
-	virtual int beAttacked(EntityLiving*, const LL&);
+	virtual int beAttacked(EntityLiving*, const double&);
 	virtual bool canBeUsed() const;
 	virtual int beUsed(EntityLiving*);
 	virtual int respawn(MapController*);

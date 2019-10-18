@@ -10,6 +10,18 @@ int MapController::push(Entity* entity) {
 	return OPERATOR_SUCCESS;
 }
 
+int MapController::update() {
+	std::vector < Entity* > nxt;
+	for (const auto& e : entityList)
+		if (!beyond(e->getPoint()) && !e->getDeath()) nxt.push_back(e);
+	entityList = nxt;
+	// main function
+	for (const auto& e : entityList) { e->update(); }
+
+	// print
+	return 0;
+}
+
 std::vector < Entity* > MapController::get(const Point& p) const {
 	std::vector < Entity* > res;
 	for (const auto& e : entityList)
@@ -17,7 +29,7 @@ std::vector < Entity* > MapController::get(const Point& p) const {
 	return res;
 }
 
-std::vector<Entity*> MapController::get(const Point& p, const double& dis) const{
+std::vector<Entity*> MapController::get(const Point& p, const double& dis) const {
 	std::vector < Entity* > res;
 	for (const auto& e : entityList)
 		if (e->inRange(p, dis)) res.push_back(e);

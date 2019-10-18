@@ -20,6 +20,10 @@
  /* cJSON */
  /* JSON parser in C. */
 #define _CRT_SECURE_NO_WARNINGS
+#pragma warning( disable : 4267 )
+#pragma warning( disable : 26451 )
+#pragma warning( disable : 6031 )
+
 #include <string.h>
 #include <stdio.h>
 #include <math.h>

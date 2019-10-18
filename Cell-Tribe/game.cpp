@@ -27,11 +27,7 @@ int main() {
 	eventController = new EventController(mapController);
 
 	while (true) {
-		int flag = 0;
-		std::cout << "Player1:" << std::endl;
-		if (player1->update() == ENTITY_DEAD || player2->update() == ENTITY_DEAD) {
-			break;
-		}
+		mapController->update();
 		eventController->update();
 	}
 	printf("player1 : %d, player2 : %d", player1->getDeath(), player2->getDeath());
