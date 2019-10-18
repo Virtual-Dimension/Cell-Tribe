@@ -15,7 +15,8 @@
 #include <algorithm>
 #include <string>
 #include <random>
-
+#include <mutex>
+#include <thread>
 #include "Json/CJsonObject.h"
 
 #define SEHTRY __try
@@ -45,4 +46,7 @@ struct Point {
 	double operator * (const Point& v)const { return x * v.x + y * v.y; }
 	double operator ^ (const Point& v) const { return x * v.y - y * v.x; }
 	double len() { return sqrt(x * x + y * y); }
+	Point rotate(double a) { return Point(x * cos(a) - y * sin(a), x * sin(a) + y * cos(a)); }
 };
+
+const double PI = 3.1415926535897932384626433832795;

@@ -83,5 +83,11 @@
     <ClInclude Include="Json\CJsonObject.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="Graph\sl.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Graph\slr.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

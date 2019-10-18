@@ -3,8 +3,8 @@
 
 #include "EventController.h"
 #include "MapController.h"
+#include "Graph/slr.h"
 #include "Entity/EntityPlayerTribe.h"
-#include "game.h"
 
 #pragma endregion
 
@@ -13,6 +13,7 @@ MapController* mapController;
 EventController* eventController;
 
 int main() {
+
 	player1 = new EntityPlayerTribe("Player1");
 	player2 = new EntityPlayerTribe("Player2");
 
