@@ -38,6 +38,8 @@ constexpr double MAP_END_Y = 500;
 struct Point {
 	double x, y;
 	Point(double x = 0, double y = 0) :x(x), y(y) {}
+	bool operator == (const Point& p) const { return abs(x - p.x) < 1e-9 && abs(x - p.x) < 1e-9; }
+	bool operator != (const Point& p) const { return abs(x - p.x) > 1e-9 || abs(x - p.x) > 1e-9; }
 	bool operator < (const Point& p) { return x = p.x ? y < p.y : x < p.x; }
 	Point operator + (const Point& p)const { return Point(x + p.x, y + p.y); }
 	Point operator - (const Point& p)const { return Point(x - p.x, y - p.y); }

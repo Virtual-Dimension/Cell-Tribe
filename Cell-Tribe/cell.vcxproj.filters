@@ -48,6 +48,9 @@
     <ClCompile Include="MapController.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="Graph\slr.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Entity\Entity.h">
@@ -89,5 +92,11 @@
     <ClInclude Include="MapController.h">
       <Filter>头文件</Filter>
     </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Graph\sigil.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="Graph\sigil.lib" />
   </ItemGroup>
 </Project>
