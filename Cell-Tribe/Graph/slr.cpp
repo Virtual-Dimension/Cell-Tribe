@@ -358,6 +358,9 @@ void SLDynamicPointGroup::spread() {
 	for (auto& p : lp)
 		p->SetGoal(RandCirclePoint(p->GetPos(), 500));
 }
+bool SLDynamicPointGroup::IsStatic() {
+	return flag_static;
+}
 void SLDynamicPointGroup::update(double dt) {
 	for (auto p : lp)
 		p->update(dt);

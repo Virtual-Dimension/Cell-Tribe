@@ -146,6 +146,7 @@ public:
 	void RemovePoint(SLDynamicPoint* p);
 	void move(const Point& mp);
 	void spread();
+	bool IsStatic();
 public:
 	virtual void update(double t) override;
 };
