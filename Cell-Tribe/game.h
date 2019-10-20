@@ -30,10 +30,10 @@ constexpr int WINDOW_HEIGHT = 500;
 constexpr int OPERATOR_SUCCESS = 0;
 constexpr int OPERATOR_FAILED = -1;
 
-constexpr double MAP_BEGIN_X = -500;
-constexpr double MAP_BEGIN_Y = -500;
-constexpr double MAP_END_X = 500;
-constexpr double MAP_END_Y = 500;
+constexpr double MAP_BEGIN_X = -3000;
+constexpr double MAP_BEGIN_Y = -3000;
+constexpr double MAP_END_X = 3000;
+constexpr double MAP_END_Y = 3000;
 
 struct Point {
 	double x, y;

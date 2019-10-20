@@ -1,6 +1,8 @@
 #pragma once
 #include "../game.h"
 
+constexpr int ENTITY_MOVING = -6;
+constexpr int ENTITY_MOVEOUT = -5;
 constexpr int ENTITY_BEYOND = -4;
 constexpr int ENTITY_EXIST = -3;
 constexpr int ENTITY_DEAD = -2;

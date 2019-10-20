@@ -4,7 +4,7 @@
 #include "../MapController.h"
 
 EntityPlayerTribe::EntityPlayerTribe() :
-	EntityLiving(), cellsMax(0), energyMax(0), energy(0), cellRadius(0), status(STATUS_WAIT), genePoints(0),
+	EntityLiving(), cellsMax(0), energyMax(0), energy(0), regeneration(0), cellRadius(0), status(STATUS_WAIT), genePoints(0),
 	playerName("Player"), evolutionController(0) {
 	healthMax = 0;
 	moveRange = 0;
@@ -15,7 +15,7 @@ EntityPlayerTribe::EntityPlayerTribe() :
 }
 
 EntityPlayerTribe::EntityPlayerTribe(const std::string& name, EvolutionController* evolutioncontroller) :
-	EntityLiving(), energyMax(0), energy(0), cellRadius(0), status(STATUS_WAIT), genePoints(0),
+	EntityLiving(), cellsMax(0), energyMax(0), energy(0), cellRadius(0), regeneration(0), status(STATUS_WAIT), genePoints(0),
 	playerName(name), evolutionController(evolutioncontroller) {
 	healthMax = 0;
 	moveRange = 0;
@@ -37,6 +37,7 @@ int EntityPlayerTribe::addCells(const int& val) {
 		cellsPoint.push_back(newSLDynamicPoint);
 		if (slObject) ((SLDynamicPointGroup*)slObject)->AddPoint(newSLDynamicPoint);
 	}
+	if (addval && slObject)((SLDynamicPointGroup*)slObject)->move(getPoint());
 	return addval <= 0 ? OPERATOR_FAILED : OPERATOR_SUCCESS;
 }
 
@@ -85,8 +86,16 @@ int EntityPlayerTribe::spawn(MapController* mapController) {
 bool EntityPlayerTribe::isPlayer() const { return true; }
 
 int EntityPlayerTribe::move(const Point& p) {
-	printf("[move] my: [%.2lf, %.2lf] ,moveDis : %.2lf, moveRange : %.2lf\n", getPoint().x, getPoint().y, (p - getPoint()).len(), moveRange);
-	if (getMapController()->beyond(p) || (p - getPoint()).len() > moveRange) return OPERATOR_FAILED;
+	if (!((SLDynamicPointGroup*)slObject)->IsStatic()) {
+		printf("In the way!\n");
+		return ENTITY_MOVING;
+	}
+
+	printf("[move]my:[%.2lf, %.2lf],to:[%.2lf, %.2lf],moveDis:%.2lf\n", getPoint().x, getPoint().y, p.x, p.y, (p - getPoint()).len());
+	if (getMapController()->beyond(p) || (p - getPoint()).len() > moveRange) {
+		printf("Too long!\n");
+		return ENTITY_MOVEOUT;
+	}
 	((SLDynamicPointGroup*)slObject)->move(p);
 	setPoint(p);
 	return OPERATOR_SUCCESS;
@@ -98,10 +107,15 @@ int EntityPlayerTribe::behavior() {
 		health = 0;
 		return ENTITY_DEAD;
 	}
-	//printf("I am %s\n", playerName.c_str());
+	if (((SLDynamicPointGroup*)slObject)->IsStatic() && slGetMouseButton(SL_MOUSE_BUTTON_RIGHT)) {
+		addCells(1);
+	}
 	if (slGetMouseButton(SL_MOUSE_BUTTON_LEFT)) {
 		Point p = SL::GetRelativeMousePos();
 		move(p);
+	}
+	if (((SLDynamicPointGroup*)slObject)->IsStatic()) {
+		SL::CameraMove(getPoint().x + SL::GetCameraOffset().x - WINDOW_WIDTH / 2, getPoint().y + SL::GetCameraOffset().y - WINDOW_HEIGHT / 2);
 	}
 	//move
 	return OPERATOR_SUCCESS;

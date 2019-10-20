@@ -130,6 +130,7 @@
     <ClCompile Include="Entity\EntityLiving.cpp" />
     <ClCompile Include="Entity\EntityPlayerTribe.cpp" />
     <ClCompile Include="Entity\EntityItem.cpp" />
+    <ClCompile Include="Entity\EntityVirus.cpp" />
     <ClCompile Include="EventController.cpp" />
     <ClCompile Include="EvolutionController.cpp" />
     <ClCompile Include="game.cpp" />
@@ -144,6 +145,7 @@
     <ClInclude Include="Entity\EntityLiving.h" />
     <ClInclude Include="Entity\EntityPlayerTribe.h" />
     <ClInclude Include="Entity\EntityItem.h" />
+    <ClInclude Include="Entity\EntityVirus.h" />
     <ClInclude Include="EventController.h" />
     <ClInclude Include="EvolutionController.h" />
     <ClInclude Include="game.h" />

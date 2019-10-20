@@ -25,7 +25,8 @@ void InitGame() {
 
 	eventController = new EventController(mapController);
 
-	SL::CameraMove(player1->getPoint().x, player1->getPoint().y);
+	SL::CameraMove(player1->getPoint().x - WINDOW_WIDTH / 2 , player1->getPoint().y - WINDOW_HEIGHT / 2);
+
 	//SL::CameraMove(100, 100);
 	return;
 }
@@ -37,10 +38,8 @@ int main() {
 
 	while (!SL::IsWindowShowed()) Sleep(1);
 	
-	
 	InitGame();
 
-	//EntityPlayerTribe a;
 	SL::Wait();
 
 	return 0;

@@ -51,6 +51,9 @@
     <ClCompile Include="Graph\slr.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="Entity\EntityVirus.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Entity\Entity.h">
@@ -90,6 +93,9 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="MapController.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Entity\EntityVirus.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
