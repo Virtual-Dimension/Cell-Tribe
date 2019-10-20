@@ -1,13 +1,6 @@
 #pragma once
 #include "sl.h"
 #include "../game.h"
-#include <iostream>
-#include <thread>
-#include <mutex>
-#include <list>
-#include <set>
-#include <cmath>
-#include <algorithm>
 using namespace std;
 class SLObject;
 namespace SL {
@@ -27,17 +20,7 @@ public:
 	virtual void attach();
 	virtual void detach();
 };
-double random(double l, double r);
 
-struct Line {
-	Point p1, p2;
-};
-struct Segment {
-	Point p1, p2;
-};
-struct Ray {
-	Point p1, p2;
-};
 struct SLColor {
 	double r, g, b, a;
 	SLColor(double r = 0, double g = 0, double b = 0, double a = 0);

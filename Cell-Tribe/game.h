@@ -55,4 +55,16 @@ struct Point {
 	Point rotate(double a) { return Point(x * cos(a) - y * sin(a), x * sin(a) + y * cos(a)); }
 };
 
+struct Line {
+	Point p1, p2;
+};
+
+struct Segment {
+	Point p1, p2;
+};
+
+struct Ray {
+	Point p1, p2;
+};
+
 const double PI = 3.1415926535897932384626433832795;

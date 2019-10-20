@@ -1,6 +1,5 @@
 #include "slr.h"
 
-
 void SLObject::draw() {}
 void SLObject::update(double dt) {}
 void SLObject::attach() {
@@ -10,18 +9,12 @@ void SLObject::detach() {
 	SL::RemoveObject(this);
 }
 
-
-
+SLColor::SLColor(double r, double g, double b, double a)
+	:r(r), g(g), b(b), a(a) {}
 
 double random(double l, double r) {
 	return ((double)rand() / RAND_MAX) * (r - l) + l;
 }
-
-
-SLColor::SLColor(double r, double g, double b, double a)
-	:r(r), g(g), b(b), a(a) {}
-
-
 
 double Hue2RGB(double v1, double v2, double vH) {
 	if (vH < 0) vH += 1;
@@ -38,7 +31,8 @@ SLColor HSL2RGB(double H, double S, double L, double A) {
 		R = L * 255.0;
 		G = L * 255.0;
 		B = L * 255.0;
-	} else {
+	}
+	else {
 		if (L < 0.5) var_2 = L * (1 + S);
 		else         var_2 = (L + S) - (S * L);
 
@@ -102,7 +96,7 @@ namespace SL {
 	void SetUpdateCallBack(SLUpdateCallBack f) {
 		update = f;
 	}
-	bool IsWindowShowed(){
+	bool IsWindowShowed() {
 		return window;
 	}
 }
@@ -191,7 +185,8 @@ void SLButton::update(double dt) {
 			rect.color_line = color_line;
 			rect.color_line.a = max(rect.color_line.a - 0.3, 0.1);
 		}
-	} else {
+	}
+	else {
 		if (lbtn && onclick
 			&& mx >= rect.p.x && my >= rect.p.y
 			&& mx <= rect.p.x + rect.w && my <= rect.p.y + rect.h) {
@@ -220,7 +215,8 @@ void Bezier3::rand() {
 		p1 = m + p1 / p1.len() * len1;
 		p2 = (s - e).rotate(PI / 2 * random(0.6, 1.4));
 		p2 = m + p2 / p2.len() * len2;
-	} else {
+	}
+	else {
 		p1 = (s - e).rotate(PI / 2 * random(0.6, 1.4));
 		p1 = m + p1 / p1.len() * len1;
 		p2 = (e - s).rotate(PI / 2 * random(0.6, 1.4));
@@ -297,7 +293,8 @@ void SLDynamicPointGroup::update(double t) {
 				p->SetGoal(RandCirclePoint(p->GetPos(), 20));
 			else if ((p->GetPos() - pos_static).len() > 50)
 				p->SetGoal(pos_static);
-	} else {
+	}
+	else {
 		double pj = 0;
 		for (auto p : lp)
 			pj += p->GetNow();

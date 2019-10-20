@@ -3,9 +3,13 @@
 #include "Entity/Entity.h"
 
 MapController::MapController(const double& bx, const double& by, const double& ex, const double& ey)
-	: entityList(), mapBeginX(bx), mapBeginY(by), mapEndX(ex), mapEndY(ey) {}
+	: entityList(), mapBeginX(bx), mapBeginY(by), mapEndX(ex), mapEndY(ey) {
+	this->attach();
+}
 
-MapController::~MapController() {}
+MapController::~MapController() {
+	this->detach();
+}
 
 int MapController::push(Entity* entity) {
 	if (beyond(entity)) return OPERATOR_FAILED;

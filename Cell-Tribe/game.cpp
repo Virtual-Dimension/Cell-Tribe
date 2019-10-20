@@ -34,7 +34,7 @@ void InitGame() {
 int main() {
 	InitGame();
 
-	//SL::StartThread(WINDOW_WIDTH, WINDOW_HEIGHT);
+	SL::StartThread(WINDOW_WIDTH, WINDOW_HEIGHT);
 
 
 	//EntityPlayerTribe a;
