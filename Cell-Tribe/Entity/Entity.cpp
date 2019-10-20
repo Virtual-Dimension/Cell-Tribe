@@ -1,7 +1,7 @@
 #include "EntityLiving.h"
 #include "../MapController.h"
 
-Entity::Entity() : death(0), show(0), health(0), mapController(0), slObject(0) {}
+Entity::Entity() : death(0), show(0), health(0), mapController(0), slObject(0), showObject(0) {}
 
 Entity:: ~Entity() { }
 
@@ -33,7 +33,7 @@ void Entity::display(const bool& x) {
 	else {
 		slObject->attach();
 	}
-	showObject ^=1;
+	showObject ^= 1;
 	return;
 }
 
@@ -60,14 +60,11 @@ bool Entity::canBeUsed() const { return false; }
 int Entity::beUsed(EntityLiving* other) { return OPERATOR_SUCCESS; }
 
 int Entity::respawn(MapController* mapcontroller) {
-	setMapController(mapcontroller, 0);
 	point = mapcontroller->getRightPoint();
-	setMapController(mapcontroller, 1);
-	display(1);
-	return OPERATOR_SUCCESS;
+	return spawn(mapcontroller);
 }
 
-int Entity::spwan(MapController* mapcontroller) {
+int Entity::spawn(MapController* mapcontroller) {
 	setMapController(mapcontroller, 0);
 	if (mapcontroller->beyond(point)) return ENTITY_BEYOND;
 	setMapController(mapcontroller, 1);

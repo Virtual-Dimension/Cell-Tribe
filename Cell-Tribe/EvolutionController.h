@@ -10,6 +10,7 @@ struct Effect {
 	double moveRange;
 	double attackRange;
 	double moveSpeed;
+	double cellRadius;
 };
 
 struct Evolution {

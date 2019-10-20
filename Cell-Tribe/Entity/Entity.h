@@ -28,8 +28,8 @@ public:
 	virtual int beAttacked(EntityLiving*, const double&);
 	virtual bool canBeUsed() const;
 	virtual int beUsed(EntityLiving*);
-	virtual int respawn(MapController*);
-	virtual int spwan(MapController*);
+	int respawn(MapController*);
+	virtual int spawn(MapController*);
 	virtual bool isPlayer() const;
 protected:
 	double health;

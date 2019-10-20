@@ -58,7 +58,7 @@ public:
 	SLColor color_fill;
 	SLColor color_line;
 public:
-	SLRectangle(const Point& p, double w, int h, const SLColor& c_fill, const SLColor& c_line);
+	SLRectangle(const Point& p, double w, double h, const SLColor& c_fill, const SLColor& c_line);
 	virtual void update(double dt) override;
 };
 

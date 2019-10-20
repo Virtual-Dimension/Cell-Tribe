@@ -24,7 +24,6 @@ int MapController::push(EventController* eventController) {
 
 void MapController::update(double dt) {
 	for (const auto& e : ecList) e->update();
-
 	std::vector < Entity* > nxt;
 	for (const auto& e : entityList) {
 		if (!e->getDeath()) {
@@ -35,9 +34,7 @@ void MapController::update(double dt) {
 		}
 	}
 	entityList.swap(nxt);
-
 	for (const auto& e : entityList) e->update();
-
 	return;
 }
 
@@ -60,7 +57,7 @@ const std::vector<Entity*>& MapController::getList() const { return entityList; 
 size_t MapController::count() const { return entityList.size(); }
 
 int MapController::erase(Entity* entity) {
-	for (std::vector < Entity* >::iterator e = entityList.begin(); e != entityList.end(); e++)
+	for (std::vector < Entity* >::iterator e = entityList.begin(); e != entityList.end(); ++e)
 		if ((*e) == entity) {
 			entityList.erase(e);
 			return OPERATOR_SUCCESS;
@@ -75,7 +72,7 @@ int MapController::erase(const size_t& i) {
 }
 
 int MapController::erase(EventController* eventController) {
-	for (std::vector < EventController* >::iterator e = ecList.begin(); e != ecList.end(); e++)
+	for (std::vector < EventController* >::iterator e = ecList.begin(); e != ecList.end(); ++e)
 		if ((*e) == eventController) {
 			ecList.erase(e);
 			return OPERATOR_SUCCESS;

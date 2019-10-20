@@ -2,8 +2,7 @@
 
 Effect jsonToEvolutionEffect(neb::CJsonObject& effect) {
 	Effect newEffect;
-	memset(&newEffect, 0, sizeof(newEffect));
-#define addval(str) (effect.Get(#str, newEffect.str))
+#define addval(str) (newEffect.str = 0),(effect.Get(#str, newEffect.str))
 	addval(atk);
 	addval(attackRange);
 	addval(cellsMax);
@@ -11,6 +10,7 @@ Effect jsonToEvolutionEffect(neb::CJsonObject& effect) {
 	addval(healthMax);
 	addval(moveRange);
 	addval(moveSpeed);
+	addval(cellRadius);
 #undef addval
 	return newEffect;
 }
@@ -38,7 +38,7 @@ void EvolutionController::initEvolutionJson(const char* path) {
 		fclose(f);
 		json = neb::CJsonObject(res);
 		if (got) delete got;
-		got = new int[int(json["evolutinos"].GetArraySize() + 1)]();
+		got = new int[json["evolutinos"].GetArraySize() + 1]();
 	}
 	return;
 }

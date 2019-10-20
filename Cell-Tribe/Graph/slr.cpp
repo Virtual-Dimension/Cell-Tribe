@@ -49,7 +49,8 @@ SLColor HSL2RGB(double H, double S, double L, double A) {
 		R = L * 255.0;
 		G = L * 255.0;
 		B = L * 255.0;
-	} else {
+	}
+	else {
 		if (L < 0.5) var_2 = L * (1 + S);
 		else         var_2 = (L + S) - (S * L);
 
@@ -181,7 +182,7 @@ void SLCircle::update(double dt) {
 
 
 
-SLRectangle::SLRectangle(const Point& p, double w, int h, const SLColor& c_fill, const SLColor& c_line)
+SLRectangle::SLRectangle(const Point& p, double w, double h, const SLColor& c_fill, const SLColor& c_line)
 	:p(p), w(w), h(h), color_fill(c_fill), color_line(c_line) {}
 void SLRectangle::update(double dt) {
 	slSetForeColor(color_fill);
@@ -213,15 +214,15 @@ void SLRectangleRef::update(double dt) {
 
 
 Point RandCirclePoint(const Point& c, double r) {
-	Point p(rand() - RAND_MAX / 2, rand() - RAND_MAX / 2);
+	Point p((double)rand() - RAND_MAX / 2, (double)rand() - RAND_MAX / 2);
 	return c + p / p.len() * r * ((double)rand() / RAND_MAX);
 }
 
+SLButton::SLButton() :rect(Point(), 0, 0, SLColor(), SLColor()), lbtn(0), onclick(0) {}
 
-SLButton::SLButton() :rect(Point(), 0, 0, SLColor(), SLColor()) {}
 SLButton::SLButton(const Point& p, double w, double h, const SLColor& fill, const SLColor& line)
-	: rect(p, w, h, fill, line), color_fill(fill), color_line(line) {
-}
+	: rect(p, w, h, fill, line), color_fill(fill), color_line(line), lbtn(0), onclick(0) {}
+
 void SLButton::OnClick(SLMouseEventCallBack f) {
 	onclick = f;
 }
@@ -255,7 +256,8 @@ void SLButton::update(double dt) {
 			rect.color_line = color_line;
 			rect.color_line.a = max(rect.color_line.a - 0.3, 0.1);
 		}
-	} else {
+	}
+	else {
 		if (lbtn && onclick
 			&& mx >= rect.p.x && my >= rect.p.y
 			&& mx <= rect.p.x + rect.w && my <= rect.p.y + rect.h) {
@@ -290,7 +292,8 @@ void Bezier3::rand() {
 		p1 = m + p1 / p1.len() * len1;
 		p2 = (s - e).rotate(PI / 2 * random(0.6, 1.4));
 		p2 = m + p2 / p2.len() * len2;
-	} else {
+	}
+	else {
 		p1 = (s - e).rotate(PI / 2 * random(0.6, 1.4));
 		p1 = m + p1 / p1.len() * len1;
 		p2 = (e - s).rotate(PI / 2 * random(0.6, 1.4));
@@ -337,9 +340,8 @@ void SLDynamicPoint::update(double dt) {
 	return c.update(dt);
 }
 
-
-
 SLDynamicPointGroup::SLDynamicPointGroup() :move_speed(0), static_speed(0), flag_static(0) {}
+
 void SLDynamicPointGroup::AddPoint(SLDynamicPoint* p) {
 	lp.push_back(p);
 }
@@ -365,7 +367,8 @@ void SLDynamicPointGroup::update(double dt) {
 				p->SetGoal(RandCirclePoint(p->GetPos(), 20));
 			else if ((p->GetPos() - pos_static).len() > 50)
 				p->SetGoal(pos_static);
-	} else {
+	}
+	else {
 		double pj = 0;
 		for (auto p : lp)
 			pj += p->GetNow();

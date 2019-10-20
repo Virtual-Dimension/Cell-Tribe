@@ -154,9 +154,6 @@
     <ClInclude Include="MapController.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Graph\sigil.dll" />
-  </ItemGroup>
-  <ItemGroup>
     <Library Include="Graph\sigil.lib" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
