@@ -1,6 +1,6 @@
 #include "slr.h"
 
-void SLObject::draw() {}
+
 void SLObject::update(double dt) {}
 void SLObject::attach() {
 	SL::AddObject(this);
@@ -9,12 +9,30 @@ void SLObject::detach() {
 	SL::RemoveObject(this);
 }
 
-SLColor::SLColor(double r, double g, double b, double a)
-	:r(r), g(g), b(b), a(a) {}
+
+//void SLWidget::update(double dt) {}
+//void SLWidget::attach() {
+//	SL::AddWidget(this);
+//}
+//void SLWidget::detach() {
+//	SL::AddWidget(this);
+//}
+//void SLWidget::move(double x, double y) {}
+//void SLWidget::rotate(double a) {}
+//void SLWidget::scale(double x, double y) {}
+
+
 
 double random(double l, double r) {
 	return ((double)rand() / RAND_MAX) * (r - l) + l;
 }
+
+
+
+SLColor::SLColor(double r, double g, double b, double a)
+	:r(r), g(g), b(b), a(a) {}
+
+
 
 double Hue2RGB(double v1, double v2, double vH) {
 	if (vH < 0) vH += 1;
@@ -31,8 +49,7 @@ SLColor HSL2RGB(double H, double S, double L, double A) {
 		R = L * 255.0;
 		G = L * 255.0;
 		B = L * 255.0;
-	}
-	else {
+	} else {
 		if (L < 0.5) var_2 = L * (1 + S);
 		else         var_2 = (L + S) - (S * L);
 
@@ -49,10 +66,14 @@ void slSetForeColor(const SLColor& c) {
 }
 namespace SL {
 	SLUpdateCallBack update;
-	bool window;
+	bool window = 0;
+	Point movev, scalev;
+	double rotatev = 0;
 	thread slthread;
 	list<SLObject*>list_obj;
-	mutex mtx_list_obj;
+	//list<SLWidget*>list_wid;
+	recursive_mutex mtx_list_obj;
+	//recursive_mutex mtx_list_wid;
 	void WindowThread(int WINDOW_WIDTH, int WINDOW_HEIGHT) {
 		slWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "SIGIL", false);
 		window = 1;
@@ -67,10 +88,13 @@ namespace SL {
 
 			mtx_list_obj.lock();
 			for (const auto p : list_obj)
-				p->draw();
-			for (const auto p : list_obj)
 				p->update(dt);
 			mtx_list_obj.unlock();
+
+			//mtx_list_wid.lock();
+			//for (const auto p : list_wid)
+			//	p->update(dt);
+			//mtx_list_wid.unlock();
 
 			slRender();
 		}
@@ -86,6 +110,16 @@ namespace SL {
 		list_obj.remove(p);
 		mtx_list_obj.unlock();
 	}
+	//void AddWidget(SLWidget* p) {
+	//	mtx_list_wid.lock();
+	//	list_wid.push_back(p);
+	//	mtx_list_wid.unlock();
+	//}
+	//void RemoveWidget(SLWidget* p) {
+	//	mtx_list_wid.lock();
+	//	list_wid.remove(p);
+	//	mtx_list_wid.unlock();
+	//}
 	void StartThread(int WINDOW_WIDTH, int WINDOW_HEIGHT) {
 		thread t(WindowThread, WINDOW_WIDTH, WINDOW_HEIGHT);
 		slthread.swap(t);
@@ -99,13 +133,46 @@ namespace SL {
 	bool IsWindowShowed() {
 		return window;
 	}
+	void CameraMove(double x, double y) {
+		mtx_list_obj.lock();
+		//mtx_list_wid.lock();
+		movev += Point(x, y).rotate((360 - rotatev) * PI / 180);
+		slTranslate(x, y);
+		//for (const auto p : list_wid)
+		//	p->move(x, y);
+		//mtx_list_wid.unlock();
+		mtx_list_obj.unlock();
+	}
+	void CameraRotate(double a) {
+		mtx_list_obj.lock();
+		//mtx_list_wid.lock();
+		rotatev += a;
+		slRotate(a);
+		//for (const auto p : list_wid)
+		//	p->rotate(a);
+		//mtx_list_wid.unlock();
+		mtx_list_obj.unlock();
+	}
+	Point GetRelativeMousePos() {
+		return Point(slGetMouseX(), slGetMouseY()).rotate((360 - rotatev) * PI / 180) - movev;
+	}
+	void CameraScale(double x, double y) {
+		mtx_list_obj.lock();
+		//mtx_list_wid.lock();
+		scalev += Point(x, y);
+		slScale(x, y);
+		//for (const auto p : list_wid)
+		//	p->scale(x, y);
+		//mtx_list_wid.unlock();
+		mtx_list_obj.unlock();
+	}
 }
 
 
 
 SLCircle::SLCircle(const Point& p, double r, int num, const SLColor& c_fill, const SLColor& c_line)
 	:p(p), r(r), num(num), color_fill(c_fill), color_line(c_line) {}
-void SLCircle::draw() {
+void SLCircle::update(double dt) {
 	slSetForeColor(color_fill);
 	slCircleFill(p.x, p.y, r, num);
 	slSetForeColor(color_line);
@@ -116,7 +183,7 @@ void SLCircle::draw() {
 
 SLRectangle::SLRectangle(const Point& p, double w, int h, const SLColor& c_fill, const SLColor& c_line)
 	:p(p), w(w), h(h), color_fill(c_fill), color_line(c_line) {}
-void SLRectangle::draw() {
+void SLRectangle::update(double dt) {
 	slSetForeColor(color_fill);
 	slRectangleFill(p.x + w / 2, p.y + h / 2, w, h);
 	slSetForeColor(color_line);
@@ -126,7 +193,7 @@ void SLRectangle::draw() {
 
 SLCircleRef::SLCircleRef(const Point& p, double r, int num, const SLColor& c_fill, const SLColor& c_line)
 	:p(p), r(r), num(num), color_fill(c_fill), color_line(c_line) {}
-void SLCircleRef::draw() {
+void SLCircleRef::update(double dt) {
 	slSetForeColor(color_fill);
 	slCircleFill(p.x, p.y, r, num);
 	slSetForeColor(color_line);
@@ -137,7 +204,7 @@ void SLCircleRef::draw() {
 
 SLRectangleRef::SLRectangleRef(const Point& p, double w, int h, const SLColor& c_fill, const SLColor& c_line)
 	:p(p), w(w), h(h), color_fill(c_fill), color_line(c_line) {}
-void SLRectangleRef::draw() {
+void SLRectangleRef::update(double dt) {
 	slSetForeColor(color_fill);
 	slRectangleFill(p.x - w / 2, p.y - h / 2, w, h);
 	slSetForeColor(color_line);
@@ -168,14 +235,17 @@ void SLButton::SetColor(const SLColor& fill, const SLColor& line) {
 	color_fill = fill;
 	color_line = line;
 }
-void SLButton::draw() {
-	rect.draw();
+void SLButton::update(double dt) {
+	slPush();
+	slRotate(360 - SL::rotatev);
+	slTranslate(-SL::movev.x, -SL::movev.y);
+	//slScale()
+	rect.update(dt);
 	slSetTextAlign(SL_ALIGN_CENTER);
 	slSetForeColor(text_color);
 	slText(rect.p.x + rect.w / 2, rect.p.y + rect.h / 2, text.c_str());
-}
-void SLButton::update(double dt) {
 	double mx = slGetMouseX(), my = slGetMouseY();
+	slPop();
 	if (slGetMouseButton(SL_MOUSE_BUTTON_LEFT)) {
 		if (mx >= rect.p.x && my >= rect.p.y
 			&& mx <= rect.p.x + rect.w && my <= rect.p.y + rect.h) {
@@ -185,8 +255,7 @@ void SLButton::update(double dt) {
 			rect.color_line = color_line;
 			rect.color_line.a = max(rect.color_line.a - 0.3, 0.1);
 		}
-	}
-	else {
+	} else {
 		if (lbtn && onclick
 			&& mx >= rect.p.x && my >= rect.p.y
 			&& mx <= rect.p.x + rect.w && my <= rect.p.y + rect.h) {
@@ -197,6 +266,12 @@ void SLButton::update(double dt) {
 		rect.color_line = color_line;
 	}
 }
+//void SLButton::move(double x, double y) {
+//	//rect.p -= Point(x, y);
+//}
+//void SLButton::rotate(double a) {
+//	//rect.p = rect.p.rotate((360 - a) * PI / 180);
+//}
 
 
 
@@ -215,8 +290,7 @@ void Bezier3::rand() {
 		p1 = m + p1 / p1.len() * len1;
 		p2 = (s - e).rotate(PI / 2 * random(0.6, 1.4));
 		p2 = m + p2 / p2.len() * len2;
-	}
-	else {
+	} else {
 		p1 = (s - e).rotate(PI / 2 * random(0.6, 1.4));
 		p1 = m + p1 / p1.len() * len1;
 		p2 = (e - s).rotate(PI / 2 * random(0.6, 1.4));
@@ -259,8 +333,8 @@ void SLDynamicPoint::move(double len) {
 	now = min(now, 1.0);
 	c.p = bzr.GetPoint(now);
 }
-void SLDynamicPoint::draw() {
-	return c.draw();
+void SLDynamicPoint::update(double dt) {
+	return c.update(dt);
 }
 
 
@@ -282,19 +356,16 @@ void SLDynamicPointGroup::spread() {
 	for (auto& p : lp)
 		p->SetGoal(RandCirclePoint(p->GetPos(), 500));
 }
-void SLDynamicPointGroup::draw() {
+void SLDynamicPointGroup::update(double dt) {
 	for (auto p : lp)
-		p->draw();
-}
-void SLDynamicPointGroup::update(double t) {
+		p->update(dt);
 	if (flag_static) {
 		for (auto& p : lp)
 			if (p->GetNow() == 1)
 				p->SetGoal(RandCirclePoint(p->GetPos(), 20));
 			else if ((p->GetPos() - pos_static).len() > 50)
 				p->SetGoal(pos_static);
-	}
-	else {
+	} else {
 		double pj = 0;
 		for (auto p : lp)
 			pj += p->GetNow();
@@ -304,7 +375,7 @@ void SLDynamicPointGroup::update(double t) {
 		}
 	}
 	if (flag_static)
-		for (auto p : lp) p->move(static_speed * t);
+		for (auto p : lp) p->move(static_speed * dt);
 	else
-		for (auto p : lp) p->move(move_speed * t);
+		for (auto p : lp) p->move(move_speed * dt);
 }

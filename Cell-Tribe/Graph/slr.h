@@ -1,8 +1,22 @@
 #pragma once
 #include "sl.h"
 #include "../game.h"
+#include <iostream>
+#include <thread>
+#include <mutex>
+#include <list>
+#include <set>
+#include <cmath>
+#include <algorithm>
 using namespace std;
-class SLObject;
+
+
+class SLObject {
+public:
+	virtual void update(double dt);
+	virtual void attach();
+	virtual void detach();
+};
 namespace SL {
 	typedef void(*SLUpdateCallBack)(double);
 	void WindowThread(int WINDOW_WIDTH, int WINDOW_HEIGHT);
@@ -12,14 +26,12 @@ namespace SL {
 	void Wait();
 	void SetUpdateCallBack(SLUpdateCallBack f);
 	bool IsWindowShowed();
+	void CameraMove(double x, double y);
+	//void CameraRotate(double a);//BUG
+	//void CameraScale(double x, double y);//TODO
+	Point GetRelativeMousePos();
 }
-class SLObject {
-public:
-	virtual void draw();
-	virtual void update(double dt);
-	virtual void attach();
-	virtual void detach();
-};
+double random(double l, double r);
 
 struct SLColor {
 	double r, g, b, a;
@@ -37,7 +49,7 @@ public:
 	SLColor color_line;
 public:
 	SLCircle(const Point& p, double r, int num, const SLColor& c_fill, const SLColor& c_line);
-	virtual void draw() override;
+	virtual void update(double dt) override;
 };
 class SLRectangle :public SLObject {
 public:
@@ -47,7 +59,7 @@ public:
 	SLColor color_line;
 public:
 	SLRectangle(const Point& p, double w, int h, const SLColor& c_fill, const SLColor& c_line);
-	virtual void draw() override;
+	virtual void update(double dt) override;
 };
 
 class SLCircleRef :public SLObject {
@@ -59,7 +71,7 @@ public:
 	SLColor color_line;
 public:
 	SLCircleRef(const Point& p, double r, int num, const SLColor& c_fill, const SLColor& c_line);
-	virtual void draw() override;
+	virtual void update(double dt) override;
 };
 
 class SLRectangleRef :public SLObject {
@@ -70,7 +82,7 @@ public:
 	SLColor color_line;
 public:
 	SLRectangleRef(const Point& p, double w, int h, const SLColor& c_fill, const SLColor& c_line);
-	virtual void draw() override;
+	virtual void update(double dt) override;
 };
 Point RandCirclePoint(const Point& c, double r);
 typedef void(*SLMouseEventCallBack)(double x, double y);
@@ -88,8 +100,8 @@ public:
 	void SetText(const char* s);
 	void SetTextColor(const SLColor& c);
 	void SetColor(const SLColor& fill, const SLColor& line);
-	virtual void draw() override;
 	virtual void update(double dt) override;
+	//virtual void scale(double x, double y) override;//TODO
 };
 
 class Bezier3 {
@@ -119,7 +131,7 @@ public:
 	Point GetGoal();
 	Point GetPos();
 	void move(double len);
-	virtual void draw() override;
+	virtual void update(double dt) override;
 };
 
 class SLDynamicPointGroup :public SLObject {
@@ -135,6 +147,5 @@ public:
 	void move(const Point& mp);
 	void spread();
 public:
-	virtual void draw() override;
 	virtual void update(double t) override;
 };
