@@ -27,6 +27,7 @@ namespace SL {
 	void SetUpdateCallBack(SLUpdateCallBack f);
 	bool IsWindowShowed();
 	void CameraMove(double x, double y);
+	Point GetCameraOffset();
 	//void CameraRotate(double a);//BUG
 	//void CameraScale(double x, double y);//TODO
 	Point GetRelativeMousePos();
@@ -146,6 +147,7 @@ public:
 	void RemovePoint(SLDynamicPoint* p);
 	void move(const Point& mp);
 	void spread();
+	void SetSatic(const Point &p);
 	bool IsStatic();
 public:
 	virtual void update(double t) override;

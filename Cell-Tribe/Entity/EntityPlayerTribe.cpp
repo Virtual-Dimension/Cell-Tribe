@@ -77,6 +77,7 @@ int EntityPlayerTribe::spawn(MapController* mapController) {
 		cellsPoint.push_back(newSLDynamicPoint);
 		newSLObject->AddPoint(newSLDynamicPoint);
 	}
+	newSLObject->move(getPoint());
 	slObject = newSLObject;
 	return EntityLiving::spawn(mapController);
 }

@@ -26,18 +26,19 @@ void InitGame() {
 	eventController = new EventController(mapController);
 
 	SL::CameraMove(player1->getPoint().x, player1->getPoint().y);
-
+	//SL::CameraMove(100, 100);
 	return;
 }
 
 int main() {
 	srand((int)time(0));
 
-	InitGame();
-
 	SL::StartThread(WINDOW_WIDTH, WINDOW_HEIGHT);
 
 	while (!SL::IsWindowShowed()) Sleep(1);
+	
+	
+	InitGame();
 
 	//EntityPlayerTribe a;
 	SL::Wait();

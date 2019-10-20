@@ -49,8 +49,7 @@ SLColor HSL2RGB(double H, double S, double L, double A) {
 		R = L * 255.0;
 		G = L * 255.0;
 		B = L * 255.0;
-	}
-	else {
+	} else {
 		if (L < 0.5) var_2 = L * (1 + S);
 		else         var_2 = (L + S) - (S * L);
 
@@ -135,6 +134,7 @@ namespace SL {
 		return window;
 	}
 	void CameraMove(double x, double y) {
+		x = -x, y = -y;
 		mtx_list_obj.lock();
 		//mtx_list_wid.lock();
 		movev += Point(x, y).rotate((360 - rotatev) * PI / 180);
@@ -143,6 +143,9 @@ namespace SL {
 		//	p->move(x, y);
 		//mtx_list_wid.unlock();
 		mtx_list_obj.unlock();
+	}
+	Point GetCameraOffset() {
+		return movev;
 	}
 	void CameraRotate(double a) {
 		mtx_list_obj.lock();
@@ -256,8 +259,7 @@ void SLButton::update(double dt) {
 			rect.color_line = color_line;
 			rect.color_line.a = max(rect.color_line.a - 0.3, 0.1);
 		}
-	}
-	else {
+	} else {
 		if (lbtn && onclick
 			&& mx >= rect.p.x && my >= rect.p.y
 			&& mx <= rect.p.x + rect.w && my <= rect.p.y + rect.h) {
@@ -292,8 +294,7 @@ void Bezier3::rand() {
 		p1 = m + p1 / p1.len() * len1;
 		p2 = (s - e).rotate(PI / 2 * random(0.6, 1.4));
 		p2 = m + p2 / p2.len() * len2;
-	}
-	else {
+	} else {
 		p1 = (s - e).rotate(PI / 2 * random(0.6, 1.4));
 		p1 = m + p1 / p1.len() * len1;
 		p2 = (e - s).rotate(PI / 2 * random(0.6, 1.4));
@@ -358,6 +359,10 @@ void SLDynamicPointGroup::spread() {
 	for (auto& p : lp)
 		p->SetGoal(RandCirclePoint(p->GetPos(), 500));
 }
+void SLDynamicPointGroup::SetSatic(const Point& p) {
+	flag_static = 1;
+	pos_static = p;
+}
 bool SLDynamicPointGroup::IsStatic() {
 	return flag_static;
 }
@@ -370,8 +375,7 @@ void SLDynamicPointGroup::update(double dt) {
 				p->SetGoal(RandCirclePoint(p->GetPos(), 20));
 			else if ((p->GetPos() - pos_static).len() > 50)
 				p->SetGoal(pos_static);
-	}
-	else {
+	} else {
 		double pj = 0;
 		for (auto p : lp)
 			pj += p->GetNow();

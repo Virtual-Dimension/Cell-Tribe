@@ -54,6 +54,44 @@ struct Point {
 	double len() { return sqrt(x * x + y * y); }
 	Point rotate(double a) { return Point(x * cos(a) - y * sin(a), x * sin(a) + y * cos(a)); }
 };
+struct Rect {
+	Point p1, p2;
+	Rect() {}
+	Rect(const Point& p1, const Point& p2) :p1(p1), p2(p2) {}
+	Rect(double x, double y, double w, double h) :p1(x, y), p2(x + w, y + h) {}
+	double area() const {
+		Point p = p2 - p1;
+		return p.x < 0 || p.y < 0 ? 0 : p.x * p.y;
+	}
+	Rect operator & (const Rect& x) const {
+		Rect ret;
+		ret.p1.x = std::max(p1.x, x.p1.x);
+		ret.p1.y = std::max(p1.y, x.p1.y);
+		ret.p2.x = std::min(p2.x, x.p2.x);
+		ret.p2.y = std::min(p2.y, x.p2.y);
+		return ret;
+	}
+	bool InRect(const Point& p)const {
+		return p.x >= p1.x && p.x <= p2.x && p.y >= p1.y && p.y <= p2.y;
+	}
+};
+template<class T, class FX, class FY>
+inline Rect GetContainRect(const std::vector<T>& v, const FX& fx, const FY& fy) {
+	Rect ret(Point(INFINITY, INFINITY), Point(-INFINITY, -INFINITY));
+	for (const auto& p : v) {
+		ret.p1.x = std::min(ret.p1.x, fx(p)); ret.p1.y = std::min(ret.p1.y, fy(p));
+		ret.p2.x = std::max(ret.p2.x, fx(p)); ret.p2.y = std::max(ret.p2.y, fy(p));
+	}
+	return ret;
+}
+inline Rect GetContainRect(const std::vector<Point>& v) {
+	Rect ret(Point(INFINITY, INFINITY), Point(-INFINITY, -INFINITY));
+	for (const auto& p : v) {
+		ret.p1.x = std::min(ret.p1.x, p.x); ret.p1.y = std::min(ret.p1.y, p.y);
+		ret.p2.x = std::max(ret.p2.x, p.x); ret.p2.y = std::max(ret.p2.y, p.y);
+	}
+	return ret;
+}
 
 struct Line {
 	Point p1, p2;
