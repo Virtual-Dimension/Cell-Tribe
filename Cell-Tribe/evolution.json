@@ -1,25 +1,41 @@
 {
-  "version": 1,
-  "evolutinos": [
-    {
-      "name": "基本生命",
-      "describe": "每个生命生来具备的属性",
-      "fa": [], // 前置
-      "type": 0, // 类型
-      "need": 0, // 需要点数
-      "effect": {
-        "atk": 2, // 攻击力
-        "attackRange": 5, // 攻击范围
-        "cellsMax": 5, // 最大细胞个数
-        "energyMax": 10, // 最大能量
-        "healthMax": 20, // 最大生命
-        "moveRange": 10, // 移动范围
-        "moveSpeed": 5 // 移动速度
-      },
-      "pos": {
-        "x": 0,
-        "y": 0
-      } // 显示在屏幕上的位置
-    }
-  ]
+	"version": "0.0000.1",
+	"evolutinos": [
+		{
+			"name": "基本生命",
+			"describe": "每个生命生来具备的属性",
+			"fa": [],
+			"type": 0,
+			"need": 0,
+			"effect": {
+				"atk": 2,
+				"attackRange": 5,
+				"cellsMax": 5,
+				"energyMax": 10,
+				"healthMax": 20,
+				"moveRange": 10,
+				"moveSpeed": 5
+			},
+			"pos": {
+				"x": 0,
+				"y": 0
+			}
+		}
+	],
+	"note": [
+		"name : 进化名",
+		"describe : 进化描述",
+		"fa : 前置进化",
+		"type : 类型{ 0 }",
+		"need : 花费基因点数",
+		"effect : 造成影响",
+		"atk : 攻击力加成",
+		"attackRangeatk : 攻击范围加成",
+		"cellsMax : 最大细胞个数加成",
+		"energyMax : 最大能量加成",
+		"healthMax : 最大生命加成",
+		"moveRange : 移动距离加成",
+		"moveSpeed : 移动速度加成",
+		"pos : 进化树上的位置"
+	]
 }
