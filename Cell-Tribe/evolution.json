@@ -13,9 +13,10 @@
         "cellsMax": 5,
         "energyMax": 10,
         "healthMax": 20,
-        "moveRange": 10,
-        "moveSpeed": 5,
-        "cellRadius" : 5
+        "moveRange": 50,
+        "moveSpeed": 20,
+        "cellRadius": 5,
+        "regeneration": 0.01
       },
 			"pos": {
 				"x": 0,
@@ -38,6 +39,7 @@
     "moveRange : 移动距离加成",
     "moveSpeed : 移动速度加成",
     "cellRadius : 细胞半径加成",
+    "regeneration : 生命恢复加成",
     "pos : 进化树上的位置"
   ]
 }

@@ -25,7 +25,7 @@ EntityPlayerTribe::EntityPlayerTribe(const std::string& name, EvolutionControlle
 	health = 5;
 	evolutionController->gotEvolution(0);
 	beEffected(evolutionController->getEvolutionEffect(0));
-	addCells(1);
+	addCells(2);
 }
 
 EntityPlayerTribe::~EntityPlayerTribe() {}
@@ -33,7 +33,7 @@ EntityPlayerTribe::~EntityPlayerTribe() {}
 int EntityPlayerTribe::addCells(const int& val) {
 	int addval = std::min(val, cellsMax - (int)cellsPoint.size());
 	for (int i = 0; i < addval; i++) {
-		SLDynamicPoint* newSLDynamicPoint = new SLDynamicPoint(getPoint(), cellRadius, 10, SLColor((double)rand() / RAND_MAX, (double)rand() / RAND_MAX, (double)rand() / RAND_MAX, 1));
+		SLDynamicPoint* newSLDynamicPoint = new SLDynamicPoint(getPoint(), cellRadius, 10, SLColor((double)rand() / RAND_MAX, (double)rand() / RAND_MAX, (double)rand() / RAND_MAX, (double)rand() / RAND_MAX));
 		cellsPoint.push_back(newSLDynamicPoint);
 		if (slObject) ((SLDynamicPointGroup*)slObject)->AddPoint(newSLDynamicPoint);
 	}
@@ -56,6 +56,7 @@ int EntityPlayerTribe::beEffected(const Effect& effect) {
 	addval(moveRange);
 	addval(moveSpeed);
 	addval(cellRadius);
+	addval(regeneration);
 #undef addval
 	return OPERATOR_SUCCESS;
 }
@@ -66,6 +67,8 @@ int EntityPlayerTribe::spawn(MapController* mapController) {
 		delete slObject;
 	}
 	SLDynamicPointGroup* newSLObject = new SLDynamicPointGroup();
+	newSLObject->move_speed = moveSpeed;
+	newSLObject->static_speed = 1.0;
 	int siz = cellsPoint.size();
 	for (auto dypoint : cellsPoint)	delete dypoint;
 	cellsPoint.clear();

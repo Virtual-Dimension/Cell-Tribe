@@ -156,6 +156,9 @@
   <ItemGroup>
     <Library Include="Graph\sigil.lib" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Graph\sigil.dll" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

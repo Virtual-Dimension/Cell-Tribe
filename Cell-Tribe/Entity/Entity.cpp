@@ -1,7 +1,7 @@
 #include "EntityLiving.h"
 #include "../MapController.h"
 
-Entity::Entity() : death(0), show(0), health(0), mapController(0), slObject(0), showObject(0) {}
+Entity::Entity() : death(0), show(0), health(0), mapController(0), slObject(0), showObject(0), point() {}
 
 Entity:: ~Entity() { }
 

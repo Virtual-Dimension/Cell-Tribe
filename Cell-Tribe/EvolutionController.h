@@ -11,6 +11,7 @@ struct Effect {
 	double attackRange;
 	double moveSpeed;
 	double cellRadius;
+	double regeneration;
 };
 
 struct Evolution {

@@ -21,11 +21,11 @@ void InitGame() {
 
 	mapController = new MapController(MAP_BEGIN_X, MAP_BEGIN_Y, MAP_END_X, MAP_END_Y);
 
-	player1->spawn(mapController);
+	player1->respawn(mapController);
 
 	eventController = new EventController(mapController);
 
-	//SL::CameraMove(player1->getPoint().x, player1->getPoint().y);
+	SL::CameraMove(player1->getPoint().x, player1->getPoint().y);
 
 	return;
 }

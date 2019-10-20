@@ -32,7 +32,7 @@ protected:
 private:
 	int status;
 	int energyMax, energy, cellsMax;
-	double cellRadius;
+	double cellRadius, regeneration;
 	std::list < SLDynamicPoint* > cellsPoint;
 	int genePoints;
 	std::string playerName;

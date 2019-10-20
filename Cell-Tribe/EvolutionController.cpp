@@ -11,6 +11,7 @@ Effect jsonToEvolutionEffect(neb::CJsonObject& effect) {
 	addval(moveRange);
 	addval(moveSpeed);
 	addval(cellRadius);
+	addval(regeneration);
 #undef addval
 	return newEffect;
 }
