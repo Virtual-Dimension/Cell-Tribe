@@ -1,5 +1,5 @@
 #include "slr.h"
-
+using namespace std;
 
 void SLObject::update(double dt) {}
 void SLObject::attach() {

@@ -6,11 +6,6 @@ int EntityItem::update() {
 	return OPERATOR_SUCCESS;
 }
 
-int EntityItem::print() const{
-	// API
-	return OPERATOR_SUCCESS;
-}
-
 EntityItem::~EntityItem() {}
 
 bool EntityItem::canBeUsed() const { return true; }

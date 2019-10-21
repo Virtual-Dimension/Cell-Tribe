@@ -15,7 +15,6 @@ public:
 	EntityPlayerTribe(const std::string&, EvolutionController*);
 	~EntityPlayerTribe();
 
-	int addCells(const int&); //tmp function
 	void addStrength(const int&); //tmp function
 	void addEnergyMax(const int&);
 	std::string getPlayerName() const;
@@ -28,8 +27,8 @@ protected:
 	virtual int attack(EntityLiving*) override;
 	virtual int inRange(const Point&, const double&) const override;
 	virtual int interact1(Entity*) override;
-	virtual int print() const override;
 private:
+	int propagate();
 	int status;
 	int energyMax, energy, cellsMax;
 	double cellRadius, regeneration;
@@ -37,4 +36,5 @@ private:
 	int genePoints;
 	std::string playerName;
 	EvolutionController* evolutionController;
+	double moveCD, propagateCD;
 };

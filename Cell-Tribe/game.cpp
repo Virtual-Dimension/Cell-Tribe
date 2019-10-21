@@ -34,10 +34,14 @@ void InitGame() {
 int main() {
 	srand((int)time(0));
 
+	printf("starting window...\n");
+
 	SL::StartThread(WINDOW_WIDTH, WINDOW_HEIGHT);
 
 	while (!SL::IsWindowShowed()) Sleep(1);
 	
+	printf("init game...\n");
+
 	InitGame();
 
 	SL::Wait();

@@ -3,13 +3,11 @@
 #include "Entity/Entity.h"
 
 MapController::MapController(const double& bx, const double& by, const double& ex, const double& ey)
-	: entityList(), mapBeginX(bx), mapBeginY(by), mapEndX(ex), mapEndY(ey) {
+	: entityList(), mapBeginX(bx), mapBeginY(by), mapEndX(ex), mapEndY(ey), stick(0) {
 	this->attach();
 }
 
-MapController::~MapController() {
-	this->detach();
-}
+MapController::~MapController() { this->detach(); }
 
 int MapController::push(Entity* entity) {
 	if (beyond(entity)) return OPERATOR_FAILED;
@@ -23,6 +21,7 @@ int MapController::push(EventController* eventController) {
 }
 
 void MapController::update(double dt) {
+	stick = dt;
 	for (const auto& e : ecList) e->update();
 	std::vector < Entity* > nxt;
 	for (const auto& e : entityList) {
@@ -91,6 +90,8 @@ bool MapController::beyond(const Point& p) const {
 }
 
 bool MapController::beyond(Entity* entity) const { return  beyond(entity->getPoint()); }
+
+double MapController::getStick() const { return stick; }
 
 Point MapController::getRightPoint() const {
 	double x = (1.0 * rand() / RAND_MAX) * (mapEndX - mapBeginX) + mapBeginX;

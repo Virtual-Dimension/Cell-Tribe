@@ -1,15 +1,6 @@
 #pragma once
 #include "sl.h"
 #include "../game.h"
-#include <iostream>
-#include <thread>
-#include <mutex>
-#include <list>
-#include <set>
-#include <cmath>
-#include <algorithm>
-using namespace std;
-
 
 class SLObject {
 public:
@@ -91,7 +82,7 @@ class SLButton :public SLObject {
 	SLRectangle rect;
 	SLMouseEventCallBack onclick;
 	bool lbtn;
-	string text;
+	std::string text;
 	SLColor text_color;
 	SLColor color_fill, color_line;
 public:
@@ -136,7 +127,7 @@ public:
 };
 
 class SLDynamicPointGroup :public SLObject {
-	list<SLDynamicPoint*>lp;
+	std::list<SLDynamicPoint*>lp;
 	bool flag_static;
 	Point pos_static;
 public:

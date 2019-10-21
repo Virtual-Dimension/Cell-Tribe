@@ -9,14 +9,14 @@
 			"need": 0,
       "effect": {
         "atk": 2,
-        "attackRange": 5,
-        "cellsMax": 5,
-        "energyMax": 10,
+        "attackRange": 20,
+        "cellsMax": 20,
+        "energyMax": 20,
         "healthMax": 20,
-        "moveRange": 50,
-        "moveSpeed": 20,
-        "cellRadius": 5,
-        "regeneration": 0.01
+        "moveRange": 500,
+        "moveSpeed": 50,
+        "cellRadius": 4,
+        "regeneration": 0.1
       },
 			"pos": {
 				"x": 0,

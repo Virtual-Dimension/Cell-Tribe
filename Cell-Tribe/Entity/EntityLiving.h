@@ -8,7 +8,7 @@ public:
 	virtual int update() override final;
 	virtual bool canBeAttacked() const override final;
 	virtual int beAttacked(EntityLiving*, const double&) override;
-	virtual void heal(const LL&);
+	virtual void heal(const double&);
 protected:
 	double atk, healthMax;
 	double moveRange, attackRange, moveSpeed;
@@ -16,5 +16,4 @@ protected:
 	virtual int attack(EntityLiving*);
 	virtual int move(const Point&);
 	virtual int interact1(Entity*);
-	virtual int print() const override;
 };

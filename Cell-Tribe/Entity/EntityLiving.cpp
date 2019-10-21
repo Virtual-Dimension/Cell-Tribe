@@ -15,8 +15,6 @@ int EntityLiving::update() {
 	return OPERATOR_SUCCESS;
 }
 
-int EntityLiving::print() const { return OPERATOR_SUCCESS; }
-
 bool EntityLiving::canBeAttacked() const { return true; }
 
 int EntityLiving::beAttacked(EntityLiving* other, const double& damage) {
@@ -25,7 +23,7 @@ int EntityLiving::beAttacked(EntityLiving* other, const double& damage) {
 	return OPERATOR_SUCCESS;
 }
 
-void EntityLiving::heal(const LL& val) { health = std::min(healthMax, health + val); }
+void EntityLiving::heal(const double& val) { health = std::min(healthMax, health + val); }
 
 int EntityLiving::attack(EntityLiving* other) {
 	other->beAttacked(this, atk);

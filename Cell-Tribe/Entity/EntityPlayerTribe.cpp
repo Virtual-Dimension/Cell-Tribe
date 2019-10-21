@@ -2,10 +2,15 @@
 #include "../EvolutionController.h"
 #include "../Graph/slr.h"
 #include "../MapController.h"
+#include <Windows.h>
+inline SLColor randColor() {
+	return SLColor((double)rand() / RAND_MAX, (double)rand() / RAND_MAX, (double)rand() / RAND_MAX, (double)rand() / RAND_MAX);
+}
 
 EntityPlayerTribe::EntityPlayerTribe() :
-	EntityLiving(), cellsMax(0), energyMax(0), energy(0), regeneration(0), cellRadius(0), status(STATUS_WAIT), genePoints(0),
-	playerName("Player"), evolutionController(0) {
+	EntityLiving(), cellsMax(0), energyMax(0), energy(0), regeneration(0), cellRadius(0), genePoints(0),
+	playerName("Player"), evolutionController(0),
+	moveCD(0), propagateCD(0), status(STATUS_WAIT) {
 	healthMax = 0;
 	moveRange = 0;
 	attackRange = 0;
@@ -15,8 +20,9 @@ EntityPlayerTribe::EntityPlayerTribe() :
 }
 
 EntityPlayerTribe::EntityPlayerTribe(const std::string& name, EvolutionController* evolutioncontroller) :
-	EntityLiving(), cellsMax(0), energyMax(0), energy(0), cellRadius(0), regeneration(0), status(STATUS_WAIT), genePoints(0),
-	playerName(name), evolutionController(evolutioncontroller) {
+	EntityLiving(), cellsMax(0), energyMax(0), energy(0), cellRadius(0), regeneration(0), genePoints(0),
+	playerName(name), evolutionController(evolutioncontroller),
+	moveCD(0), propagateCD(0), status(STATUS_WAIT) {
 	healthMax = 0;
 	moveRange = 0;
 	attackRange = 0;
@@ -25,21 +31,10 @@ EntityPlayerTribe::EntityPlayerTribe(const std::string& name, EvolutionControlle
 	health = 5;
 	evolutionController->gotEvolution(0);
 	beEffected(evolutionController->getEvolutionEffect(0));
-	addCells(2);
+	propagate();
 }
 
 EntityPlayerTribe::~EntityPlayerTribe() {}
-
-int EntityPlayerTribe::addCells(const int& val) {
-	int addval = std::min(val, cellsMax - (int)cellsPoint.size());
-	for (int i = 0; i < addval; i++) {
-		SLDynamicPoint* newSLDynamicPoint = new SLDynamicPoint(getPoint(), cellRadius, 10, SLColor((double)rand() / RAND_MAX, (double)rand() / RAND_MAX, (double)rand() / RAND_MAX, (double)rand() / RAND_MAX));
-		cellsPoint.push_back(newSLDynamicPoint);
-		if (slObject) ((SLDynamicPointGroup*)slObject)->AddPoint(newSLDynamicPoint);
-	}
-	if (addval && slObject)((SLDynamicPointGroup*)slObject)->move(getPoint());
-	return addval <= 0 ? OPERATOR_FAILED : OPERATOR_SUCCESS;
-}
 
 void EntityPlayerTribe::addStrength(const int& val) { atk += val; }
 
@@ -70,11 +65,11 @@ int EntityPlayerTribe::spawn(MapController* mapController) {
 	SLDynamicPointGroup* newSLObject = new SLDynamicPointGroup();
 	newSLObject->move_speed = moveSpeed;
 	newSLObject->static_speed = 1.0;
-	int siz = cellsPoint.size();
+	int siz = (int)cellsPoint.size();
 	for (auto dypoint : cellsPoint)	delete dypoint;
 	cellsPoint.clear();
 	for (int i = 0; i < siz; i++) {
-		SLDynamicPoint* newSLDynamicPoint = new SLDynamicPoint(getPoint(), cellRadius, 10, SLColor((double)rand() / RAND_MAX, (double)rand() / RAND_MAX, (double)rand() / RAND_MAX, 1));
+		SLDynamicPoint* newSLDynamicPoint = new SLDynamicPoint(getPoint(), cellRadius, 10, randColor());
 		cellsPoint.push_back(newSLDynamicPoint);
 		newSLObject->AddPoint(newSLDynamicPoint);
 	}
@@ -86,11 +81,10 @@ int EntityPlayerTribe::spawn(MapController* mapController) {
 bool EntityPlayerTribe::isPlayer() const { return true; }
 
 int EntityPlayerTribe::move(const Point& p) {
-	if (!((SLDynamicPointGroup*)slObject)->IsStatic()) {
-		printf("In the way!\n");
+	if (moveCD > 0) {
+		printf("In the way! %lf\n", moveCD);
 		return ENTITY_MOVING;
 	}
-
 	printf("[move]my:[%.2lf, %.2lf],to:[%.2lf, %.2lf],moveDis:%.2lf\n", getPoint().x, getPoint().y, p.x, p.y, (p - getPoint()).len());
 	if (getMapController()->beyond(p) || (p - getPoint()).len() > moveRange) {
 		printf("Too long!\n");
@@ -98,26 +92,40 @@ int EntityPlayerTribe::move(const Point& p) {
 	}
 	((SLDynamicPointGroup*)slObject)->move(p);
 	setPoint(p);
+	moveCD = 2;
 	return OPERATOR_SUCCESS;
 }
 
 int EntityPlayerTribe::behavior() {
-	// wait for player
+	Sleep(1);
 	if (cellsPoint.size() == 0) {
 		health = 0;
 		return ENTITY_DEAD;
 	}
-	if (((SLDynamicPointGroup*)slObject)->IsStatic() && slGetMouseButton(SL_MOUSE_BUTTON_RIGHT)) {
-		addCells(1);
+
+	if (moveCD > 0) moveCD -= getMapController()->getStick();
+	if (propagateCD > 0) propagateCD -= getMapController()->getStick();
+
+	if (slGetMouseButton(SL_MOUSE_BUTTON_RIGHT)) {
+		propagate();
 	}
+
 	if (slGetMouseButton(SL_MOUSE_BUTTON_LEFT)) {
-		Point p = SL::GetRelativeMousePos();
-		move(p);
+		move(SL::GetRelativeMousePos());
 	}
+
+	// atack mode
+
+	// use mode
+
+	heal(regeneration * getMapController()->getStick());
+
+	// heal
+
+
 	if (((SLDynamicPointGroup*)slObject)->IsStatic()) {
 		SL::CameraMove(getPoint().x + SL::GetCameraOffset().x - WINDOW_WIDTH / 2, getPoint().y + SL::GetCameraOffset().y - WINDOW_HEIGHT / 2);
 	}
-	//move
 	return OPERATOR_SUCCESS;
 }
 
@@ -145,6 +153,24 @@ int EntityPlayerTribe::interact1(Entity* entity) {
 	return OPERATOR_SUCCESS;
 }
 
-int EntityPlayerTribe::print() const {
+int EntityPlayerTribe::propagate() {
+	if (propagateCD > 0) {
+		printf("propagating!\n");
+		return ENTITY_PROPAGATING;
+	}
+	if (slObject && !((SLDynamicPointGroup*)slObject)->IsStatic()) return ENTITY_MOVING;
+
+	int addval = min((int)cellsPoint.size() / 2 + 1, cellsMax - (int)cellsPoint.size());
+	if (addval <= 0) return ENTITY_TOOMANY;
+	Point newPoint = getPoint();
+	std::list < SLDynamicPoint* >::iterator it = cellsPoint.begin();
+	for (int i = 0; i < addval; i++) {
+		if (it != cellsPoint.end()) newPoint = (*it)->GetPos();
+		SLDynamicPoint* newSLDynamicPoint = new SLDynamicPoint(newPoint, cellRadius, 10, randColor());
+		cellsPoint.push_back(newSLDynamicPoint);
+		if (slObject) ((SLDynamicPointGroup*)slObject)->AddPoint(newSLDynamicPoint);
+	}
+	if (slObject)((SLDynamicPointGroup*)slObject)->move(getPoint());
+	propagateCD = 2;
 	return OPERATOR_SUCCESS;
 }

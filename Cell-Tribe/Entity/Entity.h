@@ -1,6 +1,8 @@
 #pragma once
 #include "../game.h"
 
+constexpr int ENTITY_TOOMANY = -8;
+constexpr int ENTITY_PROPAGATING = -7;
 constexpr int ENTITY_MOVING = -6;
 constexpr int ENTITY_MOVEOUT = -5;
 constexpr int ENTITY_BEYOND = -4;
@@ -19,7 +21,6 @@ public:
 	Entity();
 	virtual ~Entity();
 	virtual int update() = 0;
-	virtual int print() const = 0;
 	bool getDeath() const;
 	bool getDisplay() const;
 	double getHealth() const;
