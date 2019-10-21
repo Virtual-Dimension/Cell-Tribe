@@ -22,6 +22,6 @@ protected:
 	};
 	std::list < CellPoint > cellsPoint;
 	double moveCD, propagateCD;
-
+	double pointColor;
 };
 

@@ -1,6 +1,6 @@
 #include "MapController.h"
 #include "EventController.h"
-#include "Entity/Entity.h"
+#include "Entity/EntityLiving.h"
 
 MapController::MapController(const double& bx, const double& by, const double& ex, const double& ey)
 	: entityList(), mapBeginX(bx), mapBeginY(by), mapEndX(ex), mapEndY(ey), stick(0) {
@@ -34,13 +34,19 @@ void MapController::update(double dt) {
 	}
 	entityList.swap(nxt);
 	for (const auto& e : entityList) e->update();
+	for (const auto& e : entityList) {
+		for (const auto& e2 : entityList) {
+			if (e == e2) continue;
+			e->interact(e2);
+		}
+	}
 	return;
 }
 
 std::vector < Entity* > MapController::get(const Point& p)const {
 	std::vector < Entity* > res;
 	for (const auto& e : entityList)
-		if (e->inRange(p)) res.push_back(e);
+		if (e->inRange(p, 1.0)) res.push_back(e);
 	return res;
 }
 

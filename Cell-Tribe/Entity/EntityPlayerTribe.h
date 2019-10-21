@@ -19,7 +19,7 @@ public:
 	virtual bool isPlayer() const override final;
 protected:
 	virtual int behavior() override;
-	virtual int interact1(Entity*) override;
+	virtual int interact(Entity*) override;
 private:
 	int status;
 	int genePoints;

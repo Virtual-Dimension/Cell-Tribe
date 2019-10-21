@@ -31,15 +31,16 @@ EvolutionController::EvolutionController() : json(), got(0) {}
 EvolutionController::EvolutionController(const char* path) : json(), got(0) { initEvolutionJson(path); }
 
 void EvolutionController::initEvolutionJson(const char* path) {
-	char* res = new char[1024 * 32]();
 	FILE* f = 0;
 	fopen_s(&f, path, "r");
 	if (f) {
+		char* res = new char[1024 * 32]();
 		res[fread(res, 1, 1024 * 32, f)] = 0;
 		fclose(f);
 		json = neb::CJsonObject(res);
 		if (got) delete got;
 		got = new int[json["evolutinos"].GetArraySize() + 1]();
+		delete[] res;
 	}
 	return;
 }

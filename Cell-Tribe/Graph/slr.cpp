@@ -77,6 +77,7 @@ namespace SL {
 	recursive_mutex mtx_list_obj;
 	//recursive_mutex mtx_list_wid;
 	void WindowThread(int WINDOW_WIDTH, int WINDOW_HEIGHT) {
+		srand((int)time(0));
 		slWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "SIGIL", false);
 		window = 1;
 		//slTranslate(0, WINDOW_HEIGHT);

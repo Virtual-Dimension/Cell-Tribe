@@ -25,7 +25,6 @@ public:
 	bool getDisplay() const;
 	double getHealth() const;
 	Point getPoint() const;
-	virtual bool inRange(const Point&) const;
 	virtual bool inRange(const Point&, const double&) const;
 	virtual bool canBeAttacked() const;
 	virtual int beAttacked(EntityLiving*, const double&);
@@ -34,6 +33,7 @@ public:
 	int respawn(MapController*);
 	virtual int spawn(MapController*);
 	virtual bool isPlayer() const;
+	virtual int interact(Entity*);
 protected:
 	double health;
 	void setPoint(const Point&);

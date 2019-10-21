@@ -3,7 +3,7 @@
 #include "../MapController.h"
 
 EntityBaseTribe::EntityBaseTribe()
-	: EntityLiving(), cellsMax(0), energyMax(0), energy(0), regeneration(0), cellRadius(0), moveCD(0), propagateCD(0) {}
+	: EntityLiving(), cellsMax(0), energyMax(0), energy(0), regeneration(0), cellRadius(0), moveCD(0), propagateCD(0), pointColor((double)(rand() % 256) / 256) {}
 
 EntityBaseTribe::~EntityBaseTribe() {}
 
@@ -27,7 +27,8 @@ int EntityBaseTribe::spawn(MapController* mapController) {
 	for (auto dypoint : cellsPoint)	delete dypoint.point;
 	cellsPoint.clear();
 	for (int i = 0; i < siz; i++) {
-		SLDynamicPoint* newSLDynamicPoint = new SLDynamicPoint(getPoint(), cellRadius, 10, randSLColor());
+		SLColor newSLColor = HSL2RGB(std::max(std::min(1.0, pointColor + 0.2 * rand() / RAND_MAX - 0.1), 0.0), 1, 0.5, 0.3 + (double)rand() / RAND_MAX * 0.7);
+		SLDynamicPoint* newSLDynamicPoint = new SLDynamicPoint(getPoint(), cellRadius, 10, newSLColor);
 		cellsPoint.push_back(CellPoint{ newSLDynamicPoint, healthMax });
 		newSLObject->AddPoint(newSLDynamicPoint);
 	}
@@ -36,8 +37,27 @@ int EntityBaseTribe::spawn(MapController* mapController) {
 	return EntityLiving::spawn(mapController);
 }
 
-int EntityBaseTribe::beAttacked(EntityLiving*, const double&) {
-	return 0;
+int EntityBaseTribe::beAttacked(EntityLiving* other, const double& damage) {
+	int cnt = 0, i = 0;
+	bool* st = new bool[cellsPoint.size() + 1]();
+	for (auto cell : cellsPoint) {
+		if (other->inAttackRange(cell.point->GetPos(), cellRadius)) ++cnt, st[i] = 1;
+		++i;
+	}
+	i = 0;
+	for (std::list < CellPoint >::iterator it = cellsPoint.begin(); it != cellsPoint.end(); ) {
+		if (st[i]) {
+			it->health -= damage / cnt;
+			if (it->health < 0) {
+				it = cellsPoint.erase(it);
+			}
+			else {
+				++it;
+			}
+		}
+		++i;
+	}
+	return OPERATOR_SUCCESS;
 }
 
 void EntityBaseTribe::heal(const double& val) {
@@ -64,8 +84,9 @@ int EntityBaseTribe::propagate() {
 	Point newPoint = getPoint();
 	std::list < CellPoint >::iterator it = cellsPoint.begin();
 	for (int i = 0; i < addval; i++) {
-		if (it != cellsPoint.end()) newPoint = it->point->GetPos();
-		SLDynamicPoint* newSLDynamicPoint = new SLDynamicPoint(newPoint, cellRadius, 10, randSLColor());
+		if (it != cellsPoint.end()) newPoint = it->point->GetPos(), ++it;
+		SLColor newSLColor = HSL2RGB(std::max(std::min(1.0, pointColor + 0.2 * rand() / RAND_MAX - 0.1), 0.0), 1, 0.5, 0.3 + (double)rand() / RAND_MAX * 0.7);
+		SLDynamicPoint* newSLDynamicPoint = new SLDynamicPoint(newPoint, cellRadius, 10, newSLColor);
 		cellsPoint.push_back(CellPoint{ newSLDynamicPoint, healthMax });
 		if (slObject) ((SLDynamicPointGroup*)slObject)->AddPoint(newSLDynamicPoint);
 	}
@@ -74,12 +95,13 @@ int EntityBaseTribe::propagate() {
 	return OPERATOR_SUCCESS;
 }
 int EntityBaseTribe::attack(EntityLiving* other) {
-	// calc
+	for (auto cell : cellsPoint)
+		if (other->inRange(cell.point->GetPos(), attackRange)) other->beAttacked(this, atk);
 	return OPERATOR_SUCCESS;
 }
 
 bool EntityBaseTribe::inRange(const Point& p, const double& dis) const {
 	for (auto dypoint : cellsPoint)
-		if ((dypoint.point->GetPos() - p).len() < dis) return 1;
+		if ((dypoint.point->GetPos() - p).len() < dis + cellRadius) return 1;
 	return 0;
 }

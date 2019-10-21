@@ -25,6 +25,8 @@ int EntityLiving::beAttacked(EntityLiving* other, const double& damage) {
 
 void EntityLiving::heal(const double& val) { health = std::min(healthMax, health + val); }
 
+bool EntityLiving::inAttackRange(const Point& p, const double& dis) const {	return inRange(p, dis + attackRange);}
+
 int EntityLiving::attack(EntityLiving* other) {
 	other->beAttacked(this, atk);
 	return OPERATOR_SUCCESS;
@@ -32,13 +34,5 @@ int EntityLiving::attack(EntityLiving* other) {
 
 int EntityLiving::move(const Point& p) {
 	// API
-	return OPERATOR_SUCCESS;
-}
-
-int EntityLiving::interact1(Entity* entity) {
-	if (entity->canBeAttacked()) {
-		this->attack((EntityLiving*)entity);
-		return ENTITY_ATTACKED;
-	}
 	return OPERATOR_SUCCESS;
 }
