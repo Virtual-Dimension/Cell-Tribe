@@ -1,6 +1,6 @@
 #include "EntityLiving.h"
 
-EntityLiving::EntityLiving() : Entity(), atk(1), healthMax(20), attackRange(3), moveRange(3), moveSpeed(1) {}
+EntityLiving::EntityLiving() : Entity(), atk(0), healthMax(0), attackRange(0), moveRange(0), moveSpeed(0) {}
 
 EntityLiving::~EntityLiving() {}
 

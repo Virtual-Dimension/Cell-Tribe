@@ -32,7 +32,9 @@ double random(double l, double r) {
 SLColor::SLColor(double r, double g, double b, double a)
 	:r(r), g(g), b(b), a(a) {}
 
-
+SLColor randSLColor() {
+	return SLColor((double)rand() / RAND_MAX, (double)rand() / RAND_MAX, (double)rand() / RAND_MAX, (double)rand() / RAND_MAX);
+}
 
 double Hue2RGB(double v1, double v2, double vH) {
 	if (vH < 0) vH += 1;

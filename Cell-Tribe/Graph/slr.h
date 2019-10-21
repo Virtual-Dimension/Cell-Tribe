@@ -29,6 +29,7 @@ struct SLColor {
 	double r, g, b, a;
 	SLColor(double r = 0, double g = 0, double b = 0, double a = 0);
 };
+SLColor randSLColor();
 double Hue2RGB(double v1, double v2, double vH);
 SLColor HSL2RGB(double H, double S, double L, double A);
 void slSetForeColor(const SLColor& c);
@@ -138,7 +139,7 @@ public:
 	void RemovePoint(SLDynamicPoint* p);
 	void move(const Point& mp);
 	void spread();
-	void SetSatic(const Point &p);
+	void SetSatic(const Point& p);
 	bool IsStatic();
 public:
 	virtual void update(double t) override;
