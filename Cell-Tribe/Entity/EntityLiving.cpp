@@ -17,18 +17,18 @@ int EntityLiving::update() {
 
 bool EntityLiving::canBeAttacked() const { return true; }
 
-int EntityLiving::beAttacked(EntityLiving* other, const double& damage) {
-	health -= damage;
+int EntityLiving::beAttacked(EntityLiving* other) {
+	health -= other->getAttackDamage(getPoint(), getRadius());
 	if (health <= 0) setDeath();
 	return OPERATOR_SUCCESS;
 }
 
+double EntityLiving::getAttackDamage(const Point& p, const double& radius) { return atk; }
+
 void EntityLiving::heal(const double& val) { health = std::min(healthMax, health + val); }
 
-bool EntityLiving::inAttackRange(const Point& p, const double& dis) const {	return inRange(p, dis + attackRange);}
-
 int EntityLiving::attack(EntityLiving* other) {
-	other->beAttacked(this, atk);
+	other->beAttacked(this);
 	return OPERATOR_SUCCESS;
 }
 

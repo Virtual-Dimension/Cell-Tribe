@@ -37,27 +37,19 @@ int EntityBaseTribe::spawn(MapController* mapController) {
 	return EntityLiving::spawn(mapController);
 }
 
-int EntityBaseTribe::beAttacked(EntityLiving* other, const double& damage) {
-	int cnt = 0, i = 0;
-	bool* st = new bool[cellsPoint.size() + 1]();
-	for (auto cell : cellsPoint) {
-		if (other->inAttackRange(cell.point->GetPos(), cellRadius)) ++cnt, st[i] = 1;
-		++i;
+int EntityBaseTribe::beAttacked(EntityLiving* other) {
+	for (std::list < CellPoint >::iterator it = cellsPoint.begin(); it != cellsPoint.end(); (it->health < 0 ? (it = cellsPoint.erase(it)) : ++it)) {
+		it->health -= other->getAttackDamage(it->point->GetPos(), cellRadius);
 	}
-	i = 0;
-	for (std::list < CellPoint >::iterator it = cellsPoint.begin(); it != cellsPoint.end(); ) {
-		if (st[i]) {
-			it->health -= damage / cnt;
-			if (it->health < 0) {
-				it = cellsPoint.erase(it);
-			}
-			else {
-				++it;
-			}
-		}
-		++i;
-	}
+	if (cellsPoint.empty()) setDeath();
 	return OPERATOR_SUCCESS;
+}
+
+double EntityBaseTribe::getAttackDamage(const Point& p, const double& r) {
+	double res = 0;
+	for (auto cell : cellsPoint) 
+		if ((p - cell.point->GetPos()).len() < r + attackRange) res += atk;
+	return res;
 }
 
 void EntityBaseTribe::heal(const double& val) {
@@ -94,14 +86,9 @@ int EntityBaseTribe::propagate() {
 	propagateCD = 2;
 	return OPERATOR_SUCCESS;
 }
-int EntityBaseTribe::attack(EntityLiving* other) {
-	for (auto cell : cellsPoint)
-		if (other->inRange(cell.point->GetPos(), attackRange)) other->beAttacked(this, atk);
-	return OPERATOR_SUCCESS;
-}
 
-bool EntityBaseTribe::inRange(const Point& p, const double& dis) const {
+bool EntityBaseTribe::inRange(const Point& p, const double& radius) const {
 	for (auto dypoint : cellsPoint)
-		if ((dypoint.point->GetPos() - p).len() < dis + cellRadius) return 1;
+		if ((dypoint.point->GetPos() - p).len() < radius + cellRadius) return 1;
 	return 0;
 }

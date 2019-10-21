@@ -1,7 +1,7 @@
 #include "EntityLiving.h"
 #include "../MapController.h"
 
-Entity::Entity() : death(0), show(0), health(0), mapController(0), slObject(0), showObject(0), point() {}
+Entity::Entity() : death(0), show(0), health(0), mapController(0), slObject(0), showObject(0), point(), radius(0) {}
 
 Entity:: ~Entity() { }
 
@@ -10,6 +10,8 @@ void Entity::setDeath() { death = 1; }
 void Entity::setPoint(const Point& p) { point = p; }
 
 void Entity::setPoint(const double& x, const double& y) { setPoint(Point(x, y)); }
+
+void Entity::setRadius(const double& r) { radius = r; }
 
 void Entity::setMapController(MapController* mapcontroller, const bool& x) {
 	if (show == x) return;
@@ -47,11 +49,14 @@ double Entity::getHealth() const { return health; }
 
 Point Entity::getPoint() const { return point; }
 
-bool Entity::inRange(const Point& p, const double& dis) const { return (point - p).len() < dis; }
+double Entity::getRadius() const { return radius; }
+
+
+bool Entity::inRange(const Point& p, const double& r) const { return (point - p).len() < r + radius; }
 
 bool Entity::canBeAttacked() const { return false; }
 
-int Entity::beAttacked(EntityLiving* other, const double& damage) { return OPERATOR_SUCCESS; }
+int Entity::beAttacked(EntityLiving* other) { return OPERATOR_SUCCESS; }
 
 bool Entity::canBeUsed() const { return false; }
 

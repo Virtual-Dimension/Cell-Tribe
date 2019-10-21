@@ -49,11 +49,12 @@ int EntityPlayerTribe::behavior() {
 	if (slGetKey('1')) {
 		status ^= STATUS_ATTACK;
 		printf("ATTACKMODE : %d\n", status & STATUS_ATTACK);
-	} 
+	}
 	if (slGetKey('2')) {
 		status ^= STATUS_USE;
 		printf("USEMODE : %d\n", status & STATUS_USE);
 	}
+
 
 	if (((SLDynamicPointGroup*)slObject)->IsStatic()) {
 		SL::CameraMove(getPoint().x + SL::GetCameraOffset().x - WINDOW_WIDTH / 2, getPoint().y + SL::GetCameraOffset().y - WINDOW_HEIGHT / 2);
@@ -63,12 +64,20 @@ int EntityPlayerTribe::behavior() {
 
 int EntityPlayerTribe::interact(Entity* entity) {
 	if ((status & STATUS_USE) && entity->canBeUsed()) {
-		entity->beUsed(this);
-		return ITEM_USED;
+		for (auto cell : cellsPoint) {
+			if (entity->inRange(cell.point->GetPos(), cellRadius)) {
+				entity->beUsed(this);
+				return ITEM_USED;
+			}
+		}
 	}
 	if ((status & STATUS_ATTACK) && entity->canBeAttacked()) {
-		this->attack((EntityLiving*)entity);
-		return ENTITY_ATTACKED;
+		for (auto cell : cellsPoint) {
+			if (entity->inRange(cell.point->GetPos(), attackRange)) {
+				attack((EntityLiving*)entity);
+				return ENTITY_ATTACKED;
+			}
+		}
 	}
 	return OPERATOR_SUCCESS;
 }

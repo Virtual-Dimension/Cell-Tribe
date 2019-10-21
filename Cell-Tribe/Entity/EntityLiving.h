@@ -7,9 +7,9 @@ public:
 	~EntityLiving();
 	virtual int update() override final;
 	virtual bool canBeAttacked() const override final;
-	virtual int beAttacked(EntityLiving*, const double&) override;
+	virtual int beAttacked(EntityLiving*) override;
+	virtual double getAttackDamage(const Point&, const double&);
 	virtual void heal(const double&);
-	virtual bool inAttackRange(const Point&, const double&) const;
 protected:
 	double atk, healthMax;
 	double moveRange, attackRange, moveSpeed;

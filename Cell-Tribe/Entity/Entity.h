@@ -25,9 +25,10 @@ public:
 	bool getDisplay() const;
 	double getHealth() const;
 	Point getPoint() const;
+	double getRadius() const;
 	virtual bool inRange(const Point&, const double&) const;
 	virtual bool canBeAttacked() const;
-	virtual int beAttacked(EntityLiving*, const double&);
+	virtual int beAttacked(EntityLiving*);
 	virtual bool canBeUsed() const;
 	virtual int beUsed(EntityLiving*);
 	int respawn(MapController*);
@@ -38,12 +39,14 @@ protected:
 	double health;
 	void setPoint(const Point&);
 	void setPoint(const double&, const double&);
+	void setRadius(const double&);
 	void setDeath();
 	void setMapController(MapController*, const bool&);
 	virtual void display(const bool&);
 	MapController* getMapController() const;
 	SLObject* slObject;
 private:
+	double radius;
 	Point point;
 	MapController* mapController;
 	bool death, show, showObject;
