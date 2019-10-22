@@ -159,6 +159,7 @@
     <ClInclude Include="Json\cJSON.h" />
     <ClInclude Include="Json\CJsonObject.h" />
     <ClInclude Include="MapController.h" />
+    <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="..\..\sigil-master\sigil-master\sigil-vc2015-win64\lib\sigil.lib" />
@@ -166,6 +167,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Graph\sigil.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="celltribe.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
