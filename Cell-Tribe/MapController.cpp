@@ -3,7 +3,7 @@
 #include "Entity/EntityLiving.h"
 
 MapController::MapController(const double& bx, const double& by, const double& ex, const double& ey)
-	: entityList(), mapBeginX(bx), mapBeginY(by), mapEndX(ex), mapEndY(ey), stick(0) {
+	: entityList(), mapBeginX(bx), mapBeginY(by), mapEndX(ex), mapEndY(ey), second(0) {
 	this->attach();
 }
 
@@ -21,7 +21,7 @@ int MapController::push(EventController* eventController) {
 }
 
 void MapController::update(double dt) {
-	stick = dt;
+	second = dt;
 	for (const auto& e : ecList) e->update();
 	std::vector < Entity* > nxt;
 	for (const auto& e : entityList) {
@@ -97,7 +97,7 @@ bool MapController::beyond(const Point& p) const {
 
 bool MapController::beyond(Entity* entity) const { return  beyond(entity->getPoint()); }
 
-double MapController::getStick() const { return stick; }
+double MapController::getSecond() const { return second; }
 
 Point MapController::getRightPoint() const {
 	double x = (1.0 * rand() / RAND_MAX) * (mapEndX - mapBeginX) + mapBeginX;

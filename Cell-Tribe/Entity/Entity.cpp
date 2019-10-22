@@ -3,7 +3,12 @@
 
 Entity::Entity() : death(0), show(0), health(0), mapController(0), slObject(0), showObject(0), point(), radius(0) {}
 
-Entity:: ~Entity() { }
+Entity:: ~Entity() {
+	if (showObject) {
+		display(0);
+		delete slObject;
+	}
+}
 
 void Entity::setDeath() { death = 1; }
 
@@ -51,7 +56,6 @@ Point Entity::getPoint() const { return point; }
 
 double Entity::getRadius() const { return radius; }
 
-
 bool Entity::inRange(const Point& p, const double& r) const { return (point - p).len() < r + radius; }
 
 bool Entity::canBeAttacked() const { return false; }
@@ -68,12 +72,20 @@ int Entity::respawn(MapController* mapcontroller) {
 }
 
 int Entity::spawn(MapController* mapcontroller) {
-	setMapController(mapcontroller, 0);
+	setMapController(0, 0);
 	if (mapcontroller->beyond(point)) return ENTITY_BEYOND;
+	if (showObject) {
+		display(0);
+		delete slObject;
+	}
+	int res = onSpawning(mapcontroller);
+	if (res != OPERATOR_SUCCESS) return res;
 	setMapController(mapcontroller, 1);
 	display(1);
 	return OPERATOR_SUCCESS;
 }
+
+int Entity::onSpawning(MapController* mapcontroller) { return OPERATOR_SUCCESS; }
 
 bool Entity::isPlayer() const { return false; }
 

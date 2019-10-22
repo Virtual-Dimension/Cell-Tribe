@@ -16,11 +16,7 @@ int EntityBaseTribe::move(const Point& p) {
 	return OPERATOR_SUCCESS;
 }
 
-int EntityBaseTribe::spawn(MapController* mapController) {
-	if (slObject) {
-		slObject->detach();
-		delete slObject;
-	}
+int EntityBaseTribe::onSpawning(MapController* mapController) {
 	SLDynamicPointGroup* newSLObject = new SLDynamicPointGroup();
 	newSLObject->move_speed = moveSpeed, newSLObject->static_speed = 5.0;
 	int siz = (int)cellsPoint.size();
@@ -34,7 +30,7 @@ int EntityBaseTribe::spawn(MapController* mapController) {
 	}
 	newSLObject->move(getPoint());
 	slObject = newSLObject;
-	return EntityLiving::spawn(mapController);
+	return OPERATOR_SUCCESS;
 }
 
 int EntityBaseTribe::beAttacked(EntityLiving* other) {
@@ -62,9 +58,9 @@ int EntityBaseTribe::behavior() {
 		health = 0;
 		return ENTITY_DEAD;
 	}
-	if (moveCD > 0) moveCD -= getMapController()->getStick();
-	if (propagateCD > 0) propagateCD -= getMapController()->getStick();
-	heal(regeneration * getMapController()->getStick());
+	if (moveCD > 0) moveCD -= getMapController()->getSecond();
+	if (propagateCD > 0) propagateCD -= getMapController()->getSecond();
+	heal(regeneration * getMapController()->getSecond());
 	return OPERATOR_SUCCESS;
 }
 

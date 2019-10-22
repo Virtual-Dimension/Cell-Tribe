@@ -8,9 +8,8 @@
 #include <Windows.h>
 #pragma endregion
 
-MapController* mapController;
 
-EventController* eventController;
+
 
 void InitGame() {
 	Entity* player1;
@@ -19,13 +18,15 @@ void InitGame() {
 
 	player1 = new EntityPlayerTribe("Player1", evolutionController1);
 
-	mapController = new MapController(MAP_BEGIN_X, MAP_BEGIN_Y, MAP_END_X, MAP_END_Y);
+	MapController* mapController = new MapController(MAP_BEGIN_X, MAP_BEGIN_Y, MAP_END_X, MAP_END_Y);
 
 	player1->respawn(mapController);
 
-	eventController = new EventController(mapController);
+	EventController* eventController = new EventController(mapController);
 
-	SL::CameraMove(player1->getPoint().x - WINDOW_WIDTH / 2 , player1->getPoint().y - WINDOW_HEIGHT / 2);
+	eventController->open();
+
+	SL::CameraMove(player1->getPoint().x - WINDOW_WIDTH / 2, player1->getPoint().y - WINDOW_HEIGHT / 2);
 
 	//SL::CameraMove(100, 100);
 	return;
@@ -39,10 +40,12 @@ int main() {
 	SL::StartThread(WINDOW_WIDTH, WINDOW_HEIGHT);
 
 	while (!SL::IsWindowShowed()) Sleep(1);
-	
+
 	printf("init game...\n");
 
 	InitGame();
+
+	printf("start game...\n");
 
 	SL::Wait();
 

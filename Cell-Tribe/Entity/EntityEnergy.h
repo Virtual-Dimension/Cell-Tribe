@@ -1,12 +1,15 @@
 #pragma once
 #include "EntityItem.h"
+#include "EntityLiving.h"
 
 class EntityEnergy : public EntityItem {
 public:
-	EntityEnergy();
+	EntityEnergy(int);
 	~EntityEnergy();
-	void MakeEnergy(MapController*, int);
+	void makeEnergy(int);
+	int getEnergyNum();
+	int beUsed(EntityLiving* entity);
 private:
-	int EnergyNum;
+	int energyNum;
 };
 

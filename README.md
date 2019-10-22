@@ -1,11 +1,13 @@
 # Cell-Tribe
 
-![](https://img.shields.io/github/issues/Xciyang/Cell)
-![](https://img.shields.io/github/forks/Xciyang/Cell)
-![](https://img.shields.io/github/stars/Xciyang/Cell)
-![](https://img.shields.io/github/license/Xciyang/Cell)
-![](https://img.shields.io/github/languages/top/Xciyang/Cell)
-![](https://img.shields.io/github/last-commit/Xciyang/Cell)
+![](https://img.shields.io/github/issues/Virtual-Dimension/Cell-Tribe)
+![](https://img.shields.io/github/forks/Virtual-Dimension/Cell-Tribe)
+![](https://img.shields.io/github/stars/Virtual-Dimension/Cell-Tribe)
+![](https://img.shields.io/github/license/Virtual-Dimension/Cell-Tribe)
+![](https://img.shields.io/github/languages/top/Virtual-Dimension/Cell-Tribe)
+![](https://img.shields.io/github/last-commit/Virtual-Dimension/Cell-Tribe)
+![](https://img.shields.io/github/languages/code-size/Virtual-Dimension/Cell-Tribe)
+![](https://img.shields.io/github/repo-size/Virtual-Dimension/Cell-Tribe)
 
 > 一个用C++编写的RPG游戏。
 >
