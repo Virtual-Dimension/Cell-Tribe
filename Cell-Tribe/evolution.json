@@ -1,45 +1,199 @@
 {
-	"version": "0.0000.1",
-	"evolutinos": [
-		{
-			"name": "基本生命",
-			"describe": "每个生命生来具备的属性",
-			"fa": [],
-			"type": 0,
-			"need": 0,
+  "version": "1.7",
+  "note": [
+    "name:进化名",
+    "describe:进化描述",
+    "fa:前置进化",
+    "type:类型{0}",
+    "cost:花费基因点数",
+    "effect:造成影响",
+    "atk:攻击力加成",
+    "attackRange:攻击范围加成",
+    "cellsMax:最大细胞个数加成",
+    "energyMax:最大能量加成",
+    "healthMax:最大生命加成",
+    "moveRange:移动距离加成",
+    "moveSpeed:移动速度加成",
+    "cellRadius:细胞半径加成",
+    "regeneration:生命恢复加成",
+    "pos:进化树上的位置"
+  ],
+  "evolutinos": [
+    {
+      "name": "基本生命",
+      "describe": "每个生命生来具备的属性",
+      "fa": [],
+      "type": 0,
+      "cost": 0,
       "effect": {
         "atk": 2,
-        "attackRange": 20,
-        "cellsMax": 20,
+        "attackRange": 10,
+        "cellsMax": 4,
         "energyMax": 20,
         "healthMax": 20,
-        "moveRange": 500,
-        "moveSpeed": 50,
-        "cellRadius": 4,
-        "regeneration": 0.1
+        "moveRange": 800,
+        "moveSpeed": 5,
+        "cellRadius": 5,
+        "regeneration": 0.01
       },
-			"pos": {
-				"x": 0,
-				"y": 0
-			}
-		}
-	],
-  "note": [
-    "name : 进化名",
-    "describe : 进化描述",
-    "fa : 前置进化",
-    "type : 类型{ 0 }",
-    "need : 花费基因点数",
-    "effect : 造成影响",
-    "atk : 攻击力加成",
-    "attackRangeatk : 攻击范围加成",
-    "cellsMax : 最大细胞个数加成",
-    "energyMax : 最大能量加成",
-    "healthMax : 最大生命加成",
-    "moveRange : 移动距离加成",
-    "moveSpeed : 移动速度加成",
-    "cellRadius : 细胞半径加成",
-    "regeneration : 生命恢复加成",
-    "pos : 进化树上的位置"
+      "pos": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "name": "初次成长",
+      "describe": "获得一点基因点数就迫不及待地用掉",
+      "fa": [ 0 ],
+      "type": 0,
+      "cost": 1,
+      "effect": {
+        "atk": 2,
+        "attackRange": 3,
+        "cellsMax": 1,
+        "energyMax": 10,
+        "healthMax": 10,
+        "moveRange": 400,
+        "moveSpeed": 1,
+        "cellRadius": 0,
+        "regeneration": 0.10
+      },
+      "pos": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "name": "略微成长",
+      "describe": "渐渐明白做种群的道理",
+      "fa": [ 1 ],
+      "type": 0,
+      "cost": 1,
+      "effect": {
+        "atk": 1,
+        "attackRange": 1,
+        "cellsMax": 1,
+        "energyMax": 10,
+        "healthMax": 10,
+        "moveRange": 0,
+        "moveSpeed": 3,
+        "cellRadius": 1,
+        "regeneration": 0.40
+      },
+      "pos": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "name": "再次成长",
+      "describe": "正式成为一个成熟的种群，开始一场属于自己的悲壮的轮回演替",
+      "fa": [ 2 ],
+      "type": 0,
+      "cost": 2,
+      "effect": {
+        "atk": 5,
+        "attackRange": 6,
+        "cellsMax": 1,
+        "energyMax": 10,
+        "healthMax": 10,
+        "moveRange": 800,
+        "moveSpeed": 6,
+        "cellRadius": 6,
+        "regeneration": 0.49
+      },
+      "pos": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "name": "mover-1：香港记者",
+      "describe": "全部个体离光速移动又近了一步",
+      "fa": [ 3 ],
+      "type": 0,
+      "cost": 3,
+      "effect": {
+        "atk": 0,
+        "attackRange": 0,
+        "cellsMax": 0,
+        "energyMax": 0,
+        "healthMax": 0,
+        "moveRange": 800,
+        "moveSpeed": 10,
+        "cellRadius": 1,
+        "regeneration": 0
+      },
+      "pos": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "name": "pepper-1：中国网民",
+      "describe": "大家在竞争方面开始蠢蠢欲动，不过不知道是种间还是种内",
+      "fa": [ 3 ],
+      "type": 0,
+      "cost": 3,
+      "effect": {
+        "atk": 7,
+        "attackRange": 5,
+        "cellsMax": 0,
+        "energyMax": 0,
+        "healthMax": 0,
+        "moveRange": 0,
+        "moveSpeed": 0,
+        "cellRadius": 0,
+        "regeneration": 0
+      },
+      "pos": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "name": "fatter-1：唯我独墩",
+      "describe": "进食，是生存的第一要务。哎，吃多了",
+      "fa": [ 3 ],
+      "type": 0,
+      "cost": 3,
+      "effect": {
+        "atk": 0,
+        "attackRange": 0,
+        "cellsMax": 0,
+        "energyMax": 15,
+        "healthMax": 0,
+        "moveRange": 0,
+        "moveSpeed": 0,
+        "cellRadius": 3,
+        "regeneration": 0.25
+      },
+      "pos": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "name": "animaler-1：动物之友",
+      "describe": "你的种群不断扩大，你觉得要提前考虑计划生育政策了",
+      "fa": [ 3 ],
+      "type": 0,
+      "cost": 3,
+      "effect": {
+        "atk": 0,
+        "attackRange": 0,
+        "cellsMax": 2,
+        "energyMax": 0,
+        "healthMax": 15,
+        "moveRange": 0,
+        "moveSpeed": 0,
+        "cellRadius": 0,
+        "regeneration": 0
+      },
+      "pos": {
+        "x": 0,
+        "y": 0
+      }
+    }
   ]
 }

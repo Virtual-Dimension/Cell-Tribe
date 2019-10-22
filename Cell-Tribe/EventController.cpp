@@ -9,9 +9,9 @@ EventController::~EventController() {}
 void EventController::update() {
 	if (TribeUpdateCD > 0) TribeUpdateCD -= mapController->getSecond();
 	if (TribeUpdateCD <= 0) {
-		for (int i = 0; i < mapController->count(); i++) {
+		for (size_t i = 0; i < mapController->count(); i++) {
 			if (mapController->getList()[i]->isPlayer()) {
-				EntityMobTribe* newEntityMobTribe = new EntityMobTribe(mapController->getList()[i]->getPoint() + Point(rand() % 2000 - 100, rand() % 2000 - 1000));
+				EntityMobTribe* newEntityMobTribe = new EntityMobTribe(mapController->getList()[i]->getPoint() + Point(rand() % 2000 - 1000, rand() % 2000 - 1000));
 				if (newEntityMobTribe->spawn(mapController) != OPERATOR_SUCCESS) {
 					delete newEntityMobTribe;
 				}

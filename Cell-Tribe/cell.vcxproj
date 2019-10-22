@@ -106,6 +106,7 @@
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>Graph\sigil.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -160,6 +161,7 @@
     <ClInclude Include="MapController.h" />
   </ItemGroup>
   <ItemGroup>
+    <Library Include="..\..\sigil-master\sigil-master\sigil-vc2015-win64\lib\sigil.lib" />
     <Library Include="Graph\sigil.lib" />
   </ItemGroup>
   <ItemGroup>

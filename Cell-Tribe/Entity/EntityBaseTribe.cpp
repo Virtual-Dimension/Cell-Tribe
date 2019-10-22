@@ -34,17 +34,26 @@ int EntityBaseTribe::onSpawning(MapController* mapController) {
 }
 
 int EntityBaseTribe::beAttacked(EntityLiving* other) {
-	for (std::list < CellPoint >::iterator it = cellsPoint.begin(); it != cellsPoint.end(); (it->health < 0 ? (it = cellsPoint.erase(it)) : ++it)) {
+	for (std::list < CellPoint >::iterator it = cellsPoint.begin(); it != cellsPoint.end(); ) {
 		it->health -= other->getAttackDamage(it->point->GetPos(), cellRadius);
+		if (it->health <= 0) {
+			((SLDynamicPointGroup*)slObject)->RemovePoint(it->point);
+			it = cellsPoint.erase(it);
+		}
+		else {
+			++it;
+		}
 	}
-	if (cellsPoint.empty()) setDeath();
+	if (cellsPoint.empty()) {
+		setDeath();
+	}
 	return OPERATOR_SUCCESS;
 }
 
 double EntityBaseTribe::getAttackDamage(const Point& p, const double& r) {
 	double res = 0;
 	for (auto cell : cellsPoint) 
-		if ((p - cell.point->GetPos()).len() < r + attackRange) res += atk;
+		if ((p - cell.point->GetPos()).len() < r + attackRange) res += atk * getMapController()->getSecond();
 	return res;
 }
 
@@ -83,8 +92,8 @@ int EntityBaseTribe::propagate() {
 	return OPERATOR_SUCCESS;
 }
 
-bool EntityBaseTribe::inRange(const Point& p, const double& radius) const {
+bool EntityBaseTribe::inRange(const Point& p, const double& r) const {
 	for (auto dypoint : cellsPoint)
-		if ((dypoint.point->GetPos() - p).len() < radius + cellRadius) return 1;
+		if ((dypoint.point->GetPos() - p).len() < r + cellRadius) return 1;
 	return 0;
 }

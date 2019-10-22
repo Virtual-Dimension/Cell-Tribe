@@ -2,28 +2,32 @@
 #include "../MapController.h"
 
 EntityMobTribe::EntityMobTribe() : EntityBaseTribe(), atkEntity(0), viewRange(0) {
-	healthMax = 20;
-	cellsMax = rand() % 30 + 10;
-	cellRadius = 5;
-	atk = 10;
+	viewRange = 500;
+	cellRadius = (double)(rand() % 6) + 5;
+	attackRange = cellRadius * 2;
+	moveSpeed = std::min(80 - cellRadius * 7, 20.0);
+	healthMax = cellRadius * 4;
+	cellsMax = (int)cellRadius * 3 - 10;
+	atk = cellRadius * 1.5 - 5;
+
 	health = 5.0;
 	moveRange = 200 + (double)(rand() % 200);
-	moveSpeed = 50 + (double)(rand() % 50);
-	viewRange = 500;
-	attackRange = 100;
+
 	propagate();
 }
 
 EntityMobTribe::EntityMobTribe(const Point& p) : EntityBaseTribe(), atkEntity(0), viewRange(0) {
-	healthMax = 20;
-	cellsMax = rand() % 30 + 10;
-	cellRadius = 5;
-	atk = 10;
+	viewRange = 500;
+	cellRadius = (double)(rand() % 6) + 5;
+	attackRange = cellRadius * 2;
+	moveSpeed = std::min(80 - cellRadius * 7, 20.0);
+	healthMax = cellRadius * 4;
+	cellsMax = (int)cellRadius * 3 - 10;
+	atk = cellRadius * 1.5 - 5;
+
 	health = 5.0;
 	moveRange = 200 + (double)(rand() % 200);
-	moveSpeed = 50 + (double)(rand() % 50);
-	viewRange = 500;
-	attackRange = 100;
+
 	propagate();
 	setPoint(p);
 }
