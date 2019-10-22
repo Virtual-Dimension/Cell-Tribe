@@ -3,7 +3,7 @@
 #include "../MapController.h"
 
 EntityBaseTribe::EntityBaseTribe()
-	: EntityLiving(), cellsMax(0), energyMax(0), energy(0), regeneration(0), cellRadius(0), moveCD(0), propagateCD(0), pointColor((double)(rand() % 256) / 256) {}
+	: EntityLiving(), cellsMax(0), regeneration(0), cellRadius(0), moveCD(0), propagateCD(0), pointColor((double)(rand() % 256) / 256) {}
 
 EntityBaseTribe::~EntityBaseTribe() {}
 

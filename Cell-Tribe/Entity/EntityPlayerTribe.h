@@ -9,7 +9,7 @@ class EvolutionController;
 class SLDynamicPoint;
 struct Effect;
 
-class EntityPlayerTribe final : public EntityBaseTribe {
+class EntityPlayerTribe : public EntityBaseTribe {
 public:
 	EntityPlayerTribe();
 	EntityPlayerTribe(const std::string&, EvolutionController*);

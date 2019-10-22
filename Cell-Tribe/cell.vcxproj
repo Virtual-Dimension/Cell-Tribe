@@ -129,6 +129,7 @@
     <ClCompile Include="Entity\EntityBaseTribe.cpp" />
     <ClCompile Include="Entity\EntityEnergy.cpp" />
     <ClCompile Include="Entity\EntityLiving.cpp" />
+    <ClCompile Include="Entity\EntityMobTribe.cpp" />
     <ClCompile Include="Entity\EntityPlayerTribe.cpp" />
     <ClCompile Include="Entity\EntityItem.cpp" />
     <ClCompile Include="Entity\EntityVirus.cpp" />
@@ -145,6 +146,7 @@
     <ClInclude Include="Entity\EntityBaseTribe.h" />
     <ClInclude Include="Entity\EntityEnergy.h" />
     <ClInclude Include="Entity\EntityLiving.h" />
+    <ClInclude Include="Entity\EntityMobTribe.h" />
     <ClInclude Include="Entity\EntityPlayerTribe.h" />
     <ClInclude Include="Entity\EntityItem.h" />
     <ClInclude Include="Entity\EntityVirus.h" />

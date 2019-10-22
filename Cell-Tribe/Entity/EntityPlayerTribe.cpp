@@ -35,7 +35,6 @@ int EntityPlayerTribe::beEffected(const Effect& effect) {
 
 bool EntityPlayerTribe::isPlayer() const { return true; }
 
-
 int EntityPlayerTribe::behavior() {
 	int baseRes = EntityBaseTribe::behavior();
 	if (baseRes < 0) return baseRes;

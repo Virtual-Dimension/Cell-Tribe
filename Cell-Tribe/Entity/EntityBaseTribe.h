@@ -14,7 +14,7 @@ protected:
 	virtual int behavior() override;
 	virtual int propagate();
 	virtual int move(const Point&) override;
-	int energyMax, energy, cellsMax;
+	int cellsMax;
 	double cellRadius, regeneration;
 	struct CellPoint {
 		SLDynamicPoint* point;
