@@ -12,13 +12,9 @@ void EntityEnergy::makeEnergy(int energyNumMaxLim) {
 	if (energyNum <= energyNumMaxLim / 2) this->energyNum += energyNumMaxLim;
 }
 
-int EntityEnergy::getEnergyNum()
-{
-	return this->energyNum;
-}
+int EntityEnergy::getEnergyNum() { return energyNum; }
 
-int EntityEnergy::beUsed(EntityLiving* entity)
-{
+int EntityEnergy::beUsed(EntityLiving* entity) {
 	if (entity->isPlayer()) {
 		entity->energyUp(this->energyNum);
 		this->setDeath();

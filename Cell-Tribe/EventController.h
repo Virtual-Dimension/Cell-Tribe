@@ -6,11 +6,11 @@ class EventController{
 public:
 	EventController(MapController*);
 	~EventController();
-	void update();
-	void close();
-	void open();
+	virtual void update();
+	virtual void close();
+	virtual void open();
 private:
 	MapController* mapController;
-	
+	double TribeUpdateCD;
 };
 

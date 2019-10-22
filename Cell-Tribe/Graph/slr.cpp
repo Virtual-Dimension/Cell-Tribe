@@ -79,6 +79,7 @@ namespace SL {
 	void WindowThread(int WINDOW_WIDTH, int WINDOW_HEIGHT) {
 		srand((int)time(0));
 		slWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "SIGIL", false);
+		slRender();
 		window = 1;
 		//slTranslate(0, WINDOW_HEIGHT);
 		//slRotate(180);

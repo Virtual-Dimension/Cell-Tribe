@@ -1,11 +1,12 @@
 #pragma once
 #include "EntityLiving.h"
+
 class SLDynamicPoint;
 class EntityBaseTribe : public EntityLiving {
 public:
 	EntityBaseTribe();
 	~EntityBaseTribe();
-	virtual int spawn(MapController*)override;
+	virtual int onSpawning(MapController*)override;
 	virtual int beAttacked(EntityLiving*) override;
 	virtual double getAttackDamage(const Point&, const double&) override;
 	virtual void heal(const double&)override;

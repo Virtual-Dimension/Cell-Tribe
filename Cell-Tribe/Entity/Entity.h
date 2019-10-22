@@ -32,7 +32,8 @@ public:
 	virtual bool canBeUsed() const;
 	virtual int beUsed(EntityLiving*);
 	int respawn(MapController*);
-	virtual int spawn(MapController*);
+	int spawn(MapController*);
+	virtual int onSpawning(MapController*);
 	virtual bool isPlayer() const;
 	virtual int interact(Entity*);
 protected:
@@ -42,7 +43,7 @@ protected:
 	void setRadius(const double&);
 	void setDeath();
 	void setMapController(MapController*, const bool&);
-	virtual void display(const bool&);
+	void display(const bool&);
 	MapController* getMapController() const;
 	SLObject* slObject;
 private:

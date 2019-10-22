@@ -5,7 +5,7 @@ class Entity;
 class EventController;
 
 class MapController :public SLObject {
-	double mapBeginX, mapBeginY, mapEndX, mapEndY, stick;
+	double mapBeginX, mapBeginY, mapEndX, mapEndY, second;
 	std::vector < Entity* > entityList;
 	std::vector < EventController*> ecList;
 public:
@@ -24,6 +24,6 @@ public:
 	bool exist(Entity*);
 	bool beyond(const Point&) const;
 	bool beyond(Entity*) const;
-	double getStick() const;
+	double getSecond() const;
 	Point getRightPoint() const;
 };

@@ -46,15 +46,17 @@ int EntityPlayerTribe::behavior() {
 		move(SL::GetRelativeMousePos());
 	}
 	if (slGetKey('1')) {
-		status ^= STATUS_ATTACK;
-		printf("ATTACKMODE : %d\n", status & STATUS_ATTACK);
+		status |= STATUS_ATTACK;
+	}
+	else {
+		status &= (~STATUS_ATTACK);
 	}
 	if (slGetKey('2')) {
-		status ^= STATUS_USE;
-		printf("USEMODE : %d\n", status & STATUS_USE);
+		status |= STATUS_USE;
 	}
-
-
+	else {
+		status &= (~STATUS_USE);
+	}
 	if (((SLDynamicPointGroup*)slObject)->IsStatic()) {
 		SL::CameraMove(getPoint().x + SL::GetCameraOffset().x - WINDOW_WIDTH / 2, getPoint().y + SL::GetCameraOffset().y - WINDOW_HEIGHT / 2);
 	}
