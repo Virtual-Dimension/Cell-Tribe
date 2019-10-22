@@ -1,15 +1,28 @@
 #include "EntityEnergy.h"
 #include "../MapController.h"
 
-EntityEnergy::EntityEnergy() : EnergyNum(0) {}
+EntityEnergy::EntityEnergy(int energyNumMaxLim) : energyNum(0) {
+	this->makeEnergy(energyNumMaxLim);
+}
 
 EntityEnergy::~EntityEnergy() {}
 
-void EntityEnergy::MakeEnergy(MapController* mapcontroller, int EnergyNumMaxLim) {
-	Point EnergyPoint = mapcontroller->getRightPoint();
-	this->EnergyNum = rand() % EnergyNumMaxLim;
-	if (EnergyNum <= EnergyNumMaxLim / 2) this->EnergyNum += EnergyNumMaxLim;
-	this->setPoint(EnergyPoint);
-	mapcontroller->push(this);
+void EntityEnergy::makeEnergy(int energyNumMaxLim) {
+	this->energyNum = rand() % energyNumMaxLim;
+	if (energyNum <= energyNumMaxLim / 2) this->energyNum += energyNumMaxLim;
 }
 
+int EntityEnergy::getEnergyNum()
+{
+	return this->energyNum;
+}
+
+int EntityEnergy::beUsed(EntityLiving* entity)
+{
+	if (entity->isPlayer()) {
+		entity->energyUp(this->energyNum);
+		this->setDeath();
+		return OPERATOR_SUCCESS;
+	}
+	return OPERATOR_FAILED;
+}
