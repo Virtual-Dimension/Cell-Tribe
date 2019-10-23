@@ -1,18 +1,19 @@
 #include "EntityEnergy.h"
+#include "EntityLiving.h"
 #include "../MapController.h"
 
 EntityEnergy::EntityEnergy(int energyNumMaxLim) : energyNum(0) {
-	this->makeEnergy(energyNumMaxLim);
+	this->energyNum = rand() % energyNumMaxLim;
+	if (energyNum <= energyNumMaxLim / 2) this->energyNum += energyNumMaxLim;
+	setRadius(5);
 }
 
 EntityEnergy::~EntityEnergy() {}
 
-void EntityEnergy::makeEnergy(int energyNumMaxLim) {
-	this->energyNum = rand() % energyNumMaxLim;
-	if (energyNum <= energyNumMaxLim / 2) this->energyNum += energyNumMaxLim;
+int EntityEnergy::onSpawning(MapController* mapController) {
+	slObject = new SLDynamicPoint(getPoint(), getRadius(), 5, SLColor(0.9, 0.9, 0.9, 1));
+	return OPERATOR_SUCCESS;
 }
-
-int EntityEnergy::getEnergyNum() { return energyNum; }
 
 int EntityEnergy::beUsed(EntityLiving* entity) {
 	if (entity->isPlayer()) {

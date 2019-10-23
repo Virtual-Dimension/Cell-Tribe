@@ -57,6 +57,9 @@ int EntityPlayerTribe::behavior() {
 	else {
 		status &= (~STATUS_USE);
 	}
+	if (slGetKey('3')) {
+		printf("Energy : %d/%d \n", energy, energyMax);
+	}
 	if (((SLDynamicPointGroup*)slObject)->IsStatic()) {
 		SL::CameraMove(getPoint().x + SL::GetCameraOffset().x - WINDOW_WIDTH / 2, getPoint().y + SL::GetCameraOffset().y - WINDOW_HEIGHT / 2);
 	}

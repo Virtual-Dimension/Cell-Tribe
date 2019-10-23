@@ -6,10 +6,9 @@
 #include "MapController.h"
 #include "Entity/EntityPlayerTribe.h"
 #include <Windows.h>
+
+
 #pragma endregion
-
-
-
 
 void InitGame() {
 	Entity* player1;
@@ -39,7 +38,7 @@ int main() {
 
 	SL::StartThread(WINDOW_WIDTH, WINDOW_HEIGHT);
 
-	while (!SL::IsWindowShowed()) Sleep(1);
+	while (!SL::IsWindowShowed()) Sleep(100);
 
 	printf("init game...\n");
 

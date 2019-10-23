@@ -116,7 +116,6 @@
   </ItemGroup>
   <ItemGroup>
     <Library Include="Graph\sigil.lib" />
-    <Library Include="..\..\sigil-master\sigil-master\sigil-vc2015-win64\lib\sigil.lib" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Graph\sigil.dll" />

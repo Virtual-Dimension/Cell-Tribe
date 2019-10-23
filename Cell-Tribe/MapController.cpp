@@ -1,6 +1,8 @@
 #include "MapController.h"
 #include "EventController.h"
 #include "Entity/EntityLiving.h"
+#include "Graph/slr.h"
+
 
 MapController::MapController(const double& bx, const double& by, const double& ex, const double& ey)
 	: entityList(), mapBeginX(bx), mapBeginY(by), mapEndX(ex), mapEndY(ey), second(0) {
@@ -21,6 +23,10 @@ int MapController::push(EventController* eventController) {
 }
 
 void MapController::update(double dt) {
+	static int BackGroundImg = slLoadTexture("./normal.jpg");
+
+	slSprite(BackGroundImg, (mapBeginX + mapEndX) / 2, (mapBeginY + mapEndY) / 2, mapEndX - mapBeginX, mapEndY - mapBeginY);
+
 	second = dt;
 	for (const auto& e : ecList) e->update();
 	std::vector < Entity* > nxt;

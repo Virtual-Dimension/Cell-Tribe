@@ -12,5 +12,6 @@ public:
 private:
 	MapController* mapController;
 	double TribeUpdateCD;
+	double EnergyUpdateCD;
 };
 

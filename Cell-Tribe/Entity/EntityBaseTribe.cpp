@@ -17,11 +17,11 @@ int EntityBaseTribe::move(const Point& p) {
 }
 
 int EntityBaseTribe::onSpawning(MapController* mapController) {
-	SLDynamicPointGroup* newSLObject = new SLDynamicPointGroup();
-	newSLObject->move_speed = moveSpeed, newSLObject->static_speed = 5.0;
 	int siz = (int)cellsPoint.size();
 	for (auto dypoint : cellsPoint)	delete dypoint.point;
 	cellsPoint.clear();
+	SLDynamicPointGroup* newSLObject = new SLDynamicPointGroup();
+	newSLObject->move_speed = moveSpeed, newSLObject->static_speed = 5.0;
 	for (int i = 0; i < siz; i++) {
 		SLColor newSLColor = HSL2RGB(std::max(std::min(1.0, pointColor + 0.2 * rand() / RAND_MAX - 0.1), 0.0), 1, 0.5, 0.3 + (double)rand() / RAND_MAX * 0.7);
 		SLDynamicPoint* newSLDynamicPoint = new SLDynamicPoint(getPoint(), cellRadius, 10, newSLColor);
@@ -38,6 +38,7 @@ int EntityBaseTribe::beAttacked(EntityLiving* other) {
 		it->health -= other->getAttackDamage(it->point->GetPos(), cellRadius);
 		if (it->health <= 0) {
 			((SLDynamicPointGroup*)slObject)->RemovePoint(it->point);
+			delete it->point;
 			it = cellsPoint.erase(it);
 		}
 		else {

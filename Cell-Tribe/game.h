@@ -30,10 +30,10 @@ constexpr int WINDOW_HEIGHT = 500;
 constexpr int OPERATOR_SUCCESS = 0;
 constexpr int OPERATOR_FAILED = -1;
 
-constexpr double MAP_BEGIN_X = -3000;
-constexpr double MAP_BEGIN_Y = -3000;
-constexpr double MAP_END_X = 3000;
-constexpr double MAP_END_Y = 3000;
+constexpr double MAP_BEGIN_X = -10000;
+constexpr double MAP_BEGIN_Y = -10000;
+constexpr double MAP_END_X = 10000;
+constexpr double MAP_END_Y = 10000;
 
 struct Point {
 	double x, y;
@@ -52,8 +52,9 @@ struct Point {
 	double operator * (const Point& v)const { return x * v.x + y * v.y; }
 	double operator ^ (const Point& v) const { return x * v.y - y * v.x; }
 	double len() { return sqrt(x * x + y * y); }
-	Point rotate(double a) { return Point(x * cos(a) - y * sin(a), x * sin(a) + y * cos(a)); }
+	Point rotate(const double& a) { return Point(x * cos(a) - y * sin(a), x * sin(a) + y * cos(a)); }
 };
+
 struct Rect {
 	Point p1, p2;
 	Rect() {}
@@ -75,6 +76,7 @@ struct Rect {
 		return p.x >= p1.x && p.x <= p2.x && p.y >= p1.y && p.y <= p2.y;
 	}
 };
+
 template<class T, class FX, class FY>
 inline Rect GetContainRect(const std::vector<T>& v, const FX& fx, const FY& fy) {
 	Rect ret(Point(INFINITY, INFINITY), Point(-INFINITY, -INFINITY));
@@ -84,6 +86,7 @@ inline Rect GetContainRect(const std::vector<T>& v, const FX& fx, const FY& fy) 
 	}
 	return ret;
 }
+
 inline Rect GetContainRect(const std::vector<Point>& v) {
 	Rect ret(Point(INFINITY, INFINITY), Point(-INFINITY, -INFINITY));
 	for (const auto& p : v) {
@@ -106,3 +109,4 @@ struct Ray {
 };
 
 const double PI = 3.1415926535897932384626433832795;
+
