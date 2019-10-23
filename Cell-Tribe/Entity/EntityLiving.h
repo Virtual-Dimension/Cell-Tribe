@@ -10,9 +10,10 @@ public:
 	virtual int beAttacked(EntityLiving*) override;
 	virtual double getAttackDamage(const Point&, const double&);
 	virtual void heal(const double&);
-	virtual void energyUp(const int&);
+	virtual bool needEnergy() const;
+	virtual void energyUp(const double&);
 protected:
-	int energyMax, energy;
+	double energyMax, energy;
 	double atk, healthMax;
 	double moveRange, attackRange, moveSpeed;
 	virtual int behavior() = 0;

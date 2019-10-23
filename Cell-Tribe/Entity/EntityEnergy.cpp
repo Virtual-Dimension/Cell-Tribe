@@ -16,7 +16,7 @@ int EntityEnergy::onSpawning(MapController* mapController) {
 }
 
 int EntityEnergy::beUsed(EntityLiving* entity) {
-	if (entity->isPlayer()) {
+	if (entity->needEnergy()) {
 		entity->energyUp(this->energyNum);
 		this->setDeath();
 		return OPERATOR_SUCCESS;

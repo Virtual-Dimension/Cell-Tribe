@@ -27,7 +27,9 @@ double EntityLiving::getAttackDamage(const Point& p, const double& radius) { ret
 
 void EntityLiving::heal(const double& val) { health = std::min(healthMax, health + val); }
 
-void EntityLiving::energyUp(const int& val) { energy = std::min(energy + val, energyMax); }
+bool EntityLiving::needEnergy() const { return false; }
+
+void EntityLiving::energyUp(const double& val) { energy = std::min(energy + val, energyMax); }
 
 int EntityLiving::attack(EntityLiving* other) {
 	other->beAttacked(this);

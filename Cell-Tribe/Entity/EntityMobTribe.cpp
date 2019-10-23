@@ -69,7 +69,7 @@ int EntityMobTribe::interact(Entity* entity) {
 int EntityMobTribe::move(const Point& p) {
 	if (EntityBaseTribe::move(p) == ENTITY_MOVEOUT) {
 		if (getMapController()->beyond(p)) return ENTITY_MOVEOUT;
-		Point nxtp = (p - getPoint()) / (p - getPoint()).len() * (moveRange - 0.1);
+		Point nxtp = (p - getPoint()) / (p - getPoint()).len() * (moveRange - 0.001);
 		return EntityBaseTribe::move(nxtp);
 	}
 	return OPERATOR_SUCCESS;

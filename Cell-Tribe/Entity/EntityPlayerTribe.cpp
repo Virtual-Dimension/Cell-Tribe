@@ -4,10 +4,12 @@
 
 
 EntityPlayerTribe::EntityPlayerTribe() :
-	EntityBaseTribe(), genePoints(0), playerName("Player"), evolutionController(0), status(STATUS_WAIT) {}
+	EntityBaseTribe(), genePoints(0), playerName("Player"), evolutionController(0),
+	status(STATUS_WAIT), moveNeed(0), propagateNeed(0), attackNeed(0) {}
 
 EntityPlayerTribe::EntityPlayerTribe(const std::string& name, EvolutionController* evolutioncontroller) :
-	EntityBaseTribe(), genePoints(0), playerName(name), evolutionController(evolutioncontroller), status(STATUS_WAIT) {
+	EntityBaseTribe(), genePoints(0), playerName(name), evolutionController(evolutioncontroller),
+	status(STATUS_WAIT), moveNeed(0), propagateNeed(0), attackNeed(0) {
 	evolutionController->gotEvolution(0);
 	beEffected(evolutionController->getEvolutionEffect(0));
 	health = 5.0;
@@ -29,11 +31,16 @@ int EntityPlayerTribe::beEffected(const Effect& effect) {
 	addval(moveSpeed);
 	addval(cellRadius);
 	addval(regeneration);
+	addval(moveNeed);
+	addval(propagateNeed);
+	addval(attackNeed);
 #undef addval
 	return OPERATOR_SUCCESS;
 }
 
 bool EntityPlayerTribe::isPlayer() const { return true; }
+
+bool EntityPlayerTribe::needEnergy() const { return true; }
 
 int EntityPlayerTribe::behavior() {
 	int baseRes = EntityBaseTribe::behavior();

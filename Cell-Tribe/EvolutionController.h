@@ -2,16 +2,20 @@
 #include "game.h"
 
 struct Effect {
-	int    energyMax;
-	int    cellsMax;
-
-	double healthMax;
 	double atk;
-	double moveRange;
 	double attackRange;
+	int    cellsMax;
+	double energyMax;
+	double healthMax;
+	double moveRange;
 	double moveSpeed;
 	double cellRadius;
 	double regeneration;
+
+	double moveNeed;
+	double propagateNeed;
+	double attackNeed;
+
 };
 
 struct Evolution {

@@ -110,3 +110,7 @@ struct Ray {
 
 const double PI = 3.1415926535897932384626433832795;
 
+template < typename T>
+inline T randomByRange(const T& l, const T& r) {
+	return (T)(r - l) * ((double)rand() / RAND_MAX) + l;
+}
