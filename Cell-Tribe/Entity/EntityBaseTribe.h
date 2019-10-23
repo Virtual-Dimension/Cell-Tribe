@@ -11,6 +11,7 @@ public:
 	virtual double getAttackDamage(const Point&, const double&) override;
 	virtual void heal(const double&)override;
 	virtual bool inRange(const Point&, const double&) const override;
+	virtual void showAttackRange() const override;
 protected:
 	virtual int behavior() override;
 	virtual int propagate();

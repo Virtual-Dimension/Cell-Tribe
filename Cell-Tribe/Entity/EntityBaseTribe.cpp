@@ -53,7 +53,7 @@ int EntityBaseTribe::beAttacked(EntityLiving* other) {
 
 double EntityBaseTribe::getAttackDamage(const Point& p, const double& r) {
 	double res = 0;
-	for (auto cell : cellsPoint) 
+	for (auto cell : cellsPoint)
 		if ((p - cell.point->GetPos()).len() < r + attackRange) res += atk * getMapController()->getSecond();
 	return res;
 }
@@ -97,4 +97,8 @@ bool EntityBaseTribe::inRange(const Point& p, const double& r) const {
 	for (auto dypoint : cellsPoint)
 		if ((dypoint.point->GetPos() - p).len() < r + cellRadius) return 1;
 	return 0;
+}
+
+void EntityBaseTribe::showAttackRange() const {
+	for (auto p : cellsPoint) slCircleOutline(p.point->GetPos().x, p.point->GetPos().y, attackRange, 10);
 }

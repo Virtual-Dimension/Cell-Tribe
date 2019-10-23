@@ -2,7 +2,6 @@
 #include "../EvolutionController.h"
 #include "../MapController.h"
 
-
 EntityPlayerTribe::EntityPlayerTribe() :
 	EntityBaseTribe(), genePoints(0), playerName("Player"), evolutionController(0),
 	status(STATUS_WAIT), moveNeed(0), propagateNeed(0), attackNeed(0) {}
@@ -65,7 +64,14 @@ int EntityPlayerTribe::behavior() {
 		status &= (~STATUS_USE);
 	}
 	if (slGetKey('3')) {
-		printf("Energy : %d/%d \n", energy, energyMax);
+		printf("Energy : %.1lf/%.1lf \n", energy, energyMax);
+	}
+	if (slGetKey('4')) {
+		status |= STATUS_SHOW;
+		showAttackRange();
+	}
+	else {
+		status &= (~STATUS_SHOW);
 	}
 	if (((SLDynamicPointGroup*)slObject)->IsStatic()) {
 		SL::CameraMove(getPoint().x + SL::GetCameraOffset().x - WINDOW_WIDTH / 2, getPoint().y + SL::GetCameraOffset().y - WINDOW_HEIGHT / 2);
@@ -74,6 +80,9 @@ int EntityPlayerTribe::behavior() {
 }
 
 int EntityPlayerTribe::interact(Entity* entity) {
+	if ((status & STATUS_SHOW) && entity->canBeAttacked()) {
+		((EntityLiving*)entity)->showAttackRange();
+	}
 	if ((status & STATUS_USE) && entity->canBeUsed()) {
 		for (auto cell : cellsPoint) {
 			if (entity->inRange(cell.point->GetPos(), cellRadius)) {

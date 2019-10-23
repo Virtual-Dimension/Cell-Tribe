@@ -4,6 +4,7 @@
 constexpr int STATUS_WAIT = 0;
 constexpr int STATUS_ATTACK = 1;
 constexpr int STATUS_USE = 2;
+constexpr int STATUS_SHOW = 4;
 
 class EvolutionController;
 class SLDynamicPoint;

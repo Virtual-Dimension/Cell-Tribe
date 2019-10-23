@@ -1,4 +1,5 @@
 #include "EntityLiving.h"
+#include "../Graph/slr.h"
 
 EntityLiving::EntityLiving() : Entity(), atk(0), healthMax(0), attackRange(0), moveRange(0), moveSpeed(0), energy(0), energyMax(0) {}
 
@@ -30,6 +31,8 @@ void EntityLiving::heal(const double& val) { health = std::min(healthMax, health
 bool EntityLiving::needEnergy() const { return false; }
 
 void EntityLiving::energyUp(const double& val) { energy = std::min(energy + val, energyMax); }
+
+void EntityLiving::showAttackRange() const {}
 
 int EntityLiving::attack(EntityLiving* other) {
 	other->beAttacked(this);

@@ -12,6 +12,7 @@ public:
 	virtual void heal(const double&);
 	virtual bool needEnergy() const;
 	virtual void energyUp(const double&);
+	virtual void showAttackRange() const;
 protected:
 	double energyMax, energy;
 	double atk, healthMax;
